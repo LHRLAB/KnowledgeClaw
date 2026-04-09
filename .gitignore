@@ -94,21 +94,15 @@ results/
 # Lifecycle audit log (per-storage-dir, never commit)
 lifecycle.jsonl
 
-# OmniKE-Bench corpus dir is rebuildable from manifest (~33 MB).
-# We commit only manifest/, unified/, gold/, FROZEN/ — not the raw files.
-benchmarks/data/v0.1/corpus/
-
 # ─── DO commit these (whitelist overrides) ───────────────────────────────────
 !.env.example
-!benchmarks/data/
-!benchmarks/data/**
-!benchmarks/data/v0.1/unified/
-!benchmarks/data/v0.1/unified/**
-!benchmarks/data/v0.1/gold/
-!benchmarks/data/v0.1/gold/**
-!benchmarks/data/v0.1/FROZEN/
-!benchmarks/data/v0.1/FROZEN/**
+
+# ─── Private / large directories (not published) ────────────────────────────
 PAPER*.md
 README_*.md
-benchmarks/
+benchmarks*/
 baselines/
+KnowledgeClaw_Latex/
+
+# OmniKE-Bench dataset — download from HuggingFace, place under data/v0.1/
+data/
