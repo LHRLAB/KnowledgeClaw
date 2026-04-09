@@ -194,75 +194,56 @@ def generate_report(out_dir: Path, personas: list[str]):
     )
     log.info("Scores saved to %s", out_dir / "scores.json")
 
-    # Print results
-    print()
-    print("=" * 100)
-    print("KnowledgeClaw — OmniKE-Bench Results")
-    print("=" * 100)
+    # Print Table 1 format (same as PAPER.md)
+    ALL_SHORT = ["HC", "Fin", "Edu", "Law", "Psy", "Mus", "Gam", "Bld", "Sft", "Rob"]
 
-    # Task scores
+    print()
+    print("=" * 140)
+    print("Table 1 — OmniKE-Bench Results")
+    print("=" * 140)
+
     h = "| Method |"
     for t in ["T1", "T2", "T3", "T4", "T5", "T6"]:
         h += f" {t} |"
+    for p in ALL_SHORT:
+        h += f" {p} |"
     h += " OKE |"
     print(h)
-    print("|---|" + "---:|" * 7)
+    print("|---|" + "---:|" * (6 + 10 + 1))
 
     row = "| **KnowledgeClaw** |"
     for t in ["T1", "T2", "T3", "T4", "T5", "T6"]:
         v = task_avgs.get(t)
         row += f" {v:.1f} |" if v is not None else " — |"
+    for ap in PERSONAS:
+        v = persona_avgs.get(ap)
+        row += f" {v:.1f} |" if v is not None else " — |"
     row += f" **{oke:.1f}** |" if oke else " — |"
     print(row)
-
-    print()
-    print("Per-persona breakdown:")
-    h2 = "| Persona |"
-    for t in ["T1", "T2", "T3", "T4", "T5", "T6"]:
-        h2 += f" {t} |"
-    h2 += " Avg |"
-    print(h2)
-    print("|---|" + "---:|" * 7)
-
-    for p in personas:
-        short = P_SHORT.get(p, p)
-        row = f"| {short} |"
-        for t in ["T1", "T2", "T3", "T4", "T5", "T6"]:
-            v = per_persona[p].get(t)
-            row += f" {v:.1f} |" if v is not None else " — |"
-        avg = persona_avgs.get(p)
-        row += f" {avg:.1f} |" if avg is not None else " — |"
-        print(row)
-
-    print("=" * 100)
+    print("=" * 140)
 
     # Write leaderboard.md
     lines = [
         "# KnowledgeClaw — OmniKE-Bench Results\n",
-        f"OKE Score: **{oke:.1f}**\n" if oke else "OKE Score: —\n",
-        "## Task Scores\n",
-        "| " + " | ".join(["T1", "T2", "T3", "T4", "T5", "T6", "OKE"]) + " |",
-        "|" + "---:|" * 7,
     ]
-    vals_line = "| "
+    h = "| Method |"
+    for t in ["T1", "T2", "T3", "T4", "T5", "T6"]:
+        h += f" {t} |"
+    for p in ALL_SHORT:
+        h += f" {p} |"
+    h += " OKE |"
+    lines.append(h)
+    lines.append("|---|" + "---:|" * (6 + 10 + 1))
+
+    row = "| **KnowledgeClaw** |"
     for t in ["T1", "T2", "T3", "T4", "T5", "T6"]:
         v = task_avgs.get(t)
-        vals_line += f"{v:.1f} | " if v is not None else "— | "
-    vals_line += f"**{oke:.1f}** |" if oke else "— |"
-    lines.append(vals_line)
-    lines.append("")
-    lines.append("## Per-Persona Scores\n")
-    lines.append("| Persona | " + " | ".join(["T1", "T2", "T3", "T4", "T5", "T6", "Avg"]) + " |")
-    lines.append("|---|" + "---:|" * 7)
-    for p in personas:
-        short = P_SHORT.get(p, p)
-        row = f"| {short} |"
-        for t in ["T1", "T2", "T3", "T4", "T5", "T6"]:
-            v = per_persona[p].get(t)
-            row += f" {v:.1f} |" if v is not None else " — |"
-        avg = persona_avgs.get(p)
-        row += f" {avg:.1f} |" if avg is not None else " — |"
-        lines.append(row)
+        row += f" {v:.1f} |" if v is not None else " — |"
+    for ap in PERSONAS:
+        v = persona_avgs.get(ap)
+        row += f" {v:.1f} |" if v is not None else " — |"
+    row += f" **{oke:.1f}** |" if oke else " — |"
+    lines.append(row)
 
     (out_dir / "leaderboard.md").write_text("\n".join(lines), encoding="utf-8")
     log.info("Leaderboard saved to %s", out_dir / "leaderboard.md")
