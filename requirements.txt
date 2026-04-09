@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+jinja2
+python-dotenv
+openai
+networkx
+nano-vectordb
+tiktoken
+PyMuPDF
+watchdog
+python-multipart
+
+# Video/audio segmentation (ffmpeg required for video)
+soundfile
