@@ -33,7 +33,9 @@ from __future__ import annotations
 import hashlib
 import logging
 import os
+import threading
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 
@@ -139,13 +141,22 @@ def build_from_folder(
 
     stats["files_found"] = len(all_files)
 
+    # Filter out already-processed files
+    to_process = []
     for fpath in all_files:
         file_key = str(fpath.resolve())
         if file_key in processed_set:
             stats["files_skipped"] += 1
-            continue
+        else:
+            to_process.append((fpath, file_key))
 
-        logger.info("Processing file: %s", fpath.name)
+    # Parallel ingestion with lock-protected storage writes
+    _storage_lock = threading.Lock()
+    max_workers = int(os.environ.get("KC_INGEST_WORKERS", "40"))
+    done_count = [0]
+
+    def _do_file(fpath_and_key):
+        fpath, file_key = fpath_and_key
         try:
             file_stats = _process_file(
                 file_path=str(fpath),
@@ -162,25 +173,34 @@ def build_from_folder(
                 vdb_media=vdb_media,
                 media_embedder=media_embedder,
                 expr_dir=expr_dir,
+                _lock=_storage_lock,
             )
-            stats["files_processed"] += 1
-            stats["chunks_created"] += file_stats["chunks"]
-            stats["entities_new"] += file_stats["entities"]
-            stats["hyperedges_new"] += file_stats["hyperedges"]
-            stats["cross_modal_edges"] += file_stats["cross_modal_edges"]
-            stats["asset_nodes"] += file_stats["asset_nodes"]
-            stats["media_records"] += file_stats.get("media_records", 0)
-
-            processed_kv.upsert({file_key: {
-                "name": fpath.name,
-                "chunks": file_stats["chunks"],
-                "modalities": list(file_stats["modalities"]),
-            }})
-            processed_set.add(file_key)
-
+            with _storage_lock:
+                stats["files_processed"] += 1
+                stats["chunks_created"] += file_stats["chunks"]
+                stats["entities_new"] += file_stats["entities"]
+                stats["hyperedges_new"] += file_stats["hyperedges"]
+                stats["cross_modal_edges"] += file_stats["cross_modal_edges"]
+                stats["asset_nodes"] += file_stats["asset_nodes"]
+                stats["media_records"] += file_stats.get("media_records", 0)
+                processed_kv.upsert({file_key: {
+                    "name": fpath.name,
+                    "chunks": file_stats["chunks"],
+                    "modalities": list(file_stats["modalities"]),
+                }})
+                processed_set.add(file_key)
+                done_count[0] += 1
+                if done_count[0] % 50 == 0:
+                    logger.info("Ingestion progress: %d/%d files", done_count[0], len(to_process))
         except Exception as exc:
-            logger.error("Error processing %s: %s", fpath, exc, exc_info=True)
-            stats["errors"] += 1
+            logger.error("Error processing %s: %s", fpath, exc)
+            with _storage_lock:
+                stats["errors"] += 1
+
+    if to_process:
+        logger.info("Ingesting %d files with %d workers...", len(to_process), max_workers)
+        with ThreadPoolExecutor(max_workers=max_workers) as ex:
+            list(ex.map(_do_file, to_process))
 
     kv.save()
     vdb_entity.save()
@@ -281,10 +301,15 @@ def _process_file(
     vdb_media: Optional[VectorStorage] = None,
     media_embedder=None,
     expr_dir: str = "./expr",
+    _lock: Optional[threading.Lock] = None,
 ) -> Dict[str, Any]:
-    """Full processing pipeline for a single file."""
+    """Full processing pipeline for a single file.
 
-    # Step 1: ingest → (chunks, media_records)
+    When _lock is provided, all storage writes are protected for thread safety.
+    The LLM/embedding calls (Steps 1, 3, 5) run without the lock for parallelism.
+    """
+
+    # Step 1: ingest → (chunks, media_records) — NO lock needed (pure I/O + parsing)
     chunks, media_records = ingest_file(
         file_path, max_tokens=max_tokens, overlap=overlap, expr_dir=expr_dir
     )
@@ -296,16 +321,15 @@ def _process_file(
             "modalities": set(),
         }
 
-    # Step 2: persist chunks to KV; assign canonical chunk_ids
+    # Assign canonical chunk_ids (local computation, no lock needed)
     file_modalities: Set[str] = set()
     for chunk in chunks:
         cid = chunk.get("chunk_id") or _chunk_id(source_name, chunk["chunk_index"])
         chunk["chunk_id"] = cid
         chunk["modality"] = chunk.get("type", "text")
         file_modalities.add(chunk["modality"])
-        kv.set(cid, chunk)
 
-    # Step 3: extract propositions from text chunks (in modality-aware batches)
+    # Step 3: extract propositions (LLM calls — NO lock, this is the bottleneck)
     all_propositions: List[Dict] = []
     if chunks:
         chunk_texts = [c["content"] for c in chunks]
@@ -323,7 +347,14 @@ def _process_file(
                         "modality": chunk["modality"],
                     })
 
-    # Step 4: build graph nodes (typed)
+    # Steps 2+4+5+6+7+8: all storage writes — LOCKED for thread safety
+    _ctx = _lock if _lock else threading.Lock()  # dummy lock if none provided
+    with _ctx:
+        # Step 2: persist chunks
+        for chunk in chunks:
+            kv.set(chunk["chunk_id"], chunk)
+
+    # Steps 4-7: graph + VDB writes — all under lock for thread safety
     entity_to_modalities: Dict[str, Set[str]] = defaultdict(set)
     entity_to_chunks: Dict[str, Set[str]] = defaultdict(set)
     new_entity_texts: List[str] = []
@@ -331,88 +362,93 @@ def _process_file(
     new_hyperedge_texts: List[str] = []
     new_hyperedge_ids: List[Tuple[str, str, str]] = []
 
-    for prop in all_propositions:
-        sentence = prop["sentence"]
-        chunk_id = prop["chunk_id"]
-        source = prop["source"]
-        modality = prop["modality"]
+    with _ctx:
+        # Step 4: build graph nodes
+        for prop in all_propositions:
+            sentence = prop["sentence"]
+            chunk_id = prop["chunk_id"]
+            source = prop["source"]
+            modality = prop["modality"]
 
-        he_node_id = canonical_hyperedge_id(sentence)
-        graph.upsert_node(he_node_id, {
-            "role": "hyperedge",
-            "kind": "fact",
-            "modality": modality,
-            "source_id": chunk_id,
-            "source": source,
-            "sources": source,
-            "modalities": modality,
-            "sentence": sentence,
-        })
-
-        he_vdb_id = _md5(he_node_id)
-        new_hyperedge_texts.append(sentence)
-        new_hyperedge_ids.append((he_vdb_id, he_node_id, source))
-
-        for entity in prop["entities"]:
-            if isinstance(entity, dict):
-                entity_name = entity.get("name", "").strip()
-                entity_name_zh = entity.get("name_zh", entity_name).strip()
-            else:
-                entity_name = str(entity).strip()
-                entity_name_zh = entity_name
-            if not entity_name:
-                continue
-            ent_node_id = canonical_entity_id(entity_name)
-            graph.upsert_node(ent_node_id, {
-                "role": "entity",
-                "name": entity_name,
-                "name_zh": entity_name_zh,
+            he_node_id = canonical_hyperedge_id(sentence)
+            graph.upsert_node(he_node_id, {
+                "role": "hyperedge",
+                "kind": "fact",
+                "modality": modality,
                 "source_id": chunk_id,
                 "source": source,
                 "sources": source,
                 "modalities": modality,
+                "sentence": sentence,
             })
-            graph.upsert_edge(he_node_id, ent_node_id)
 
-            entity_to_modalities[ent_node_id].add(modality)
-            entity_to_chunks[ent_node_id].add(chunk_id)
+            he_vdb_id = _md5(he_node_id)
+            new_hyperedge_texts.append(sentence)
+            new_hyperedge_ids.append((he_vdb_id, he_node_id, source))
 
-            ent_vdb_id = _md5(ent_node_id)
-            new_entity_texts.append(entity_name)
-            new_entity_ids.append((ent_vdb_id, ent_node_id, source, entity_name_zh))
+            for entity in prop["entities"]:
+                if isinstance(entity, dict):
+                    entity_name = entity.get("name", "").strip()
+                    entity_name_zh = entity.get("name_zh", entity_name).strip()
+                else:
+                    entity_name = str(entity).strip()
+                    entity_name_zh = entity_name
+                if not entity_name:
+                    continue
+                ent_node_id = canonical_entity_id(entity_name)
+                graph.upsert_node(ent_node_id, {
+                    "role": "entity",
+                    "name": entity_name,
+                    "name_zh": entity_name_zh,
+                    "source_id": chunk_id,
+                    "source": source,
+                    "sources": source,
+                    "modalities": modality,
+                })
+                graph.upsert_edge(he_node_id, ent_node_id)
 
-    # Step 5: embed text VDBs
+                entity_to_modalities[ent_node_id].add(modality)
+                entity_to_chunks[ent_node_id].add(chunk_id)
+
+                ent_vdb_id = _md5(ent_node_id)
+                new_entity_texts.append(entity_name)
+                new_entity_ids.append((ent_vdb_id, ent_node_id, source, entity_name_zh))
+
+    # Step 5: embed text VDBs (embedding API calls — outside lock)
     entities_added = _upsert_text_vdb(
-        vdb_entity, new_entity_texts, new_entity_ids, embedder, key="entity_id"
+        vdb_entity, new_entity_texts, new_entity_ids, embedder, key="entity_id",
+        _lock=_lock,
     )
     hyperedges_added = _upsert_text_vdb(
-        vdb_hyperedge, new_hyperedge_texts, new_hyperedge_ids, embedder, key="hyperedge_id"
+        vdb_hyperedge, new_hyperedge_texts, new_hyperedge_ids, embedder, key="hyperedge_id",
+        _lock=_lock,
     )
 
-    # Step 6: asset nodes for media records, plus entity ↔ asset edges
+    # Step 6: asset nodes — under lock
     asset_added = 0
-    if media_records:
-        asset_added = _add_asset_nodes(
-            media_records=media_records,
-            chunks=chunks,
+    with _ctx:
+        if media_records:
+            asset_added = _add_asset_nodes(
+                media_records=media_records,
+                chunks=chunks,
+                graph=graph,
+                entity_to_chunks=entity_to_chunks,
+                source_name=source_name,
+            )
+            for r in media_records:
+                file_modalities.add(_media_modality(r))
+
+        # Step 7: cross-modal hyperedges
+        cm_added = _add_cross_modal_hyperedges(
             graph=graph,
-            entity_to_chunks=entity_to_chunks,
+            entity_to_modalities=entity_to_modalities,
             source_name=source_name,
         )
-        for r in media_records:
-            file_modalities.add(_media_modality(r))
-
-    # Step 7: cross-modal hyperedges (C1 — bridges modalities for the same entity)
-    cm_added = _add_cross_modal_hyperedges(
-        graph=graph,
-        entity_to_modalities=entity_to_modalities,
-        source_name=source_name,
-    )
 
     # Step 8: embed media descriptions into media VDB
     media_added = 0
     if media_records and vdb_media is not None and media_embedder is not None:
-        media_added = _upsert_media_vdb(vdb_media, media_records, media_embedder)
+        media_added = _upsert_media_vdb(vdb_media, media_records, media_embedder, _lock=_lock)
 
     logger.info(
         "File %s: %d chunks, %d entities, %d hyperedges, %d cross-modal, "
@@ -535,9 +571,11 @@ def _upsert_text_vdb(
     ids: List[Tuple],
     embedder,
     key: str,
+    _lock: Optional[threading.Lock] = None,
 ) -> int:
     if not texts:
         return 0
+    # Embedding call — outside lock (network I/O)
     vectors = embedder.embed(texts)
     batch_entries = []
     seen_ids: Set[str] = set()
@@ -551,7 +589,12 @@ def _upsert_text_vdb(
         if name_zh and name_zh != txt:
             meta["name_zh"] = name_zh
         batch_entries.append({"id": vid, "vector": vec, "meta": meta})
-    vdb.upsert_batch(batch_entries)
+    # VDB write — under lock
+    if _lock:
+        with _lock:
+            vdb.upsert_batch(batch_entries)
+    else:
+        vdb.upsert_batch(batch_entries)
     return len(batch_entries)
 
 
@@ -559,6 +602,7 @@ def _upsert_media_vdb(
     vdb_media: VectorStorage,
     media_records: List[Dict],
     embedder,
+    _lock: Optional[threading.Lock] = None,
 ) -> int:
     if not media_records:
         return 0
@@ -590,5 +634,9 @@ def _upsert_media_vdb(
             },
         })
 
-    vdb_media.upsert_batch(entries)
+    if _lock:
+        with _lock:
+            vdb_media.upsert_batch(entries)
+    else:
+        vdb_media.upsert_batch(entries)
     return len(entries)
