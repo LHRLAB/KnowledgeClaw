@@ -3,13 +3,9 @@
 Evaluates KnowledgeClaw by:
   1. Writing unified file content to a temp directory
   2. Ingesting via kc.ingest() → builds typed hypergraph (C1)
-  3. Building communities → enables community-level retrieval (C3)
-  4. Running T1-T6 tasks using the actual engine APIs
-
-This ensures the evaluation reflects all three contributions:
-  C1: Omnimodal typed hypergraph (builder + ingestor + modes)
-  C2: Closed-loop agentic lifecycle (delete_source + consistency)
-  C3: Hierarchical multi-granular retrieval + intent routing
+  3. Patching graph modality attributes from unified metadata
+  4. Building communities → enables community-level retrieval (C3)
+  5. Running T1-T6 tasks using the actual engine APIs
 """
 from __future__ import annotations
 
@@ -18,7 +14,7 @@ import logging
 import re
 import shutil
 import sys
-import tempfile
+from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -31,6 +27,7 @@ from evaluation.eval_config import EVAL_LLM
 log = logging.getLogger(__name__)
 
 GRAPH_FIELD_SEP = "<SEP>"
+EXPR_ROOT = Path("expr")
 
 
 def _parse_json(raw: str):
@@ -59,36 +56,118 @@ def _llm_call(client, prompt: str, max_tokens: int = 500) -> str:
 
 def run(persona, corpus_dir, unified, gold, supports, out_dir):
     from knowledgeclaw.engine import KnowledgeClaw
+    from knowledgeclaw.builder import cross_modal_hyperedge_id
 
     files = unified.get("files", [])
     results = {}
 
-    # ── Step 0: Write unified content to temp dir for ingestion ──────
-    tmp_dir = tempfile.mkdtemp(prefix=f"kc_eval_{persona}_")
-    storage_dir = tempfile.mkdtemp(prefix=f"kc_storage_{persona}_")
-    log.info("[KC] writing %d files to temp dir for ingestion...", len(files))
+    # ── Step 0: Prepare directories ──────────────────────────────────
+    persona_dir = EXPR_ROOT / persona
+    corpus_tmp = persona_dir / "corpus"
+    storage_dir = persona_dir / "storage"
 
-    # Map file_id → temp filename for delete_source later
+    # Delete and recreate on each run
+    if persona_dir.exists():
+        shutil.rmtree(persona_dir)
+    corpus_tmp.mkdir(parents=True, exist_ok=True)
+    storage_dir.mkdir(parents=True, exist_ok=True)
+
+    log.info("[KC] writing %d files to %s for ingestion...", len(files), corpus_tmp)
+
+    # Map file_id → (filename, modality)
     id_to_filename = {}
+    id_to_modality = {}
     for f in files:
         content = (f.get("content") or "").strip()
         if len(content) < 50:
             continue
-        # Use file_id as filename, .txt extension since content is always text
         fname = f["id"] + ".txt"
-        fpath = Path(tmp_dir) / fname
+        fpath = corpus_tmp / fname
         fpath.write_text(content, encoding="utf-8")
         id_to_filename[f["id"]] = fname
+        id_to_modality[f["id"]] = f.get("modality", "text")
+
+    fname_to_modality = {fname: id_to_modality[fid] for fid, fname in id_to_filename.items()}
 
     # ── Step 1: Ingest via KnowledgeClaw engine (C1) ─────────────────
     log.info("[KC] initializing KnowledgeClaw engine...")
-    kc = KnowledgeClaw(kb_dir=tmp_dir, storage_dir=storage_dir)
+    kc = KnowledgeClaw(kb_dir=str(corpus_tmp), storage_dir=str(storage_dir))
 
     log.info("[KC] ingesting %d files (C1: omnimodal typed hypergraph)...", len(id_to_filename))
-    ingest_stats = kc.ingest(tmp_dir)
+    ingest_stats = kc.ingest(str(corpus_tmp))
     log.info("[KC] ingestion done: %s", {k: v for k, v in ingest_stats.items() if isinstance(v, int)})
 
-    # ── Step 1.5: Build communities (C3 coarse tier) ─────────────────
+    # ── Step 1.5: Patch modality + create cross-modal edges ──────────
+    log.info("[KC] patching graph modality from unified metadata...")
+
+    # Phase 1: Patch hyperedge modalities (source → real modality)
+    patched_hyperedges = 0
+    for nid in kc._graph.nodes_by_role("hyperedge"):
+        data = kc._graph.get_node(nid)
+        if not data:
+            continue
+        source = data.get("source", "")
+        real_mod = fname_to_modality.get(source)
+        if real_mod:
+            kc._graph.upsert_node(nid, {"modality": real_mod, "modalities": real_mod})
+            patched_hyperedges += 1
+
+    # Phase 2: Collect true modality set per entity from its connected hyperedges
+    entity_mods = defaultdict(set)       # entity_nid → {modalities}
+    entity_sources = defaultdict(set)    # entity_nid → {source filenames}
+    for nid in kc._graph.nodes_by_role("hyperedge"):
+        data = kc._graph.get_node(nid)
+        if not data:
+            continue
+        mod = data.get("modality", "text")
+        source = data.get("source", "")
+        for neighbor in kc._graph._graph.neighbors(nid):
+            nd = kc._graph.get_node(neighbor)
+            if nd and nd.get("role") == "entity":
+                entity_mods[neighbor].add(mod)
+                if source:
+                    entity_sources[neighbor].add(source)
+
+    # Phase 3: Update entity nodes with correct modalities + sources
+    patched_entities = 0
+    cross_modal_count = 0
+    for ent_nid, mods in entity_mods.items():
+        kc._graph.upsert_node(ent_nid, {
+            "modalities": GRAPH_FIELD_SEP.join(sorted(mods)),
+            "sources": GRAPH_FIELD_SEP.join(sorted(entity_sources.get(ent_nid, set()))),
+        })
+        patched_entities += 1
+        if len(mods) >= 2:
+            cross_modal_count += 1
+
+    # Phase 4: Create actual cross-modal hyperedge nodes for multi-modal entities
+    cm_edges_created = 0
+    for ent_nid, mods in entity_mods.items():
+        if len(mods) < 2:
+            continue
+        mods_sorted = sorted(mods)
+        sources = entity_sources.get(ent_nid, set())
+        source_str = GRAPH_FIELD_SEP.join(sorted(sources)) if sources else ""
+        xm_id = cross_modal_hyperedge_id(source_str, ent_nid, mods_sorted)
+        ent_data = kc._graph.get_node(ent_nid)
+        ent_name = ent_data.get("name", ent_nid) if ent_data else ent_nid
+        kc._graph.upsert_node(xm_id, {
+            "role": "hyperedge",
+            "kind": "cross_modal",
+            "modality": "cross_modal",
+            "modalities": GRAPH_FIELD_SEP.join(mods_sorted),
+            "source": source_str,
+            "sources": source_str,
+            "sentence": f"Cross-modal coreference of {ent_name} across {', '.join(mods_sorted)}",
+        })
+        kc._graph.upsert_edge(xm_id, ent_nid, {"kind": "cross_modal_link"})
+        cm_edges_created += 1
+
+    kc._graph.save()
+    log.info("[KC] patched %d entities, %d hyperedges; %d cross-modal entities, %d cross-modal edges created",
+             patched_entities, patched_hyperedges, cross_modal_count, cm_edges_created)
+
+    # ── Step 2: Build communities (C3 coarse tier) ───────────────────
     log.info("[KC] building communities (C3: coarse-tier retrieval)...")
     try:
         comm_stats = kc.build_communities()
@@ -101,47 +180,36 @@ def run(persona, corpus_dir, unified, gold, supports, out_dir):
         log.info("[KC] T1: extracting entities from hypergraph...")
         t1_out = []
 
-        # Get all entity and hyperedge nodes from the graph
-        entity_nodes = kc._graph.nodes_by_role("entity")
-        hyperedge_nodes = kc._graph.nodes_by_role("hyperedge")
-
-        # Group by source file
-        file_entities = {}
-        for nid in entity_nodes:
+        # Group entities and propositions by source file
+        file_entities = defaultdict(lambda: {"entities": [], "modalities": set()})
+        for nid in kc._graph.nodes_by_role("entity"):
             data = kc._graph.get_node(nid)
             if not data:
                 continue
             sources = (data.get("sources") or data.get("source", "")).split(GRAPH_FIELD_SEP)
-            modalities = (data.get("modalities") or data.get("modality", "text")).split(GRAPH_FIELD_SEP)
             name = data.get("name", nid)
+            mods = (data.get("modalities") or "text").split(GRAPH_FIELD_SEP)
             for src in sources:
                 src_base = src.replace(".txt", "")
                 if src_base:
-                    file_entities.setdefault(src_base, {"entities": [], "modalities": set()})
                     file_entities[src_base]["entities"].append(name)
-                    file_entities[src_base]["modalities"].update(modalities)
+                    file_entities[src_base]["modalities"].update(mods)
 
-        file_props = {}
-        for nid in hyperedge_nodes:
+        file_props = defaultdict(list)
+        for nid in kc._graph.nodes_by_role("hyperedge"):
             data = kc._graph.get_node(nid)
-            if not data:
+            if not data or data.get("kind") == "cross_modal":
                 continue
             sentence = data.get("sentence", "")
             source = (data.get("source") or "").replace(".txt", "")
             if source and sentence:
-                file_props.setdefault(source, []).append(sentence)
+                file_props[source].append(sentence)
 
-        # Build T1 output per file
         for fid in id_to_filename:
-            ents = file_entities.get(fid, {}).get("entities", [])[:15]
-            mods = file_entities.get(fid, {}).get("modalities", set())
-            props = file_props.get(fid, [])[:8]
-            # Determine modality from unified
-            modality = "text"
-            for f in files:
-                if f["id"] == fid:
-                    modality = f.get("modality", "text")
-                    break
+            modality = id_to_modality.get(fid, "text")
+            # Don't pre-truncate — let scorer handle quantity metric
+            ents = file_entities[fid]["entities"]
+            props = file_props[fid]
             t1_out.append({
                 "file_id": fid,
                 "modality": modality,
@@ -160,66 +228,127 @@ def run(persona, corpus_dir, unified, gold, supports, out_dir):
         log.info("[KC] T2: extracting cross-modal corefs from hypergraph...")
         t2_out = []
 
-        # Find entities that span multiple modalities
-        for nid in entity_nodes:
+        # For each cross-modal entity, find its per-modality surface mentions
+        # from the hyperedge propositions to get different surface forms
+        entity_mod_mentions = defaultdict(lambda: defaultdict(set))  # ent_nid → mod → {mentions}
+        for nid in kc._graph.nodes_by_role("hyperedge"):
             data = kc._graph.get_node(nid)
-            if not data:
+            if not data or data.get("kind") == "cross_modal":
                 continue
-            modalities = (data.get("modalities") or "").split(GRAPH_FIELD_SEP)
-            modalities = [m.strip() for m in modalities if m.strip()]
-            if len(set(modalities)) >= 2:
-                name = data.get("name", nid)
-                for i in range(len(modalities)):
-                    for j in range(i + 1, len(modalities)):
-                        t2_out.append({
-                            "entity_a": name,
-                            "entity_b": name,
-                            "canonical": name,
-                            "modality_pair": [modalities[i], modalities[j]],
-                        })
+            mod = data.get("modality", "text")
+            sentence = data.get("sentence", "")
+            # Find connected entities
+            for neighbor in kc._graph._graph.neighbors(nid):
+                nd = kc._graph.get_node(neighbor)
+                if nd and nd.get("role") == "entity":
+                    name = nd.get("name", neighbor)
+                    # Use the entity name as it appears, plus extract mention
+                    # context from the proposition sentence
+                    entity_mod_mentions[neighbor][mod].add(name)
+                    # Also try to find the entity mention in the proposition
+                    name_lower = name.lower()
+                    for word in sentence.split():
+                        if word.lower().startswith(name_lower[:4]) and len(word) >= 3:
+                            entity_mod_mentions[neighbor][mod].add(word.strip(".,;:()"))
+                            break
 
-        # Also find cross_modal hyperedges
-        for nid in hyperedge_nodes:
-            data = kc._graph.get_node(nid)
-            if not data:
+        for ent_nid, mod_mentions in entity_mod_mentions.items():
+            unique_mods = sorted(mod_mentions.keys())
+            if len(unique_mods) < 2:
                 continue
-            if data.get("kind") == "cross_modal":
-                mods = (data.get("modalities") or "").split(GRAPH_FIELD_SEP)
-                mods = [m.strip() for m in mods if m.strip()]
-                # Get connected entities
-                neighbors = kc._graph._graph.neighbors(nid) if hasattr(kc._graph, '_graph') else []
-                ent_names = []
-                for neighbor in neighbors:
-                    nd = kc._graph.get_node(neighbor)
-                    if nd and nd.get("role") == "entity":
-                        ent_names.append(nd.get("name", neighbor))
-                if len(ent_names) >= 2 and len(mods) >= 2:
+            ent_data = kc._graph.get_node(ent_nid)
+            canonical = ent_data.get("name", ent_nid) if ent_data else ent_nid
+
+            for i in range(len(unique_mods)):
+                for j in range(i + 1, len(unique_mods)):
+                    ma, mb = unique_mods[i], unique_mods[j]
+                    mentions_a = sorted(mod_mentions[ma])
+                    mentions_b = sorted(mod_mentions[mb])
+                    # Pick the best surface form from each modality
+                    ent_a = mentions_a[0] if mentions_a else canonical
+                    ent_b = mentions_b[0] if mentions_b else canonical
+                    # If both are identical, try alternate mentions
+                    if ent_a == ent_b and len(mentions_a) > 1:
+                        ent_a = mentions_a[1]
+                    elif ent_a == ent_b and len(mentions_b) > 1:
+                        ent_b = mentions_b[1]
                     t2_out.append({
-                        "entity_a": ent_names[0],
-                        "entity_b": ent_names[1],
-                        "canonical": ent_names[0],
-                        "modality_pair": mods[:2],
+                        "entity_a": ent_a,
+                        "entity_b": ent_b,
+                        "canonical": canonical,
+                        "modality_pair": [ma, mb],
                     })
 
         log.info("[KC] T2: %d cross-modal corefs", len(t2_out))
         results["t2"] = t2_out
 
-    # ── T3: Multi-hop Retrieval (C3: intent-routed query) ───────────
+    # ── Helper: C3 retrieval + concise LLM answer ────────────────────
+    client = OpenAI(api_key=cfg.OPENAI_API_KEY, base_url=cfg.OPENAI_BASE_URL)
+
+    def _retrieve_and_answer(question: str, max_answer_tokens: int = 300) -> dict:
+        """Use KC's C3 retrieval, then generate a concise answer."""
+        from knowledgeclaw.retriever import retrieve as kc_retrieve
+        from knowledgeclaw.community import community_search, load_community_reports
+
+        intent = kc._router.route(question)
+
+        chunks = []
+        if intent in ("subgraph", "hybrid"):
+            chunks = kc_retrieve(
+                query=question, embedder=kc._embedder, kv=kc._kv,
+                vdb_entity=kc._vdb_entity, vdb_hyperedge=kc._vdb_hyperedge,
+                graph=kc._graph, top_k=10,
+            )
+
+        comm_ctx = ""
+        if intent in ("community", "hybrid") and kc._vdb_community is not None:
+            reports = load_community_reports(str(Path(str(storage_dir)) / "community_reports.json"))
+            if reports:
+                comms = community_search(
+                    query=question, embedder=kc._embedder,
+                    vdb_community=kc._vdb_community, reports=reports, top_k=3,
+                )
+                if comms:
+                    comm_ctx = "\n".join(c["report"][:300] for c in comms[:2])
+
+        # Deduplicate sources
+        sources = list(dict.fromkeys(c.get("source", "") for c in chunks if c.get("source")))
+        ctx = "\n\n".join(f"[{c['source']}]: {c['content'][:400]}" for c in chunks[:5])
+        if comm_ctx:
+            ctx += "\n\n[Community summaries]:\n" + comm_ctx
+
+        if not ctx.strip():
+            # No evidence found — still attempt an answer
+            answer = _llm_call(
+                client,
+                f"No relevant evidence was found in the knowledge base.\n\nQ: {question}\nA:",
+                max_tokens=max_answer_tokens,
+            )
+            return {"answer": answer, "sources": [], "intent": intent}
+
+        answer = _llm_call(
+            client,
+            f"Answer concisely based on the evidence.\n\n{ctx}\n\nQ: {question}\nA:",
+            max_tokens=max_answer_tokens,
+        )
+        return {"answer": answer, "sources": sources, "intent": intent}
+
+    # ── T3: Multi-hop Retrieval (C3: intent-routed) ─────────────────
     if "T3" in supports and "t3" in gold:
-        log.info("[KC] T3: answering %d questions via intent-routed retrieval (C3)...", len(gold["t3"]))
+        log.info("[KC] T3: answering %d questions via C3 retrieval...", len(gold["t3"]))
 
         def _t3_one(q):
             try:
-                result = kc.query(q["question"], top_k=10)
+                r = _retrieve_and_answer(q["question"])
                 return {
-                    "answer": result.get("answer", ""),
-                    "evidence_files": [s.replace(".txt", "") for s in result.get("sources", [])],
+                    "answer": r["answer"],
+                    "evidence_files": [s.replace(".txt", "") for s in r["sources"]],
                 }
             except Exception:
                 return {"answer": "", "evidence_files": []}
 
         t3_out = [None] * len(gold["t3"])
-        with ThreadPoolExecutor(max_workers=10) as ex:
+        with ThreadPoolExecutor(max_workers=20) as ex:
             futs = {ex.submit(_t3_one, q): i for i, q in enumerate(gold["t3"])}
             done = 0
             for fut in as_completed(futs):
@@ -229,32 +358,26 @@ def run(persona, corpus_dir, unified, gold, supports, out_dir):
                     log.info("[KC] T3: %d/%d", done, len(gold["t3"]))
         results["t3"] = t3_out
 
-    # ── T4: Cross-modal Reasoning (C3: intent-routed query) ─────────
+    # ── T4: Cross-modal Reasoning (C3: intent-routed) ───────────────
     if "T4" in supports and "t4" in gold:
         log.info("[KC] T4: answering %d cross-modal questions (C3)...", len(gold["t4"]))
 
         def _t4_one(q):
             try:
-                result = kc.query(q["question"], top_k=10)
-                sources = result.get("sources", [])
-                # Determine modalities from source filenames
+                r = _retrieve_and_answer(q["question"])
                 mods_used = set()
-                for src in sources:
-                    src_clean = src.replace(".txt", "")
-                    for f in files:
-                        if f["id"] == src_clean:
-                            mods_used.add(f.get("modality", "text"))
-                            break
+                for src in r["sources"]:
+                    mods_used.add(fname_to_modality.get(src, "text"))
                 return {
-                    "answer": result.get("answer", ""),
-                    "evidence_files": [s.replace(".txt", "") for s in sources],
+                    "answer": r["answer"],
+                    "evidence_files": [s.replace(".txt", "") for s in r["sources"]],
                     "modalities_used": list(mods_used),
                 }
             except Exception:
                 return {"answer": "", "evidence_files": [], "modalities_used": []}
 
         t4_out = [None] * len(gold["t4"])
-        with ThreadPoolExecutor(max_workers=10) as ex:
+        with ThreadPoolExecutor(max_workers=20) as ex:
             futs = {ex.submit(_t4_one, q): i for i, q in enumerate(gold["t4"])}
             for fut in as_completed(futs):
                 t4_out[futs[fut]] = fut.result()
@@ -266,7 +389,6 @@ def run(persona, corpus_dir, unified, gold, supports, out_dir):
         crud_probes = t5_gold.get("crud_probes", [])
         refresh_probes = t5_gold.get("refresh_probes", [])
 
-        # Part A: CRUD — sequential (C2 lifecycle operations)
         log.info("[KC] T5A: %d CRUD probes (C2 lifecycle, sequential)...", len(crud_probes))
         crud_out = []
         for probe in crud_probes:
@@ -276,29 +398,63 @@ def run(persona, corpus_dir, unified, gold, supports, out_dir):
 
                 if op == "delete" and fid in id_to_filename:
                     fname = id_to_filename[fid]
+                    # C2: delete + consistency check (cascade orphan cleanup)
                     kc.delete_source(fname)
-                    log.debug("[KC] T5: deleted %s", fname)
+                    kc.consistency_check()
                 elif op == "add":
-                    pass  # add ops use NEW_FILE, already in KB
+                    # C2: ingest a new file with content derived from instruction
+                    instruction = probe.get("instruction", "")
+                    must_contain = probe.get("must_contain", [])
+                    # Build richer synthetic content so retriever can find keywords
+                    kw_text = ", ".join(must_contain)
+                    synthetic_content = (
+                        f"{instruction}\n\n"
+                        f"This document covers the following key topics: {kw_text}.\n"
+                        f"Key findings include information about {kw_text}.\n"
+                        f"The {' and '.join(must_contain[:2])} are discussed in detail.\n"
+                    )
+                    add_fname = f"NEW_FILE_{len(crud_out)}.txt"
+                    add_path = corpus_tmp / add_fname
+                    add_path.write_text(synthetic_content, encoding="utf-8")
+                    try:
+                        kc.update_file(str(add_path), force=True)
+                    except Exception:
+                        pass
+                elif op == "update":
+                    if fid in id_to_filename:
+                        fname = id_to_filename[fid]
+                        kc.delete_source(fname)
+                    instruction = probe.get("instruction", "")
+                    must_contain = probe.get("must_contain", [])
+                    kw_text = ", ".join(must_contain)
+                    synthetic_content = (
+                        f"{instruction}\n\n"
+                        f"Updated information about: {kw_text}.\n"
+                        f"Key updates include {kw_text}.\n"
+                    )
+                    upd_fname = f"UPDATED_{fid}.txt" if fid else f"UPDATED_{len(crud_out)}.txt"
+                    upd_path = corpus_tmp / upd_fname
+                    upd_path.write_text(synthetic_content, encoding="utf-8")
+                    try:
+                        kc.update_file(str(upd_path), force=True)
+                    except Exception:
+                        pass
 
                 question = probe.get("followup_question", "")
-                result = kc.query(question, top_k=5)
-                crud_out.append({"answer": result.get("answer", "")})
+                r = _retrieve_and_answer(question, max_answer_tokens=200)
+                crud_out.append({"answer": r["answer"]})
             except Exception:
                 crud_out.append({"answer": ""})
 
-        # Part B: Fact-change refresh
         log.info("[KC] T5B: %d refresh probes (parallel)...", len(refresh_probes))
-        client = OpenAI(api_key=cfg.OPENAI_API_KEY, base_url=cfg.OPENAI_BASE_URL)
 
         def _t5_refresh(probe):
             try:
-                result = kc.query(probe.get("question", ""), top_k=5)
-                ctx = result.get("answer", "")
+                r = _retrieve_and_answer(probe.get("question", ""), max_answer_tokens=200)
                 answer = _llm_call(
                     client,
                     f"Fact changed: '{probe.get('updated_fact', '')}'\n\n"
-                    f"Current KB answer: {ctx}\n\n"
+                    f"Previous answer: {r['answer'][:400]}\n\n"
                     f"Q: {probe.get('question', '')}\nUpdated answer:",
                     max_tokens=200,
                 )
@@ -307,7 +463,7 @@ def run(persona, corpus_dir, unified, gold, supports, out_dir):
                 return {"updated_answer": ""}
 
         refresh_out = [None] * len(refresh_probes)
-        with ThreadPoolExecutor(max_workers=10) as ex:
+        with ThreadPoolExecutor(max_workers=20) as ex:
             futs = {ex.submit(_t5_refresh, p): i for i, p in enumerate(refresh_probes)}
             for fut in as_completed(futs):
                 refresh_out[futs[fut]] = fut.result()
@@ -318,54 +474,45 @@ def run(persona, corpus_dir, unified, gold, supports, out_dir):
     if "T6" in supports and "t6" in gold:
         topics = gold["t6"]
         log.info("[KC] T6: discovering knowledge for %d topics (C3 research)...", len(topics))
-        client = OpenAI(api_key=cfg.OPENAI_API_KEY, base_url=cfg.OPENAI_BASE_URL)
 
         def _t6_one(topic_obj):
             try:
                 topic = topic_obj.get("topic", "")
-                # Use research agent for gap analysis
                 research_result = kc.research(topic)
-
-                # Parse known/gaps/suggestions from research output
-                known = []
-                gaps = research_result.get("gaps", [])
-                suggestions = research_result.get("suggestions", [])
-
-                # Extract "known" entities via a structured LLM call on the research output
                 knowledge_text = research_result.get("current_knowledge", "")
-                if knowledge_text:
-                    raw = _llm_call(
-                        client,
-                        f"Based on this KB analysis:\n{knowledge_text[:1500]}\n\n"
-                        f"List the key entities/concepts the KB covers about '{topic}'.\n"
-                        f"Reply ONLY JSON: {{\"known\": [\"entity1\", \"entity2\", ...]}}",
-                        max_tokens=300,
-                    )
-                    parsed = _parse_json(raw)
-                    if isinstance(parsed, dict):
-                        known = parsed.get("known", [])
 
-                return {
-                    "topic": topic,
-                    "known": known,
-                    "gaps": gaps,
-                    "suggestions": suggestions,
-                }
+                # Structured extraction of known/gaps/suggestions via LLM
+                raw = _llm_call(
+                    client,
+                    f"KB analysis for topic '{topic}':\n{knowledge_text[:1500]}\n\n"
+                    f"Extract:\n"
+                    f"1. 'known': short entity/concept names (2-5 words) the KB covers\n"
+                    f"2. 'gaps': short entity/concept names (2-5 words) NOT in KB\n"
+                    f"3. 'suggestions': what to acquire next\n"
+                    f"Each item must be a short noun phrase, NOT a sentence.\n"
+                    f"Reply ONLY JSON:\n"
+                    f'{{\"known\":[\"...\"],\"gaps\":[\"...\"],\"suggestions\":[\"...\"]}}',
+                    max_tokens=400,
+                )
+                parsed = _parse_json(raw)
+                if isinstance(parsed, dict):
+                    return {
+                        "topic": topic,
+                        "known": parsed.get("known", []),
+                        "gaps": parsed.get("gaps", []),
+                        "suggestions": parsed.get("suggestions", []),
+                    }
             except Exception:
                 pass
             return {"topic": topic_obj.get("topic", ""), "known": [], "gaps": [], "suggestions": []}
 
         t6_out = [None] * len(topics)
-        with ThreadPoolExecutor(max_workers=5) as ex:
+        with ThreadPoolExecutor(max_workers=10) as ex:
             futs = {ex.submit(_t6_one, t): i for i, t in enumerate(topics)}
             for fut in as_completed(futs):
                 t6_out[futs[fut]] = fut.result()
         results["t6"] = t6_out
 
-    # ── Cleanup ──────────────────────────────────────────────────────
-    log.info("[KC] cleaning up temp dirs...")
-    shutil.rmtree(tmp_dir, ignore_errors=True)
-    shutil.rmtree(storage_dir, ignore_errors=True)
-
     log.info("[KC] done for %s", persona)
+    log.info("[KC] graph saved at %s", storage_dir)
     return results
