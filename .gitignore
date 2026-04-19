@@ -98,11 +98,9 @@ lifecycle.jsonl
 !.env.example
 
 # ─── Private / large directories (not published) ────────────────────────────
-PAPER*.md
 README_*.md
 benchmarks*/
 baselines/
-KnowledgeClaw_Latex/
 
 # OmniKE-Bench dataset — download from HuggingFace, place under data/v0.1/
 data/
