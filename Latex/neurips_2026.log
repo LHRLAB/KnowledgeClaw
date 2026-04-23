@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.3.11)  10 APR 2026 02:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.3.11)  23 APR 2026 20:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/mnt/hdd2/home/luohaoran/github/KnowledgeClaw/KnowledgeClaw_Latex/neurips_2026.tex
-(/mnt/hdd2/home/luohaoran/github/KnowledgeClaw/KnowledgeClaw_Latex/neurips_2026.tex
+**/mnt/hdd2/home/luohaoran/github/KnowledgeClaw/Latex/neurips_2026.tex
+(/mnt/hdd2/home/luohaoran/github/KnowledgeClaw/Latex/neurips_2026.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-01-21> (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
@@ -426,24 +426,24 @@ File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 ) (./neurips_2026.aux)
 \openout1 = `neurips_2026.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -511,7 +511,7 @@ LaTeX Font Info:    ... okay on input line 119.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 119.
+Package hyperref Info: Link coloring OFF on input line 118.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
  (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
@@ -521,25 +521,24 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count314
 )
-LaTeX Info: Redefining \ref on input line 119.
-LaTeX Info: Redefining \pageref on input line 119.
-LaTeX Info: Redefining \nameref on input line 119.
- (./neurips_2026.out) (./neurips_2026.out)
+LaTeX Info: Redefining \ref on input line 118.
+LaTeX Info: Redefining \pageref on input line 118.
+LaTeX Info: Redefining \nameref on input line 118.
 \@outlinefile=\write3
 \openout3 = `neurips_2026.out'.
 
-LaTeX Info: Redefining \microtypecontext on input line 119.
-Package microtype Info: Applying patch `item' on input line 119.
-Package microtype Info: Applying patch `toc' on input line 119.
-Package microtype Info: Applying patch `eqnum' on input line 119.
-Package microtype Info: Applying patch `footnote' on input line 119.
+LaTeX Info: Redefining \microtypecontext on input line 118.
+Package microtype Info: Applying patch `item' on input line 118.
+Package microtype Info: Applying patch `toc' on input line 118.
+Package microtype Info: Applying patch `eqnum' on input line 118.
+Package microtype Info: Applying patch `footnote' on input line 118.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 119.
+LaTeX Info: Redefining \showhyphens on input line 118.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -566,19 +565,19 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 )) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 123.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 122.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 123.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 122.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 123.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 122.
  (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
@@ -597,268 +596,231 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 
 pdfTeX warning: pdflatex (file ./F1.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<F1.pdf, id=158, 104.59477pt x 79.82864pt>
+<F1.pdf, id=4, 104.59477pt x 79.82864pt>
 File: F1.pdf Graphic file (type pdf)
 <use F1.pdf>
 Package pdftex.def Info: F1.pdf  used on input line 133.
 (pdftex.def)             Requested size: 192.05609pt x 146.5807pt.
+
+Package natbib Warning: Citation `KEclassic' on page 1 undefined on input line 139.
+
+
+Package natbib Warning: Citation `KGLLMsurvey' on page 1 undefined on input line 139.
+
+
+Package natbib Warning: Citation `LLMsurvey' on page 1 undefined on input line 139.
+
+
+Package natbib Warning: Citation `AgentSurvey' on page 1 undefined on input line 139.
+
+
+Package natbib Warning: Citation `ReAct' on page 1 undefined on input line 139.
+
+
+Package natbib Warning: Citation `Text2Event' on page 1 undefined on input line 139.
+
+
+Package natbib Warning: Citation `RAG' on page 1 undefined on input line 139.
+
+
+Package natbib Warning: Citation `RAGsurvey' on page 1 undefined on input line 139.
+
+
+Package natbib Warning: Citation `KGLLMsurvey' on page 1 undefined on input line 139.
+
+
+Package natbib Warning: Citation `CLIP' on page 1 undefined on input line 141.
+
+
+Package natbib Warning: Citation `Whisper' on page 1 undefined on input line 141.
+
+
+Package natbib Warning: Citation `DPR' on page 1 undefined on input line 141.
+
+
+Package natbib Warning: Citation `RAG' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `DPR' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `RAPTOR' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `GraphRAG' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `LightRAG' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `PathRAG' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `HyperGraphRAG' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `Hypergraph' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `HAHE' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `HippoRAG2' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `KAG' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `Graphiti' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `iText2KG' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `OG-RAG' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `MemGPT' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `Mem0' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `AMEM' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `OmniRAG' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `OpenClaw' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `Graphify' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `Cognee' on page 1 undefined on input line 143.
+
+
+Package natbib Warning: Citation `LLMWiki' on page 1 undefined on input line 143.
+
 [1
 
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./F1.pdf>]
 
-pdfTeX warning: pdflatex (file ./F2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<F2.pdf, id=234, 659.42227pt x 253.91342pt>
-File: F2.pdf Graphic file (type pdf)
-<use F2.pdf>
-Package pdftex.def Info: F2.pdf  used on input line 145.
-(pdftex.def)             Requested size: 392.64812pt x 151.19078pt.
-LaTeX Font Info:    Calculating math sizes for size <8.4> on input line 191.
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <4.2> not available
-(Font)              size <5> substituted on input line 191.
+Package natbib Warning: Citation `RAGAS' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <4.2> not available
-(Font)              size <5> substituted on input line 191.
+Package natbib Warning: Citation `HelloBench' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <4.2> not available
-(Font)              size <5> substituted on input line 191.
+Package natbib Warning: Citation `Hypergraph' on page 2 undefined on input line 145.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 191--191
-[]|\T1/ptm/m/n/8.4 (+20) HyperGraphRAG
- []
+Package natbib Warning: Citation `HAHE' on page 2 undefined on input line 145.
 
 
-Underfull \vbox (badness 1152) has occurred while \output is active []
-
- [2 <./F2.pdf>]
-
-pdfTeX warning: pdflatex (file ./F3.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<F3.pdf, id=315, 729.08727pt x 339.77664pt>
-File: F3.pdf Graphic file (type pdf)
-<use F3.pdf>
-Package pdftex.def Info: F3.pdf  used on input line 217.
-(pdftex.def)             Requested size: 397.48499pt x 185.24458pt.
-[3] [4 <./F3.pdf>] [5]
-LaTeX Font Info:    Calculating math sizes for size <7.3> on input line 358.
+Package natbib Warning: Citation `HyperGraphRAG' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <3.65> not available
-(Font)              size <5> substituted on input line 358.
+Package natbib Warning: Citation `GraphRAG' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <3.65> not available
-(Font)              size <5> substituted on input line 358.
+Package natbib Warning: Citation `HippoRAG2' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <3.65> not available
-(Font)              size <5> substituted on input line 358.
+Package natbib Warning: Citation `KAG' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <3.65> not available
-(Font)              size <5> substituted on input line 358.
-
-[6]
-<F4.pdf, id=517, 610.28pt x 263.98625pt>
-File: F4.pdf Graphic file (type pdf)
-<use F4.pdf>
-Package pdftex.def Info: F4.pdf  used on input line 420.
-(pdftex.def)             Requested size: 196.32384pt x 84.92444pt.
- [7 <./F4.pdf>]
-<r1.png, id=582, 854.59274pt x 570.933pt>
-File: r1.png Graphic file (type png)
-<use r1.png>
-Package pdftex.def Info: r1.png  used on input line 444.
-(pdftex.def)             Requested size: 123.21936pt x 82.31708pt.
-<r2.png, id=584, 854.59274pt x 570.933pt>
-File: r2.png Graphic file (type png)
-<use r2.png>
-Package pdftex.def Info: r2.png  used on input line 447.
-(pdftex.def)             Requested size: 123.21936pt x 82.31708pt.
-<r3.png, id=585, 854.59274pt x 570.933pt>
-File: r3.png Graphic file (type png)
-<use r3.png>
-Package pdftex.def Info: r3.png  used on input line 450.
-(pdftex.def)             Requested size: 123.21936pt x 82.31708pt.
-<r4.png, id=586, 854.59274pt x 570.933pt>
-File: r4.png Graphic file (type png)
-<use r4.png>
-Package pdftex.def Info: r4.png  used on input line 453.
-(pdftex.def)             Requested size: 123.21936pt x 82.31708pt.
-<r5.png, id=587, 854.59274pt x 570.933pt>
-File: r5.png Graphic file (type png)
-<use r5.png>
-Package pdftex.def Info: r5.png  used on input line 456.
-(pdftex.def)             Requested size: 123.21936pt x 82.31708pt.
-LaTeX Font Info:    Calculating math sizes for size <5.5> on input line 485.
+Package natbib Warning: Citation `RRF' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 485.
+Package natbib Warning: Citation `PathRAG' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <3.84998> not available
-(Font)              size <5> substituted on input line 485.
+Package natbib Warning: Citation `HippoRAG2' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <2.75> not available
-(Font)              size <5> substituted on input line 485.
+Package natbib Warning: Citation `Louvain' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <5.5> not available
-(Font)              size <5> substituted on input line 485.
+Package natbib Warning: Citation `GraphRAG' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <3.84998> not available
-(Font)              size <5> substituted on input line 485.
+Package natbib Warning: Citation `SelfRAG' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <2.75> not available
-(Font)              size <5> substituted on input line 485.
+Package natbib Warning: Citation `AdaptiveRAG' on page 2 undefined on input line 145.
 
 
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 485.
+Package natbib Warning: Citation `OpenClaw' on page 2 undefined on input line 147.
 
 
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <3.84998> not available
-(Font)              size <5> substituted on input line 485.
+Package natbib Warning: Citation `Graphify' on page 2 undefined on input line 147.
 
+(./neurips_2026.bbl [2] [3]
+./neurips_2026.bbl:202: Misplaced alignment tab character &.
+l.202 \newblock {\em Data &
+                            Knowledge Engineering}, 25(1):161--197, 1998.
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <2.75> not available
-(Font)              size <5> substituted on input line 485.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 485.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <3.84998> not available
-(Font)              size <5> substituted on input line 485.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <2.75> not available
-(Font)              size <5> substituted on input line 485.
-
-
-Overfull \hbox (4.74608pt too wide) in paragraph at lines 485--485
- [][] 
- []
-
-<F6a.pdf, id=592, 339.93669pt x 159.59625pt>
-File: F6a.pdf Graphic file (type pdf)
-<use F6a.pdf>
-Package pdftex.def Info: F6a.pdf  used on input line 509.
-(pdftex.def)             Requested size: 216.62859pt x 101.70776pt.
-<F6b.pdf, id=593, 306.66956pt x 194.63286pt>
-File: F6b.pdf Graphic file (type pdf)
-<use F6b.pdf>
-Package pdftex.def Info: F6b.pdf  used on input line 512.
-(pdftex.def)             Requested size: 158.99156pt x 100.9097pt.
-[8 <./r1.png> <./r2.png> <./r3.png> <./r4.png> <./r5.png> <./F6a.pdf> <./F6b.pdf>]
-<F7.pdf, id=765, 319.1922pt x 326.55301pt>
-File: F7.pdf Graphic file (type pdf)
-<use F7.pdf>
-Package pdftex.def Info: F7.pdf  used on input line 532.
-(pdftex.def)             Requested size: 190.79109pt x 195.19087pt.
-
-Underfull \hbox (badness 5119) in paragraph at lines 575--577
-\T1/ptm/m/n/10 (+20) $0.0056) and slower GraphRAG (9.272s,
- []
-
-(./neurips_2026.bbl [9 <./F7.pdf>] [10]) [11]
-
-pdfTeX warning: pdflatex (file ./Prompt1.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Prompt1.pdf, id=860, 685.8642pt x 376.73848pt>
-File: Prompt1.pdf Graphic file (type pdf)
-<use Prompt1.pdf>
-Package pdftex.def Info: Prompt1.pdf  used on input line 603.
-(pdftex.def)             Requested size: 389.53358pt x 213.9671pt.
-
-
-pdfTeX warning: pdflatex (file ./Prompt2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Prompt2.pdf, id=863, 686.71858pt x 282.18124pt>
-File: Prompt2.pdf Graphic file (type pdf)
-<use Prompt2.pdf>
-Package pdftex.def Info: Prompt2.pdf  used on input line 616.
-(pdftex.def)             Requested size: 389.53358pt x 160.06993pt.
-[12 <./Prompt1.pdf> <./Prompt2.pdf>] [13] [14]
-Overfull \hbox (1.72655pt too wide) detected at line 838
-[][][][]\OML/cmm/m/it/10 E[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 L\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 E[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 L\OT1/cmr/m/n/10 )[] = [](\OML/cmm/m/it/10 ^^R[]\OT1/cmr/m/n/10 ) [] + [](\OML/cmm/m/it/10 ^^R[]\OT1/cmr/m/n/10 ) [] \OML/cmm/m/it/10 ;
- []
-
-[15]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 857.
- [16]
-
-pdfTeX warning: pdflatex (file ./Prompt3.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Prompt3.pdf, id=987, 686.14345pt x 291.17003pt>
-File: Prompt3.pdf Graphic file (type pdf)
-<use Prompt3.pdf>
-Package pdftex.def Info: Prompt3.pdf  used on input line 936.
-(pdftex.def)             Requested size: 389.53358pt x 165.3022pt.
-[17 <./Prompt3.pdf>]
-
-pdfTeX warning: pdflatex (file ./Prompt4.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Prompt4.pdf, id=1016, 686.14345pt x 340.36792pt>
-File: Prompt4.pdf Graphic file (type pdf)
-<use Prompt4.pdf>
-Package pdftex.def Info: Prompt4.pdf  used on input line 970.
-(pdftex.def)             Requested size: 389.53358pt x 193.23268pt.
-
-
-pdfTeX warning: pdflatex (file ./Prompt5.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Prompt5.pdf, id=1017, 323.2075pt x 489.83pt>
-File: Prompt5.pdf Graphic file (type pdf)
-<use Prompt5.pdf>
-Package pdftex.def Info: Prompt5.pdf  used on input line 977.
-(pdftex.def)             Requested size: 389.53358pt x 590.37912pt.
-[18 <./Prompt4.pdf>] [19 <./Prompt5.pdf>]
-Overfull \hbox (5.07388pt too wide) in paragraph at lines 1010--1023
- [][] 
- []
-
-
-
-pdfTeX warning: pdflatex (file ./Case.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Case.pdf, id=1073, 487.35245pt x 607.31691pt>
-File: Case.pdf Graphic file (type pdf)
-<use Case.pdf>
-Package pdftex.def Info: Case.pdf  used on input line 1034.
-(pdftex.def)             Requested size: 392.64812pt x 489.30148pt.
-[20
-
-]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [21 <./Case.pdf>] [22] (./checklist.tex
+) [4] [5] (./checklist.tex
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 9.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [23] [24] [25] [26] [27] [28]) [29] (./neurips_2026.aux)
+) [6] [7] [8] [9] [10] [11])
 
-LaTeX Font Warning: Size substitutions with differences
-(Font)              up to 2.25pt have occurred.
+Package natbib Warning: There were undefined citations.
 
-Package rerunfilecheck Info: File `neurips_2026.out' has not changed.
-(rerunfilecheck)             Checksum: 0DDCDE87967A1FCD18FF7976F8701FBB;7650.
+[12] (./neurips_2026.aux
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+
+./neurips_2026.aux:94: Package natbib Error: Bibliography not compatible with author-year citations.
+(natbib)                Press <return> to continue in numerical citation style.
+
+See the natbib package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.94 ...mand\NAT@force@numbers{}\NAT@force@numbers
+                                                  
+Check the bibliography entries for non-compliant syntax,
+or select author-year BibTeX style, e.g. plainnat
+
+)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `neurips_2026.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `neurips_2026.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  0634DFADD0F0227F96439B22B7F0D560;394.
  ) 
 Here is how much of TeX's memory you used:
- 15546 strings out of 478287
- 242177 string characters out of 5849289
- 628714 words of memory out of 5000000
- 32792 multiletter control sequences out of 15000+600000
- 578526 words of font info for 401 fonts, out of 8000000 for 9000
+ 14742 strings out of 478287
+ 231807 string characters out of 5849289
+ 572830 words of memory out of 5000000
+ 32371 multiletter control sequences out of 15000+600000
+ 509758 words of font info for 211 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,17n,76p,1155b,708s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on neurips_2026.pdf (29 pages, 5256933 bytes).
+ 70i,9n,76p,1794b,706s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on neurips_2026.pdf (12 pages, 740058 bytes).
 PDF statistics:
- 1342 PDF objects out of 1440 (max. 8388607)
- 882 compressed objects within 9 object streams
- 213 named destinations out of 1000 (max. 500000)
- 107915 words of extra memory for PDF output out of 128383 (max. 10000000)
+ 224 PDF objects out of 1000 (max. 8388607)
+ 182 compressed objects within 2 object streams
+ 76 named destinations out of 1000 (max. 500000)
+ 43014 words of extra memory for PDF output out of 51595 (max. 10000000)
 

@@ -16,202 +16,80 @@
 \gdef\HyperFirstAtBeginDocument#1{#1}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
-\citation{RAG,RAGsurvey}
-\citation{GPT4,LLMsurvey}
-\citation{GraphRAG}
+\citation{KEclassic}
 \citation{KGLLMsurvey}
-\citation{GraphRAG,LightRAG,PathRAG,HippoRAG2}
-\citation{m-TransH}
+\citation{LLMsurvey}
+\citation{AgentSurvey,ReAct}
+\citation{Text2Event,RAG,RAGsurvey,KGLLMsurvey}
+\citation{CLIP,Whisper}
+\citation{DPR}
+\citation{RAG,DPR,RAPTOR}
+\citation{GraphRAG,LightRAG,PathRAG,HyperGraphRAG,Hypergraph,HAHE,HippoRAG2}
+\citation{KAG,Graphiti,iText2KG,OG-RAG}
+\citation{MemGPT}
+\citation{Mem0}
+\citation{AMEM}
+\citation{OmniRAG}
+\citation{OpenClaw}
+\citation{Graphify}
+\citation{Cognee}
+\citation{LLMWiki}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces An illustration of HyperGraphRAG. }}{1}{figure.1}\protected@file@percent }
 \newlabel{F1}{{1}{1}{An illustration of HyperGraphRAG}{figure.1}{}}
-\citation{LightRAG}
-\citation{GraphRAG}
-\citation{MedGraphRAG,OG-RAG,KAG,MiniRAG,PIKE-RAG}
-\citation{LightRAG}
-\citation{PathRAG}
-\citation{HippoRAG2}
-\citation{Text2NKG}
-\citation{m-TransH,RAE,n-TuckER,HINGE}
-\citation{StarE,GRAN,HAHE}
-\citation{GraphRAG}
-\citation{LightRAG}
-\citation{PathRAG}
-\citation{HippoRAG2}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Comparison of knowledge representation: standard RAG uses chunks as units, GraphRAG captures binary relations with graphs, and HyperGraphRAG models n-ary relations with hyperedges. }}{2}{figure.2}\protected@file@percent }
-\newlabel{F2}{{2}{2}{Comparison of knowledge representation: standard RAG uses chunks as units, GraphRAG captures binary relations with graphs, and HyperGraphRAG models n-ary relations with hyperedges}{figure.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{2}{section.2}\protected@file@percent }
-\citation{Hypergraph}
-\citation{HINGE}
-\citation{Text2Event}
-\citation{Text2NKG}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparison of knowledge construction and retrieval methods for NaiveGeneration, StandardRAG, partial GraphRAG baselines, and our proposed HyperGraphRAG, where $\mathcal  {K}$ represents the overall constructed knowledge, and $K^*_q$ represents retrieved knowledge when given a user question $q$.}}{3}{table.1}\protected@file@percent }
-\newlabel{comp}{{1}{3}{Comparison of knowledge construction and retrieval methods for NaiveGeneration, StandardRAG, partial GraphRAG baselines, and our proposed HyperGraphRAG, where $\mathcal {K}$ represents the overall constructed knowledge, and $K^*_q$ represents retrieved knowledge when given a user question $q$}{table.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Preliminaries}{3}{section.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Method: HyperGraphRAG}{3}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Knowledge Hypergraph Construction}{3}{subsection.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces An overview of HyperGraphRAG, which constructs a knowledge hypergraph from domain knowledge, retrieves n-ary facts based on user questions, and generates knowledgeable responses.}}{4}{figure.3}\protected@file@percent }
-\newlabel{F3}{{3}{4}{An overview of HyperGraphRAG, which constructs a knowledge hypergraph from domain knowledge, retrieves n-ary facts based on user questions, and generates knowledgeable responses}{figure.3}{}}
-\newlabel{E4}{{4}{4}{Knowledge Hypergraph Construction}{equation.4.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Hypergraph Retrieval Strategy}{5}{subsection.4.2}\protected@file@percent }
-\newlabel{E7}{{7}{5}{Hypergraph Retrieval Strategy}{equation.4.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Hypergraph-Guided Generation}{5}{subsection.4.3}\protected@file@percent }
-\citation{UltraDomain}
-\citation{LightRAG}
-\citation{Hypertension}
-\citation{GPT4}
-\citation{RAGsurvey}
-\citation{GraphRAG}
-\citation{LightRAG}
-\citation{PathRAG}
-\citation{HippoRAG2}
-\citation{FlashRAG}
 \citation{RAGAS}
 \citation{HelloBench}
-\newlabel{E12}{{12}{6}{Hypergraph-Guided Generation}{equation.4.12}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{6}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Experimental Setup}{6}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Main Results (RQ1)}{6}{subsection.5.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces  Performance comparison across different domains. \textbf  {Bold} indicates the best performance.}}{7}{table.2}\protected@file@percent }
-\newlabel{T1}{{2}{7}{Performance comparison across different domains. \textbf {Bold} indicates the best performance}{table.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Ablation Study (RQ2)}{7}{subsection.5.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Results of the ablation study. }}{7}{figure.4}\protected@file@percent }
-\newlabel{F4}{{4}{7}{Results of the ablation study}{figure.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Analysis of Hypergraph-structured Knowledge Representation (RQ3)}{8}{subsection.5.4}\protected@file@percent }
-\newlabel{5.4}{{5.4}{8}{Analysis of Hypergraph-structured Knowledge Representation (RQ3)}{subsection.5.4}{}}
-\newlabel{f5a}{{5(a)}{8}{Subfigure 5(a)}{subfigure.5.1}{}}
-\newlabel{sub@f5a}{{(a)}{8}{Subfigure 5(a)\relax }{subfigure.5.1}{}}
-\newlabel{f5b}{{5(b)}{8}{Subfigure 5(b)}{subfigure.5.2}{}}
-\newlabel{sub@f5b}{{(b)}{8}{Subfigure 5(b)\relax }{subfigure.5.2}{}}
-\newlabel{f5c}{{5(c)}{8}{Subfigure 5(c)}{subfigure.5.3}{}}
-\newlabel{sub@f5c}{{(c)}{8}{Subfigure 5(c)\relax }{subfigure.5.3}{}}
-\newlabel{f5d}{{5(d)}{8}{Subfigure 5(d)}{subfigure.5.4}{}}
-\newlabel{sub@f5d}{{(d)}{8}{Subfigure 5(d)\relax }{subfigure.5.4}{}}
-\newlabel{f5e}{{5(e)}{8}{Subfigure 5(e)}{subfigure.5.5}{}}
-\newlabel{sub@f5e}{{(e)}{8}{Subfigure 5(e)\relax }{subfigure.5.5}{}}
-\newlabel{f5f}{{5(f)}{8}{Subfigure 5(f)}{subfigure.5.6}{}}
-\newlabel{sub@f5f}{{(f)}{8}{Subfigure 5(f)\relax }{subfigure.5.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces (a-e) Visualizations of knowledge hypergraphs constructed in 5 domains. (f) Statistical comparison highlights HyperGraphRAG’s richer expressiveness over GraphRAG and LightRAG.}}{8}{figure.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Medicine HyperGraph}}}{8}{figure.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Agriculture HyperGraph}}}{8}{figure.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {CS HyperGraph}}}{8}{figure.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Legal HyperGraph}}}{8}{figure.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces {Mix HyperGraph}}}{8}{figure.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(f)}{\ignorespaces {Statistics of Construction}}}{8}{figure.5}\protected@file@percent }
-\newlabel{F5}{{5}{8}{(a-e) Visualizations of knowledge hypergraphs constructed in 5 domains. (f) Statistical comparison highlights HyperGraphRAG’s richer expressiveness over GraphRAG and LightRAG}{figure.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Analysis of Hypergraph Retrieval Efficiency (RQ4)}{8}{subsection.5.5}\protected@file@percent }
-\newlabel{5.5}{{5.5}{8}{Analysis of Hypergraph Retrieval Efficiency (RQ4)}{subsection.5.5}{}}
-\newlabel{f6a}{{6(a)}{8}{Subfigure 6(a)}{subfigure.6.1}{}}
-\newlabel{sub@f6a}{{(a)}{8}{Subfigure 6(a)\relax }{subfigure.6.1}{}}
-\newlabel{f6b}{{6(b)}{8}{Subfigure 6(b)}{subfigure.6.2}{}}
-\newlabel{sub@f6b}{{(b)}{8}{Subfigure 6(b)\relax }{subfigure.6.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Experimental results in the Medicine domain analyzing hypergraph retrieval efficiency.}}{8}{figure.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Impact of Top-k on Retreval Efficency \& Token Length.}}}{8}{figure.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {F1 Comparison under Limited Lengths.}}}{8}{figure.6}\protected@file@percent }
-\newlabel{F6}{{6}{8}{Experimental results in the Medicine domain analyzing hypergraph retrieval efficiency}{figure.6}{}}
+\citation{Hypergraph,HAHE}
+\citation{HyperGraphRAG}
+\citation{GraphRAG}
+\citation{HippoRAG2}
+\citation{KAG}
+\citation{RRF}
+\citation{PathRAG,HippoRAG2}
+\citation{Louvain}
+\citation{GraphRAG}
+\citation{SelfRAG,AdaptiveRAG}
+\citation{OpenClaw}
+\citation{Graphify}
 \bibdata{custom}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Analysis of Hypergraph-Guided Generation Quality (RQ5)}{9}{subsection.5.6}\protected@file@percent }
-\newlabel{5.6}{{5.6}{9}{Analysis of Hypergraph-Guided Generation Quality (RQ5)}{subsection.5.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Generation Equality Evaluations.}}{9}{figure.7}\protected@file@percent }
-\newlabel{F7}{{7}{9}{Generation Equality Evaluations}{figure.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}Analysis of Time and Cost in Construction and Generation Phases (RQ6)}{9}{subsection.5.7}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Time \& Cost Comparisons.}}{9}{table.3}\protected@file@percent }
-\newlabel{T2}{{3}{9}{Time \& Cost Comparisons}{table.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{9}{section.6}\protected@file@percent }
-\bibcite{PathRAG}{{1}{}{{}}{{}}}
-\bibcite{GraphRAG}{{2}{}{{}}{{}}}
-\bibcite{RAGAS}{{3}{}{{}}{{}}}
-\bibcite{MiniRAG}{{4}{}{{}}{{}}}
-\bibcite{StarE}{{5}{}{{}}{{}}}
-\bibcite{RAGsurvey}{{6}{}{{}}{{}}}
-\bibcite{LightRAG}{{7}{}{{}}{{}}}
-\bibcite{HippoRAG2}{{8}{}{{}}{{}}}
-\bibcite{FlashRAG}{{9}{}{{}}{{}}}
-\bibcite{RAG}{{10}{}{{}}{{}}}
-\bibcite{KAG}{{11}{}{{}}{{}}}
-\bibcite{n-TuckER}{{12}{}{{}}{{}}}
-\bibcite{Text2Event}{{13}{}{{}}{{}}}
-\bibcite{HAHE}{{14}{}{{}}{{}}}
-\bibcite{Text2NKG}{{15}{}{{}}{{}}}
-\bibcite{Hypertension}{{16}{}{{}}{{}}}
-\bibcite{GPT4}{{17}{}{{}}{{}}}
-\bibcite{KGLLMsurvey}{{18}{}{{}}{{}}}
-\bibcite{UltraDomain}{{19}{}{{}}{{}}}
-\bibcite{HelloBench}{{20}{}{{}}{{}}}
-\bibcite{HINGE}{{21}{}{{}}{{}}}
-\bibcite{OG-RAG}{{22}{}{{}}{{}}}
-\bibcite{PIKE-RAG}{{23}{}{{}}{{}}}
-\bibcite{GRAN}{{24}{}{{}}{{}}}
-\bibcite{m-TransH}{{25}{}{{}}{{}}}
-\bibcite{MedGraphRAG}{{26}{}{{}}{{}}}
-\bibcite{RAE}{{27}{}{{}}{{}}}
-\bibcite{LLMsurvey}{{28}{}{{}}{{}}}
-\bibcite{Hypergraph}{{29}{}{{}}{{}}}
+\bibcite{OpenClaw}{{1}{}{{}}{{}}}
+\bibcite{SelfRAG}{{2}{}{{}}{{}}}
+\bibcite{Louvain}{{3}{}{{}}{{}}}
+\bibcite{PathRAG}{{4}{}{{}}{{}}}
+\bibcite{Mem0}{{5}{}{{}}{{}}}
+\bibcite{RRF}{{6}{}{{}}{{}}}
+\bibcite{GraphRAG}{{7}{}{{}}{{}}}
+\bibcite{RAGAS}{{8}{}{{}}{{}}}
+\bibcite{RAGsurvey}{{9}{}{{}}{{}}}
+\bibcite{LightRAG}{{10}{}{{}}{{}}}
+\bibcite{HippoRAG2}{{11}{}{{}}{{}}}
+\bibcite{AdaptiveRAG}{{12}{}{{}}{{}}}
+\bibcite{LLMWiki}{{13}{}{{}}{{}}}
+\bibcite{DPR}{{14}{}{{}}{{}}}
+\bibcite{iText2KG}{{15}{}{{}}{{}}}
+\bibcite{RAG}{{16}{}{{}}{{}}}
+\bibcite{KAG}{{17}{}{{}}{{}}}
+\bibcite{Text2Event}{{18}{}{{}}{{}}}
+\bibcite{HyperGraphRAG}{{19}{}{{}}{{}}}
+\bibcite{HAHE}{{20}{}{{}}{{}}}
+\bibcite{MemGPT}{{21}{}{{}}{{}}}
+\bibcite{KGLLMsurvey}{{22}{}{{}}{{}}}
+\bibcite{HelloBench}{{23}{}{{}}{{}}}
+\bibcite{CLIP}{{24}{}{{}}{{}}}
+\bibcite{Whisper}{{25}{}{{}}{{}}}
+\bibcite{Graphiti}{{26}{}{{}}{{}}}
+\bibcite{RAPTOR}{{27}{}{{}}{{}}}
+\bibcite{Graphify}{{28}{}{{}}{{}}}
+\bibcite{OG-RAG}{{29}{}{{}}{{}}}
+\bibcite{KEclassic}{{30}{}{{}}{{}}}
+\bibcite{Cognee}{{31}{}{{}}{{}}}
+\bibcite{AgentSurvey}{{32}{}{{}}{{}}}
+\bibcite{AMEM}{{33}{}{{}}{{}}}
+\bibcite{ReAct}{{34}{}{{}}{{}}}
+\bibcite{LLMsurvey}{{35}{}{{}}{{}}}
+\bibcite{Hypergraph}{{36}{}{{}}{{}}}
+\bibcite{OmniRAG}{{37}{}{{}}{{}}}
 \bibstyle{plain}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Prompts Used in HyperGraphRAG}{12}{appendix.A}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}N-ary Relation Extraction Prompt}{12}{subsection.A.1}\protected@file@percent }
-\newlabel{AppendixA1}{{A.1}{12}{N-ary Relation Extraction Prompt}{subsection.A.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces  Prompt for n-ary relation extraction $p_{\text  {ext}}$ in Equation\nobreakspace  {}\ref  {E4}.}}{12}{figure.8}\protected@file@percent }
-\newlabel{prompt1}{{8}{12}{Prompt for n-ary relation extraction $p_{\text {ext}}$ in Equation~\ref {E4}}{figure.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Entity Extraction Prompt}{12}{subsection.A.2}\protected@file@percent }
-\newlabel{AppendixA2}{{A.2}{12}{Entity Extraction Prompt}{subsection.A.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces  Prompt for entity extraction $p_{\text  {q\_ext}}$ in Equation\nobreakspace  {}\ref  {E7}.}}{12}{figure.9}\protected@file@percent }
-\newlabel{prompt2}{{9}{12}{Prompt for entity extraction $p_{\text {q\_ext}}$ in Equation~\ref {E7}}{figure.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Retrieval-Augmented Generation Prompt}{12}{subsection.A.3}\protected@file@percent }
-\newlabel{AppendixA3}{{A.3}{12}{Retrieval-Augmented Generation Prompt}{subsection.A.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B}Proof}{13}{appendix.B}\protected@file@percent }
-\newlabel{proofs}{{B}{13}{Proof}{appendix.B}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Proof of Proposition 1}{13}{subsection.B.1}\protected@file@percent }
-\newlabel{proof1}{{B.1}{13}{Proof of Proposition 1}{subsection.B.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Proof of Proposition 2}{14}{subsection.B.2}\protected@file@percent }
-\newlabel{proof2}{{B.2}{14}{Proof of Proposition 2}{subsection.B.2}{}}
-\newlabel{EP1}{{24}{14}{Proof of Proposition 2}{equation.B.24}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}Proof of Proposition 3}{14}{subsection.B.3}\protected@file@percent }
-\newlabel{proof3}{{B.3}{14}{Proof of Proposition 3}{subsection.B.3}{}}
-\newlabel{PE1}{{31}{14}{Proof of Proposition 3}{equation.B.31}{}}
-\newlabel{PE2}{{33}{15}{Proof of Proposition 3}{equation.B.33}{}}
-\newlabel{PE4}{{38}{15}{Proof of Proposition 3}{equation.B.38}{}}
-\newlabel{PE5}{{40}{15}{Proof of Proposition 3}{equation.B.40}{}}
-\newlabel{PE6}{{42}{15}{Proof of Proposition 3}{equation.B.42}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {C}HyperGraphRAG Algorithm Detail}{16}{appendix.C}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Hypergraph Construction}}{16}{algorithm.1}\protected@file@percent }
-\newlabel{alg:build_hypergraph}{{1}{16}{HyperGraphRAG Algorithm Detail}{algorithm.1}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Hypergraph Retrieval and Generation}}{16}{algorithm.2}\protected@file@percent }
-\newlabel{alg:retrieval_generation}{{2}{16}{HyperGraphRAG Algorithm Detail}{algorithm.2}{}}
-\citation{Hypertension}
-\citation{UltraDomain}
-\@writefile{toc}{\contentsline {section}{\numberline {D}Dataset Construction}{17}{appendix.D}\protected@file@percent }
-\newlabel{AppendixA}{{D}{17}{Dataset Construction}{appendix.D}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {D.1}Knowledge Domains}{17}{subsection.D.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {D.2}Question Sampling Strategies}{17}{subsection.D.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {E}Evaluation Details}{17}{appendix.E}\protected@file@percent }
-\newlabel{AppendixE}{{E}{17}{Evaluation Details}{appendix.E}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces  The unified prompt for generation $p_{\text  {gen}}$ in Equation\nobreakspace  {}\ref  {E12}.}}{17}{figure.10}\protected@file@percent }
-\newlabel{prompt3}{{10}{17}{The unified prompt for generation $p_{\text {gen}}$ in Equation~\ref {E12}}{figure.10}{}}
-\citation{FlashRAG}
-\citation{RAGAS}
-\citation{HelloBench}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces  Prompt for G-E.}}{18}{figure.11}\protected@file@percent }
-\newlabel{prompt4}{{11}{18}{Prompt for G-E}{figure.11}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces  Seven Evaluation Dimensions for Generation Quality.}}{19}{figure.12}\protected@file@percent }
-\newlabel{prompt5}{{12}{19}{Seven Evaluation Dimensions for Generation Quality}{figure.12}{}}
-\citation{GraphRAG}
-\citation{LightRAG}
-\citation{PathRAG}
-\citation{HippoRAG2}
-\@writefile{toc}{\contentsline {section}{\numberline {F}Baseline Details}{20}{appendix.F}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {G}Hyperparameter Settings}{20}{appendix.G}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Hyperparameter settings for all methods.}}{20}{table.4}\protected@file@percent }
-\newlabel{tab:hyperparams}{{4}{20}{Hyperparameter settings for all methods}{table.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {H}Case Study}{20}{appendix.H}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Case study comparing RAG methods on a complex medical question. The reported metrics reflect the actual scores for this specific example. HyperGraphRAG generates the most accurate and comprehensive answer, achieving the highest scores across all evaluation metrics, while other baselines exhibit factual omissions or ambiguity.}}{21}{table.5}\protected@file@percent }
-\newlabel{case}{{5}{21}{Case study comparing RAG methods on a complex medical question. The reported metrics reflect the actual scores for this specific example. HyperGraphRAG generates the most accurate and comprehensive answer, achieving the highest scores across all evaluation metrics, while other baselines exhibit factual omissions or ambiguity}{table.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {I}Limitations and Future Work}{22}{appendix.I}\protected@file@percent }
-\newlabel{limitations}{{I}{22}{Limitations and Future Work}{appendix.I}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {I.1}Multimodal HyperGraphRAG}{22}{subsection.I.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {I.2}HyperGraphRAG with Reinforcement Learning}{22}{subsection.I.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {I.3}Federated HyperGraphRAG for Privacy-Preserving Retrieval}{22}{subsection.I.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {I.4}Toward a Foundation Model for HyperGraph-based Retrieval}{22}{subsection.I.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {I.5}Scaling to Harder Tasks and Broader Applications}{22}{subsection.I.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}Technical appendices and supplementary material}{5}{appendix.A}\protected@file@percent }
 \providecommand\NAT@force@numbers{}\NAT@force@numbers
-\gdef \@abspage@last{29}
+\gdef \@abspage@last{12}

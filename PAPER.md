@@ -1,4 +1,6 @@
-# KnowledgeClaw：基于全模态超图的智能体个人知识库系统
+# KnowledgeClaw：面向构建基于全模态超图的Agentic知识工程
+
+KnowledgeClaw: Towards Agentic Knowledge Engineering with Omnimodal Hypergraphs
 
 > NeurIPS 2026 投稿
 
@@ -6,35 +8,83 @@
 
 ## 1. 引言
 
-**任务。** 个人知识天然是多模态、关系化的。研究者日常积累的论文 PDF、临床影像、心音录音、手术视频、法律判决书等异构文件构成了个人知识库（Personal Knowledge Base, PKB）。一个理想的 PKB 智能体应当：（1）理解并索引所有模态；（2）在知识库的全生命周期中支持增删改查；（3）对从精确事实查找到主题综合的多粒度查询都能高效检索和推理。我们将这一问题形式化为**全模态知识工程（Omnimodal Knowledge Engineering, OmniKE）**，并定义了 6 个方法无关的评测任务（T1–T6），覆盖知识获取、跨模态共指、多跳检索、跨模态推理、生命周期一致性和生成刷新。
+知识工程（Knowledge Engineering, KE）指把非结构化知识转化为可查询、可推理的结构化资产，自专家系统时代起就是 AI 的核心工程学科 [26]，但长期困于同一件事——**它必须由领域专家手工建模，规模无法外推** [3, 26]。LLM [27] 与自主智能体 [28, 29] 的兴起改写了这一约束：智能体可以自主阅读文件、抽取实体、连接关系、推理更新 [30]，把原本以人年计的 schema 设计与抽取工作压缩到小时级 [1, 2, 3]。这让"持续地、端到端地、以智能体之力把原始文件维护成一个**活的、可查询的知识库**"第一次成为工程可行的问题；我们将这一新范式称为 **LLM 时代的 agentic 知识工程**。
 
-**相关工作。** 现有系统各解决了问题的一个切面但遗漏了其他。向量 RAG（NaiveRAG）只做文本块检索，无法处理非文本模态也无结构化表示。图 RAG（GraphRAG, LightRAG, HyperGraphRAG）引入实体-关系图甚至超图来捕捉高阶关系语义，但仍局限于文本且假设语料静态不变。智能体记忆系统（MemGPT/Letta, Mem0, A-MEM）维护长时记忆但依赖扁平相似度搜索，缺乏结构化知识构建。Graphiti 引入了时序知识图谱并支持删除操作，但仅处理文本。Graphify 支持多模态文件夹输入并构建知识图谱，但无生命周期管理。Cognee 自动从多模态数据构建语义图，但缺少超图表示和多粒度检索。OntoKG 提出本体优先的知识图谱构建，但仅处理结构化文本。总之，**无一系统同时具备全模态表示、闭环生命周期和多粒度检索**。
+若要真正服务于真实场景，这一范式至少要通过三个朴素检验：医院的多模态病历若不能同时索引 text / image / audio，跨模态诊断无从谈起；研究者的文献库若不能在论文撤稿后从库中干净移除，就会长期返回被撤销的结论；法律判决库若既不能综合相关先例、也不能提示尚未考察的对立判决，律师便无法完成一次可用的案件研究。抽象出来，一个可用的 agentic KE 系统必须同时具备三条**缺一即败**的属性：**(i) 全模态**——以统一索引对齐所有模态（text/PDF/image/audio/video）[31, 32]；**(ii) 闭环生命周期**——在源文件增 / 删 / 改的事件流下由智能体自主维护库内一致性；**(iii) 多角度应用**——在同一库上同时服务精确事实定位、主题综合与主动知识发现（已知 / 缺口 / 建议）[33]。
 
-**挑战。** 我们识别出三个根本性缺口：**L1 模态缺口**——现有 KG-RAG 系统以文本为中心，图像、音频、视频等模态的超边表示尚属空白；**L2 生命周期缺口**——真实 PKB 持续演化（论文被撤稿、数据被更新、文件被删除），现有系统无法在增删改操作下保持图结构一致性；**L3 检索粒度缺口**——个人查询从精确事实（"某教授在 3 月讲座中如何评价 attention？"）到开放综合（"总结我对对比学习的所有理解"），现有系统只能优化其中一端。
+**然而，没有一个现有系统同时占齐这三条**，也没有基准沿这三条轴把方法统一测过。**文本管线**（向量 RAG [1, 33]、RAPTOR [4]、图 / 超图 RAG [5–10]、HippoRAG 2 [11]、KAG [12]、Graphiti [13]、iText2KG [15]、OntoKG [14] 等）仅处理文本、且绝大多数假设语料静态——**同时违反 (i) 与 (ii)**。**记忆型智能体**（MemGPT/Letta [16]、Mem0 [17]、A-MEM [18]）虽具完整 CRUD（满足 (ii)），但扁平向量检索让 (i) 与 (iii) 同时落空。**全模态知识库方向**（Graphify [19]、OmniRAG [21]、Cognee [20]、OpenClaw [23]（本文前身））满足 (i)，并以 `--watch` / `prune` / fact-level CRUD **部分触及 (ii)**，但统一只做单层 top-k 检索——**(iii) 违反**。Karpathy 的 **LLM Wiki** [22] 走另一条极简路线（markdown 页面 + `[[WikiLinks]]`）：概念上同时触及三条，但三处都仅停在 markdown 层——页面级 LLM 重写不做 schema / 实体级联（部分 (ii)）、`[[WikiLinks]]` 只是静态跳转而非意图感知分发（违反 (iii)）、且本体 text-only（违反 (i)）。§2.1 沿三轴给出统一快照。
 
-**贡献。** 我们提出 **KnowledgeClaw**，一个通过全模态知识超图自主管理个人知识库全生命周期的智能体系统。三项贡献：**C1（全模态类型超图）**——五种模态（text/PDF/image/audio/video）的实体共享类型化超边和跨模态共指边，首次将超图 RAG 从单模态文档扩展到全模态个人知识；**C2（闭环生命周期智能体）**——构建→查询→推理→更新的闭环，支持一致性保持的增量添加、级联删除和孤儿清理；**C3（多粒度检索+意图路由）**——子图级（RRF 实体+超边检索+图遍历扩展）和社区级（Louvain 聚类+摘要嵌入）双层检索，由轻量意图路由器动态分发。
+针对这一缺口，我们把上述三条属性形式化为 **全模态知识工程（Omnimodal Knowledge Engineering, OmniKE）**——六个方法无关的评测任务（T1 知识获取、T2 跨模态共指、T3 多跳检索、T4 跨模态推理、T5 生命周期一致性、T6 知识发现）联合压测三条轴——并发布 **OmniKE-Bench v0.1**：10 个专业领域 persona × 5 种模态 × ~4500 份真实文件（PMC 论文、SCOTUS 判决书、PhysioNet 心音、archive.org 视频等）× 6 项任务，评测协议沿用 RAG 端到端评估 [24] 与长文本综合 [25] 的设计。在这一基准之上我们提出 **KnowledgeClaw**，一个在全生命周期内自主维护全模态知识超图的智能体；其三项贡献**与三条缺口一一对应**——**C1 全模态类型超图**：用类型化超边 [9, 10] 与跨模态共指边把五种模态的实体组织在同一结构里（对齐 (i)），并首次把超图 RAG [8] 扩展到文本之外；**C2 闭环生命周期智能体**：构建→查询→推理→更新闭环，支持一致性保持的增量添加、级联删除与孤儿清理（对齐 (ii)），补齐 GraphRAG [5]、HippoRAG 2 [11]、KAG [12] 等系统的静态假设；**C3 多角度应用 + 意图路由**：子图级检索（RRF [34] 实体 + 超边 + 图遍历扩展）[7, 11]、社区级综合（Louvain [35] 聚类 + 摘要嵌入）[5]、以及基于社区结构的知识发现（known / gaps / suggestions），三种应用角度由轻量意图路由器动态分发 [36, 37]（对齐 (iii)）。
 
-**实验。** 我们构建了 **OmniKE-Bench v0.1**，包含 10 个专业领域 persona（医疗、金融、教育、法律、心理学、音乐、游戏、建筑、软件、机器人）× 5 种模态 × ~4500 个真实文件（PMC 论文、SCOTUS 判决书、PhysioNet 心音、archive.org 视频等）。在 22 个方法（10 个范式组）的全面对比中，KnowledgeClaw 在全部 6 个任务上均有得分（OKE=56.7），三个消融实验验证了 C1/C2/C3 各自的不可替代性：去掉 C1 后 T2 跨模态共指归零，去掉 C2 后 T5 生命周期退化，去掉 C3 后 T3 检索下降。
+在与 22 个基线（10 个范式组）的对比中，**KnowledgeClaw 是唯一在 OmniKE 全部 6 项任务上均有得分的系统，并在每一项上都排第一**——T1 = 74.9、T2 = 89.3、T3 = 34.5、T4 = 48.9、T5 = 46.8、T6 = 64.3，**OKE = 59.8**，领先最强基线 OpenClaw [23] **+12.5**、领先第二强 Graphify [19] **+20.1**。更重要的是，三个消融呈现**靶向退化**而非均匀塌陷，与三项贡献的职责一一印证：去 C1 令 T2 / T4（跨模态）直接不可评，OKE 跌至 29.4（−30.4）；去 C2 令 T5（生命周期）不可评，OKE 跌至 52.0（−7.8）；去 C3 令 T3（多跳检索）由 34.5 跌至 24.0、T6（知识发现）由 64.3 跌至 48.1，OKE 跌至 51.9（−7.9）。这些结果共同支持本文的主张：**全模态、闭环生命周期、多角度应用，构成了一个可用的 agentic 知识工程系统所必须齐备的三条最小充分轴**。
 
 ---
 
 ## 2. 相关工作
 
-### 2.1 检索增强生成与知识图谱
+### 2.1 知识工程
 
-向量 RAG（NaiveRAG, RAPTOR）将文档切块后检索，但无结构化表示、无非文本模态支持。图 RAG（GraphRAG, LightRAG, HyperGraphRAG, OntoKG, iText2KG, HippoRAG 2）引入实体-关系图乃至超图来捕获高阶关系语义，显著提升多跳推理能力；但均**仅处理文本且假设语料静态**。智能体知识引擎（KAG/OpenSPG, Graphiti）结合 KG 构建与多步推理，Graphiti 还引入时序删除——但仍局限于文本。
+承接 §1 对 agentic KE 所需三条属性 (i)(ii)(iii) 的抽象，本节沿工程管线回顾现有方法——每一步扩展了哪条属性、遗漏了哪条——最后沿三轴把它们横放一起。
 
-### 2.2 个人知识库与记忆系统
+**从 RAG 到图 / 超图 RAG。** 检索增强生成 [1, 2] 以可解释、可更新的外部存储替代参数化记忆，用稠密检索（DPR [33]）、倒数秩融合（RRF [34]）等基元形成通用注入范式。但扁平向量检索在多跳与关系性查询上退化，驱动 KE 与 KG 融合 [3]。GraphRAG [5] 以 Louvain 社区 [35] + 社区报告汇聚"全局 → 局部"答案；LightRAG [6] 用双层 keys、PathRAG [7] 用路径剪枝提升效率；HippoRAG 2 [11] 以 PageRank 游走支持非参数多跳推理；超图 RAG HyperGraphRAG [8]（根植于超图学习 [9] 与超关系 KG [10]）把二元边扩展为 n 元超边，承载"一次事件多个角色"这类二元图难以表达的语义。RAPTOR [4] 以层次摘要跨粒度组织；Self-RAG [36] 与 Adaptive-RAG [37] 把自反思或按复杂度自适应路由注入 RAG 本身。这条路线**把检索从单层操作推向按需配置的多级应用**（触及 (iii) 的雏形），但**整条管线仍以文本为唯一输入**。
 
-个人记忆智能体（MemGPT/Letta, Mem0, A-MEM）维护长时记忆但依赖扁平搜索，无结构化实体图。多模态方向上，Graphify 将文件夹转为知识图谱（支持 PDF/image/code）但无 audio/video 和生命周期管理；Cognee 自动构建语义图+向量索引但缺少超图表示。OpenClaw（本文前身）首次实现全模态 PKB 智能体，但缺少超图、闭环生命周期和多粒度检索。**KnowledgeClaw 是唯一同时具备全模态超图、闭环生命周期和多粒度检索的系统：**
+**在线 KG 构建与维护。** iText2KG [15] 与 Text2Event [30] 把 schema 设计与实体 / 事件抽取 LLM 化、增量化；OntoKG [14] 进一步以本体约束抽取。这些工作把"KG 建一次、用一次"推向在线演化，但**更新粒度仍限于单条事实或时序标注**——源文件整体被撤稿、修订、替换时的级联一致性并未进入其设计目标（部分触及 (ii)）。
 
-| 能力 | Vec-RAG | Graph-RAG | HyperGraph-RAG | Memory Agent | Graphiti | Graphify | Cognee | OpenClaw | **KC** |
-|---|---|---|---|---|---|---|---|---|---|
-| 全模态 (5种) | ✗ | ✗ | ✗ | ✗ | ✗ | 4/5 | 4/5 | ✓ | **✓** |
-| 超图表示 | ✗ | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | **✓** |
-| 跨模态共指 | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | **✓** |
-| 闭环生命周期 | ✗ | ✗ | ✗ | △ | ✓ | ✗ | ✗ | ✗ | **✓** |
-| 多粒度检索 | ✗ | △ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | **✓** |
+**让知识库可被智能体维护。** 两条路线并行：**(a)** 记忆型智能体——MemGPT/Letta [16]、Mem0 [17]、A-MEM [18]——提供完整的 add/update/delete 语义，但底层是扁平向量库、无结构化实体图；**(b)** agent + KG 融合——KAG/OpenSPG [12] 把 schema-constrained 抽取 + logical form 分解统一进 agent 流程，Graphiti [13] 把时序 fact 删除引入 KG 流——仍仅处理文本，且"修改一条 fact"不等价于"维护一张图的全局一致性"。两条路线都正面回应了 (ii) 的一部分，但都在 (i) 上留白。
+
+**跨出文本的多模态尝试。** Graphify [19] 以 Whisper 转写 + 原生 PDF / image / video 支持多模态摄入；OmniRAG [21] 以跨模态嵌入做检索；Cognee [20] 以向量 + 图混合索引；OpenClaw [23]（本文前身）首次把五种模态的 LLM 抽取与基本 CRUD 合进单一 agent。与之并列的还有一条极简替代——LLM Wiki [22]：以 LLM 增量编译 markdown 页面、`[[WikiLinks]]` 做跨页引用，把知识库压成可被 LLM 持续重写的文档集合。这条脉络推进了 (i)，也在 (ii) 上以 `--watch/--update`、`prune` 或 fact-level CRUD 给出了部分解；但 (iii) 上**一致停留在单层检索**——既不做主题级综合，也不做主动知识发现。
+
+**沿三条轴横向对比**。把上述典型范式沿 (i)(ii)(iii) 摆在一起，可以一眼看到没有哪一列占齐：
+
+| | Vec-RAG | Graph-RAG | HyperGraph-RAG | Memory Agent | Graphiti | Graphify | Cognee | OpenClaw | LLM Wiki | **KC** |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **(i) 全模态** | ✗ | ✗ | ✗ | ✗ | ✗ | 4/5 | 4/5 | ✓ | ✗ | **✓** |
+| **(ii) 闭环生命周期** | ✗ | ✗ | ✗ | △ | ✓ | 部分 | 部分 | 部分 | 部分 | **✓** |
+| **(iii) 多角度应用** | ✗ | △ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | △ | **✓** |
+
+### 2.2 LLM 与智能体
+
+现代 agentic 知识工程的底层动力来自三股正交但互补的进展。**(1) LLM 作为通用语义处理器。** 大型语言模型 [27] 具备把非结构化文本 lossy 压缩进参数空间、并按需解码为抽取、链接、摘要、综合等多种形式的能力，这为 KE 中原本依赖专家规则的环节——实体识别、关系抽取 [30]、ontology 对齐、查询理解——提供了通用工具。**(2) 自主智能体闭环。** LLM-based autonomous agent 综述 [28] 把 agent 刻画为具备**感知、记忆、规划、工具使用**四要素的闭环系统；ReAct [29] 首次把推理链与行动调用交织在同一序列中，为 agent 以"读文件 → 更新图 → 再检索 → 再更新"的方式持续运转提供了通用范式；Self-RAG [36] 与 Adaptive-RAG [37] 则把这类 agentic 控制注入 RAG 本身，让系统按查询复杂度自反思或自适应路由。**(3) 多模态基础模型带来模态对齐。** CLIP [31] 把视觉与语言映射到共享 embedding 空间，Whisper [32] 把语音鲁棒转译为文本表示——二者共同构成了跨模态共指与跨模态证据定位的**表征底层**，使 image / audio / video 实体与文本实体共享同一套索引在工程上首次可行。这三股进展**各自提供了必要能力**，但要在同一个知识工程系统中**结构化地组合**——以统一结构承载全模态实体 (i)、以智能体闭环维护增删改 (ii)、以意图路由兼顾精确事实、主题综合与知识发现 (iii)——仍是一项未竟工作，这正是本文 KnowledgeClaw 的出发点。
+
+### 参考文献（第 1–2 章范围）
+
+- [1] Lewis et al., *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*, NeurIPS 2020.
+- [2] Gao et al., *Retrieval-Augmented Generation for Large Language Models: A Survey*, arXiv:2312.10997, 2024.
+- [3] Pan et al., *Unifying Large Language Models and Knowledge Graphs: A Roadmap*, IEEE TKDE 36(7):3580–3599, 2024.
+- [4] Sarthi et al., *RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval*, ICLR 2024.
+- [5] Edge et al., *From Local to Global: A Graph RAG Approach to Query-Focused Summarization*, arXiv:2404.16130, 2024.
+- [6] Guo et al., *LightRAG: Simple and Fast Retrieval-Augmented Generation*, arXiv:2410.05779, 2024.
+- [7] Chen et al., *PathRAG: Pruning Graph-based Retrieval Augmented Generation with Relational Paths*, arXiv:2502.14902, 2025.
+- [8] Luo et al., *HyperGraphRAG: Retrieval-Augmented Generation via Hypergraph-Structured Knowledge Representation*, arXiv:2503.21322, 2025.
+- [9] Zhou, Huang & Schölkopf, *Learning with Hypergraphs: Clustering, Classification, and Embedding*, NeurIPS 2006.
+- [10] Luo et al., *HAHE: Hierarchical Attention for Hyper-Relational Knowledge Graphs*, ACL 2023.
+- [11] Gutiérrez et al., *From RAG to Memory: Non-Parametric Continual Learning for LLMs (HippoRAG 2)*, arXiv:2502.14802, 2025.
+- [12] Liang et al., *KAG: Boosting LLMs in Professional Domains via Knowledge Augmented Generation*, arXiv:2409.13731, 2024.
+- [13] Rasmussen et al., *Zep: A Temporal Knowledge Graph Architecture for Agent Memory (Graphiti)*, arXiv:2501.13956, 2025.
+- [14] Prorata AI, *Ontology-Grounded Knowledge Graph Construction with LLMs (OntoKG)*, technical report, 2024.
+- [15] Lairgi et al., *iText2KG: Incremental Knowledge Graphs Construction Using LLMs*, WISE 2024.
+- [16] Packer et al., *MemGPT: Towards LLMs as Operating Systems*, arXiv:2310.08560, 2023.
+- [17] Chhikara et al., *Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory*, arXiv:2504.19413, 2025.
+- [18] Xu et al., *A-MEM: Agentic Memory for LLM Agents*, arXiv:2502.12110, 2025.
+- [19] Shamsi, *Graphify: Omnimodal Folder-to-Knowledge-Graph Agent*, open-source, 2024.
+- [20] Topoteretes, *Cognee: Memory for AI Agents via Semantic Graph + Vector Indexing*, open-source, 2024.
+- [21] *OmniRAG: Multimodal Retrieval-Augmented Generation across Text, Image, Audio, and Video*, 2024.
+- [22] Karpathy, *LLM Wiki: Incrementally Compiling a Persistent Markdown Knowledge Base via LLM*, public gist, 2024.
+- [23] *OpenClaw: Omnimodal Personal Knowledge Base Agent* (作者先前工作), 2025.
+- [24] Es et al., *RAGAs: Automated Evaluation of Retrieval Augmented Generation*, EACL 2024 Demo.
+- [25] Que et al., *HelloBench: Evaluating Long Text Generation Capabilities of LLMs*, arXiv:2409.16191, 2024.
+- [26] Studer, Benjamins & Fensel, *Knowledge Engineering: Principles and Methods*, Data & Knowledge Engineering 25(1–2):161–197, 1998.
+- [27] Zhao et al., *A Survey of Large Language Models*, arXiv:2303.18223, 2024.
+- [28] Wang et al., *A Survey on Large Language Model based Autonomous Agents*, Frontiers of Computer Science, 2024.
+- [29] Yao et al., *ReAct: Synergizing Reasoning and Acting in Language Models*, ICLR 2023.
+- [30] Lu et al., *Text2Event: Controllable Sequence-to-Structure Generation for End-to-end Event Extraction*, ACL 2021.
+- [31] Radford et al., *Learning Transferable Visual Models From Natural Language Supervision (CLIP)*, ICML 2021.
+- [32] Radford et al., *Robust Speech Recognition via Large-Scale Weak Supervision (Whisper)*, ICML 2023.
+- [33] Karpukhin et al., *Dense Passage Retrieval for Open-Domain Question Answering*, EMNLP 2020.
+- [34] Cormack, Clarke & Büttcher, *Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods*, SIGIR 2009.
+- [35] Blondel, Guillaume, Lambiotte & Lefebvre, *Fast Unfolding of Communities in Large Networks (Louvain)*, Journal of Statistical Mechanics: Theory and Experiment, 2008.
+- [36] Asai et al., *Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection*, ICLR 2024.
+- [37] Jeong et al., *Adaptive-RAG: Learning to Adapt Retrieval-Augmented LLMs through Question Complexity*, NAACL 2024.
 
 ---
 
