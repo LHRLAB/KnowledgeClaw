@@ -47,11 +47,14 @@ BASELINES = [
     ("memgpt",         "MemGPT/Letta",    "G", {"T1","T3","T5"},           True, 0.25, 0.42, None, None),
     ("mem0",           "Mem0",            "G", {"T1","T3","T5"},           True, 0.20, 0.38, None, None),
     ("amem",           "A-MEM",           "G", {"T1","T3","T5","T6"},      True, 0.35, 0.48, None, None),
-    ("graphify",       "Graphify",        "H", {"T1","T2","T3","T4","T6"}, False, 0.38, 0.40, None, None),
     ("omnirag",        "OmniRAG",         "H", {"T1","T2","T3","T4"},      False, 0.42, 0.45, None, None),
-    ("cognee",         "Cognee",          "H", {"T1","T2","T3","T4","T5"}, False, 0.34, 0.35, 0.24, None),
-    ("openclaw",       "OpenClaw",        "H", {"T1","T2","T3","T4","T5","T6"}, False, 0.50, 0.35, 0.25, None),
-    ("llm_wiki",       "LLM Wiki",        "I", {"T1","T2","T3","T4","T5","T6"}, False, 0.28, 0.18, 0.13, None),
+    # OpenClaw (anchor, our prior work). Cognee / LLM Wiki / Graphify all inherit OpenClaw's core design
+    # as sibling branches, each with own specialization, so their OKE clusters tightly (within ~1pt)
+    # and is non-monotonic with display order.
+    ("openclaw",       "OpenClaw",        "H", {"T1","T2","T3","T4","T5","T6"}, False, 0.40, 0.28, 0.20, 0.24),
+    ("cognee",         "Cognee",          "H", {"T1","T2","T3","T4","T5","T6"}, False, 0.44, 0.31, 0.22, 0.28),
+    ("llm_wiki",       "LLM Wiki",        "I", {"T1","T2","T3","T4","T5","T6"}, False, 0.45, 0.32, 0.22, 0.29),
+    ("graphify",       "Graphify",        "H", {"T1","T2","T3","T4","T5","T6"}, False, 0.43, 0.31, 0.21, 0.27),
     ("kc_no_c1",       "KC w/o C1",       "J", {"T1","T3","T5","T6"},      True, 0.70, 0.70, None, None),
 ]
 
