@@ -8,43 +8,41 @@ KnowledgeClaw: Towards Agentic Knowledge Engineering with Omnimodal Hypergraphs
 
 ## 1. 引言
 
-知识工程（Knowledge Engineering, KE）指把非结构化知识转化为可查询、可推理的结构化资产，自专家系统时代起就是 AI 的核心工程学科 [26]，但长期困于同一件事——**它必须由领域专家手工建模，规模无法外推** [3, 26]。LLM [27] 与自主智能体 [28, 29] 的兴起改写了这一约束：智能体可以自主阅读文件、抽取实体、连接关系、推理更新 [30]，把原本以人年计的 schema 设计与抽取工作压缩到小时级 [1, 2, 3]。这让"持续地、端到端地、以智能体之力把原始文件维护成一个**活的、可查询的知识库**"第一次成为工程可行的问题；我们将这一新范式称为 **LLM 时代的 agentic 知识工程**。
+知识工程（Knowledge Engineering, KE）[26] 旨在将非结构化信息转化为可查询、可推理的结构化知识体系。然而，传统方法依赖领域专家手工构建，难以规模化部署 [3]。大语言模型（LLM）[27, 28] 与基于 LLM 的自主智能体 [29, 30] 的兴起显著松动了这一约束：智能体如今可以自主阅读文件、抽取实体、链接关系、推理并端到端地更新知识 [31, 3]。这些进展共同使得"由单一智能体将原始文件持续维护为一个活态、可查询的知识库"首次变得切实可行；我们将这一范式称为**智能体知识工程（agentic knowledge engineering）**。
 
-若要真正服务于真实场景，这一范式至少要通过三个朴素检验：医院的多模态病历若不能同时索引 text / image / audio，跨模态诊断无从谈起；研究者的文献库若不能在论文撤稿后从库中干净移除，就会长期返回被撤销的结论；法律判决库若既不能综合相关先例、也不能提示尚未考察的对立判决，律师便无法完成一次可用的案件研究。抽象出来，一个可用的 agentic KE 系统必须同时具备三条**缺一即败**的属性：**(i) 全模态**——以统一索引对齐所有模态（text/PDF/image/audio/video）[31, 32]；**(ii) 闭环生命周期**——在源文件增 / 删 / 改的事件流下由智能体自主维护库内一致性；**(iii) 多角度应用**——在同一库上同时服务精确事实定位、主题综合与主动知识发现（已知 / 缺口 / 建议）[33]。
+在实际落地中实现智能体知识工程并非易事。试想一个研究者的个人知识库：论文以 PDF 形式到达，讲座以音频记录，演示以视频留存，幻灯以图像保存，笔记以文本汇聚；撤稿与修订不断改写既有条目；查询需求跨度极大——小至在某次讲座录音中定位一句话，大到综述该研究者在某主题上的全部阅读，甚至提示其尚未涉足的研究方向。这类工作负载共同要求三条属性：**(i) 全模态性**——在文本、PDF、图像、音频与视频上建立统一索引 [32, 33, 34]；**(ii) 闭环生命周期**——在增 / 删 / 改事件流下由智能体自主维持库内一致性 [35, 16, 17, 18]；**(iii) 多角度应用**——在同一库上同时支撑精确事实查询、主题综合与主动知识发现 [5, 8, 22]。
 
-**然而，没有一个现有系统同时占齐这三条**，也没有基准沿这三条轴把方法统一测过。**文本管线**（向量 RAG [1, 33]、RAPTOR [4]、图 / 超图 RAG [5–10]、HippoRAG 2 [11]、KAG [12]、Graphiti [13]、iText2KG [15]、OntoKG [14] 等）仅处理文本、且绝大多数假设语料静态——**同时违反 (i) 与 (ii)**。**记忆型智能体**（MemGPT/Letta [16]、Mem0 [17]、A-MEM [18]）虽具完整 CRUD（满足 (ii)），但扁平向量检索让 (i) 与 (iii) 同时落空。**全模态知识库方向**（Graphify [19]、OmniRAG [21]、Cognee [20]、OpenClaw [23]（本文前身））满足 (i)，并以 `--watch` / `prune` / fact-level CRUD **部分触及 (ii)**，但统一只做单层 top-k 检索——**(iii) 违反**。Karpathy 的 **LLM Wiki** [22] 走另一条极简路线（markdown 页面 + `[[WikiLinks]]`）：概念上同时触及三条，但三处都仅停在 markdown 层——页面级 LLM 重写不做 schema / 实体级联（部分 (ii)）、`[[WikiLinks]]` 只是静态跳转而非意图感知分发（违反 (iii)）、且本体 text-only（违反 (i)）。§2.1 沿三轴给出统一快照。
+早期研究聚焦于知识的表示结构，包括基于块的分层检索 [1, 4]、图 / 超图 RAG [5, 6, 11, 8]、模式 / 本体驱动的 KG 构建 [15, 14] 与智能体 KG 引擎 [12, 13]。然而它们都仅处理静态文本语料，违反 (i) 与 (ii)。记忆型智能体（MemGPT/Letta [16]、Mem0 [17]、A-MEM [18]）提供完整的增删改查接口，但底层依赖扁平向量存储、对全模态内容缺乏结构化表示，违反 (i) 与 (iii)。全模态大模型驱动的方法如 OmniRAG-Agent [21] 首次将检索推进至全模态，但仍是端到端的 QA 管线，缺乏生命周期维护与多角度应用，违反 (ii) 与 (iii)。OpenClaw [23] 及其后继者 Cognee [20]、LLM Wiki [22]、Graphify [19] 使一体化的智能体知识工程成为可能，但全模态知识工程仍缺少一个沿三条属性统一度量的评测基准。
 
-针对这一缺口，我们把上述三条属性形式化为 **全模态知识工程（Omnimodal Knowledge Engineering, OmniKE）**——六个方法无关的评测任务（T1 知识获取、T2 跨模态共指、T3 多跳检索、T4 跨模态推理、T5 生命周期一致性、T6 知识发现）联合压测三条轴——并发布 **OmniKE-Bench v0.1**：10 个专业领域 persona × 5 种模态 × ~4500 份真实文件（PMC 论文、SCOTUS 判决书、PhysioNet 心音、archive.org 视频等）× 6 项任务，评测协议沿用 RAG 端到端评估 [24] 与长文本综合 [25] 的设计。在这一基准之上我们提出 **KnowledgeClaw**，一个在全生命周期内自主维护全模态知识超图的智能体；其三项贡献**与三条缺口一一对应**——**C1 全模态类型超图**：用类型化超边 [9, 10] 与跨模态共指边把五种模态的实体组织在同一结构里（对齐 (i)），并首次把超图 RAG [8] 扩展到文本之外；**C2 闭环生命周期智能体**：构建→查询→推理→更新闭环，支持一致性保持的增量添加、级联删除与孤儿清理（对齐 (ii)），补齐 GraphRAG [5]、HippoRAG 2 [11]、KAG [12] 等系统的静态假设；**C3 多角度应用 + 意图路由**：子图级检索（RRF [34] 实体 + 超边 + 图遍历扩展）[7, 11]、社区级综合（Louvain [35] 聚类 + 摘要嵌入）[5]、以及基于社区结构的知识发现（known / gaps / suggestions），三种应用角度由轻量意图路由器动态分发 [36, 37]（对齐 (iii)）。
+为解决这些局限，我们将三条属性形式化为**全模态知识工程（Omnimodal Knowledge Engineering, OmniKE）**，并发布配套基准 **OmniKE-Bench**：六个方法无关的评测任务（T1 知识获取、T2 跨模态共指、T3 多跳检索、T4 跨模态推理、T5 生命周期一致性、T6 知识发现）沿三条轴联合压测，覆盖 10 个专业领域 persona、5 种模态和约 4 500 份真实文件，评测协议沿用 RAGAS [24] 与 HelloBench [25] 的设计。
 
-在与 22 个基线（10 个范式组）的对比中，**KnowledgeClaw 是唯一在 OmniKE 全部 6 项任务上均有得分的系统，并在每一项上都排第一**——T1 = 74.9、T2 = 89.3、T3 = 34.5、T4 = 48.9、T5 = 46.8、T6 = 64.3，**OKE = 59.8**，领先最强基线 OpenClaw [23] **+12.5**、领先第二强 Graphify [19] **+20.1**。更重要的是，三个消融呈现**靶向退化**而非均匀塌陷，与三项贡献的职责一一印证：去 C1 令 T2 / T4（跨模态）直接不可评，OKE 跌至 29.4（−30.4）；去 C2 令 T5（生命周期）不可评，OKE 跌至 52.0（−7.8）；去 C3 令 T3（多跳检索）由 34.5 跌至 24.0、T6（知识发现）由 64.3 跌至 48.1，OKE 跌至 51.9（−7.9）。这些结果共同支持本文的主张：**全模态、闭环生命周期、多角度应用，构成了一个可用的 agentic 知识工程系统所必须齐备的三条最小充分轴**。
+在此基础上，我们提出 **KnowledgeClaw**——一种在全生命周期中自主维护全模态知识超图的智能体方法。KnowledgeClaw 建立在三个关键贡献之上。**首先**，我们设计了**全模态知识超图（C1）**，用跨模态超边 [9, 10] 将五种模态（文本、PDF、图像、音频、视频）的实体统一组织在同一结构中，将 HyperGraphRAG [8] 首次扩展出单模态文本。**其次**，我们构建了**闭环生命周期智能体（C2）**，以"构建→查询→推理→更新"的循环执行一致性保持的增量添加、级联删除与孤儿清理，突破了以往图 RAG [5, 6, 11] 所假设的静态语料设定。**最后**，我们提出**带意图路由的多角度应用（C3）**，将基于实体与超边的子图级检索 [8]（配合图游走扩展 [7, 11]）、社区级综合（Louvain [36] 聚类 + 摘要嵌入 [5]）与基于社区结构的知识发现统一在一个轻量意图路由器 [37, 38] 之下，分别面向不同类型的查询。
+
+为验证其有效性，我们在 OmniKE-Bench 上针对覆盖七大范式的 22 个基线进行了实验。结果表明，**KnowledgeClaw 是唯一在 OmniKE 全部 6 项任务上均有得分、并在每项上都排第一的系统**（T1 = 74.9、T2 = 89.3、T3 = 34.5、T4 = 48.9、T5 = 46.8、T6 = 64.3），总体 **OKE = 59.8**，相对最强外部基线 LLM Wiki [22] 领先 **+13.6**，相对我们自己的前身 OpenClaw [23] 领先 **+15.4**。三组针对 C1、C2、C3 的正交消融进一步证实每个贡献都精准命中其所服务的属性，展现出 KnowledgeClaw 在真实世界 agentic 知识工程中的巨大潜力。
 
 ---
 
 ## 2. 相关工作
 
+
+\section{相关工作}
+
+\subsection{知识工程}
+
+知识工程起源于上世纪 70--90 年代的专家系统与本体构建~\citep{KEclassic, lenat1995cyc, miller1995wordnet},依赖领域专家手工编码概念层级与推理规则。随着 Web 规模语料的出现,自动化构建大规模知识图谱 (KG)~\citep{bollacker2008freebase, auer2007dbpedia, vrandecic2014wikidata} 成为主流,并沿抽取~\citep{carlson2010nell, banko2007openie, huguetcabot2021rebel}、嵌入~\citep{bordes2013transe, sun2019rotate} 与链接~\citep{wu2020blink, hogan2021kg} 等子任务逐步成熟。进入 LLM 时代,KE 范式被重新改写~\citep{KGLLMsurvey}:一方面,LLM 被直接用于实体与关系的抽取和规范化~\citep{LLMIEsurvey, KAG, OntoKG, iText2KG};另一方面,RAG~\citep{RAG, gao2024ragsurvey} 将外部知识以检索方式注入生成,并由此衍生出一条以图结构为核心的技术脉络:从分层摘要~\citep{RAPTOR} 与社区级综合~\citep{GraphRAG, LightRAG} 起步,经由路径剪枝与多跳/命题推理~\citep{PathRAG, liu2025hoprag, wang2025proprag, zhao2025e2graphrag}、异构节点与线性化图结构~\citep{xu2025noderag, zhuang2025linearrag}、因果图与专业领域图~\citep{wang2025causalrag, wu2025medicalgraphrag, wang2025pikerag},发展到基于超图的高阶关系建模~\citep{HyperGraphRAG, Hypergraph, HAHE, Text2NKG, feng2025hyperrag, wang2026hyperrag, song2026ehrag} 与图基础模型~\citep{luo2025gfmrag, luo2025greasoner, lee2025hybgrag};在此之上,非参数化持续学习~\citep{HippoRAG2}、将 KG 用作推理脚手架~\citep{sun2024tog} 及 agentic 检索策略~\citep{luo2025kbqao1, yang2025graphsearch, dong2025youtugraphrag, singh2025agenticrag, mishra2026sokagenticrag, du2026arag, gao2025ragreasoningsurvey} 进一步推动了 GraphRAG 向可学习、可交互的方向演化,相应评测亦已建立~\citep{xiao2025graphragbench}。然而,这些方法或仅处理单模态文本、或停留于静态语料上的端到端 QA,尚未沿全模态、闭环生命周期与多角度应用三条轴被统一审视。
+
+\subsection{LLM 与智能体}
+
+现代 LLM 在 Transformer 架构~\citep{vaswani2017attention} 与预训练--RLHF 范式~\citep{devlin2019bert, ouyang2022instructgpt} 之上,凭借规模与 Chain-of-Thought 推理~\citep{wei2022cot, yao2023tot, brown2020gpt3} 催生了一批强模型~\citep{LLMsurvey, GPT4, touvron2023llama, dubey2024llama3, qwen2024qwen25, deepseek2024v3},近期更经由大规模强化学习演化出``推理模型''范式~\citep{openai2024o1, deepseek2025r1, anthropic2025claude37, qwen2025qwen3, besta2026lrmsurvey};在模态维度上,从视觉--语言/语音对齐~\citep{radford2021clip, radford2023whisper, liu2023llava} 到生产级视觉--语言模型~\citep{chen2024internvl, wang2024qwen2vl, bai2025qwen25vl},再到单骨干统一文本、图像、音频与视频的全模态模型~\citep{OmniRAG-Agent, Qwen3-Omni, Qwen3.5-Omni, kim2026dyninomni, zhou2026lvomnibench}。在此之上,基于 LLM 的自主智能体迅速成熟~\citep{AgentSurvey}:推理--行动--检索--反思的基本范式~\citep{ReAct, SelfRAG, AdaptiveRAG, shinn2023reflexion, schick2023toolformer} 奠定了能力底座,推理、工具使用与外部检索的深度融合进而催生了``深度研究''式智能体~\citep{li2025searcho1, wu2025webdancer, zhang2025deepresearchsurvey, li2026deepresearcheval};与此同时,智能体走向网页与桌面操作等真实数字环境~\citep{zhou2024webarena, xie2024osworld, agashe2025agents, liu2026omegause, liu2026continualgui, liu2024agentbench},并通过记忆型架构获得长期运行所需的增删改查接口与长短期记忆管理~\citep{Graphiti, MemGPT, Mem0, A-MEM, yu2026agemem, chen2026magma, MemorySurvey, zhang2026hypermem},在软件工程等高度结构化的任务上则展现了端到端自主完成的能力~\citep{yang2024sweagent, wang2025openhands}。近期 OpenClaw~\citep{OpenClaw}将感知、推理、工具使用与记忆统一于单一闭环的智能体,为本文所关注的全模态知识工程任务展现出巨大潜力。
+
+
 ### 2.1 知识工程
 
-承接 §1 对 agentic KE 所需三条属性 (i)(ii)(iii) 的抽象，本节沿工程管线回顾现有方法——每一步扩展了哪条属性、遗漏了哪条——最后沿三轴把它们横放一起。
-
-**从 RAG 到图 / 超图 RAG。** 检索增强生成 [1, 2] 以可解释、可更新的外部存储替代参数化记忆，用稠密检索（DPR [33]）、倒数秩融合（RRF [34]）等基元形成通用注入范式。但扁平向量检索在多跳与关系性查询上退化，驱动 KE 与 KG 融合 [3]。GraphRAG [5] 以 Louvain 社区 [35] + 社区报告汇聚"全局 → 局部"答案；LightRAG [6] 用双层 keys、PathRAG [7] 用路径剪枝提升效率；HippoRAG 2 [11] 以 PageRank 游走支持非参数多跳推理；超图 RAG HyperGraphRAG [8]（根植于超图学习 [9] 与超关系 KG [10]）把二元边扩展为 n 元超边，承载"一次事件多个角色"这类二元图难以表达的语义。RAPTOR [4] 以层次摘要跨粒度组织；Self-RAG [36] 与 Adaptive-RAG [37] 把自反思或按复杂度自适应路由注入 RAG 本身。这条路线**把检索从单层操作推向按需配置的多级应用**（触及 (iii) 的雏形），但**整条管线仍以文本为唯一输入**。
-
-**在线 KG 构建与维护。** iText2KG [15] 与 Text2Event [30] 把 schema 设计与实体 / 事件抽取 LLM 化、增量化；OntoKG [14] 进一步以本体约束抽取。这些工作把"KG 建一次、用一次"推向在线演化，但**更新粒度仍限于单条事实或时序标注**——源文件整体被撤稿、修订、替换时的级联一致性并未进入其设计目标（部分触及 (ii)）。
-
-**让知识库可被智能体维护。** 两条路线并行：**(a)** 记忆型智能体——MemGPT/Letta [16]、Mem0 [17]、A-MEM [18]——提供完整的 add/update/delete 语义，但底层是扁平向量库、无结构化实体图；**(b)** agent + KG 融合——KAG/OpenSPG [12] 把 schema-constrained 抽取 + logical form 分解统一进 agent 流程，Graphiti [13] 把时序 fact 删除引入 KG 流——仍仅处理文本，且"修改一条 fact"不等价于"维护一张图的全局一致性"。两条路线都正面回应了 (ii) 的一部分，但都在 (i) 上留白。
-
-**跨出文本的多模态尝试。** Graphify [19] 以 Whisper 转写 + 原生 PDF / image / video 支持多模态摄入；OmniRAG [21] 以跨模态嵌入做检索；Cognee [20] 以向量 + 图混合索引；OpenClaw [23]（本文前身）首次把五种模态的 LLM 抽取与基本 CRUD 合进单一 agent。与之并列的还有一条极简替代——LLM Wiki [22]：以 LLM 增量编译 markdown 页面、`[[WikiLinks]]` 做跨页引用，把知识库压成可被 LLM 持续重写的文档集合。这条脉络推进了 (i)，也在 (ii) 上以 `--watch/--update`、`prune` 或 fact-level CRUD 给出了部分解；但 (iii) 上**一致停留在单层检索**——既不做主题级综合，也不做主动知识发现。
-
-**沿三条轴横向对比**。把上述典型范式沿 (i)(ii)(iii) 摆在一起，可以一眼看到没有哪一列占齐：
-
-| | Vec-RAG | Graph-RAG | HyperGraph-RAG | Memory Agent | Graphiti | Graphify | Cognee | OpenClaw | LLM Wiki | **KC** |
-|---|---|---|---|---|---|---|---|---|---|---|
-| **(i) 全模态** | ✗ | ✗ | ✗ | ✗ | ✗ | 4/5 | 4/5 | ✓ | ✗ | **✓** |
-| **(ii) 闭环生命周期** | ✗ | ✗ | ✗ | △ | ✓ | 部分 | 部分 | 部分 | 部分 | **✓** |
-| **(iii) 多角度应用** | ✗ | △ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | △ | **✓** |
+检索增强生成 [1, 2] 以可解释、可更新的外部存储取代参数化记忆，借助稠密检索（DPR [34]）、倒数秩融合（RRF [35]）等基元形成通用注入范式。由于扁平向量检索在多跳与关系性查询上退化，后续工作将 RAG 与知识图谱融合 [3]：**GraphRAG** [5] 以 Louvain 社区 [36] + 社区报告聚合"全局 → 局部"答案；**LightRAG** [6] 用双层 keys，**PathRAG** [7] 以路径剪枝提升效率；**HippoRAG 2** [11] 以 PageRank 游走支持非参数多跳推理；**HyperGraphRAG** [8]（根植于超图学习 [9] 与超关系 KG [10]）把二元边扩展为 n 元超边，承载"一次事件多个角色"这类二元图难以表达的语义。在 KG 构建端，**iText2KG** [15]、**OntoKG** [14] 与 **Text2Event** [30] 把 schema 设计与实体 / 事件抽取 LLM 化、增量化；**KAG/OpenSPG** [12] 与 **Graphiti** [13] 进一步把 schema-constrained 抽取与时序 fact 删除带入 agent 工作流。然而整条路线仍以**静态文本**为唯一输入，且更新粒度限于单条事实，系统性地违反 (i) 与 (ii)。跨出文本的初步尝试来自多模态知识库的工程化系统：**Graphify** [19] 以 Whisper 转写 + 原生 PDF/image/video 摄入构建多模态 KG；**Cognee** [20] 以向量 + 图混合索引支持多模态输入；**OmniRAG-Agent** [21] 以跨模态嵌入做端到端多模态检索；**OpenClaw** [23]（本文前身）首次把五种模态的 LLM 抽取与基本 CRUD 合进单一 agent；**LLM Wiki** [22] 则以增量编译的 markdown 页面与 `[[WikiLinks]]` 给出一条极简替代。这一脉络在 (i) 上取得实质推进，但它们在 (iii) 上一致停留在单层检索——既不做主题级综合，也不做主动知识发现，且对 (ii) 仅给出 `--watch`/`prune`/fact-level CRUD 等部分解。
 
 ### 2.2 LLM 与智能体
 
-现代 agentic 知识工程的底层动力来自三股正交但互补的进展。**(1) LLM 作为通用语义处理器。** 大型语言模型 [27] 具备把非结构化文本 lossy 压缩进参数空间、并按需解码为抽取、链接、摘要、综合等多种形式的能力，这为 KE 中原本依赖专家规则的环节——实体识别、关系抽取 [30]、ontology 对齐、查询理解——提供了通用工具。**(2) 自主智能体闭环。** LLM-based autonomous agent 综述 [28] 把 agent 刻画为具备**感知、记忆、规划、工具使用**四要素的闭环系统；ReAct [29] 首次把推理链与行动调用交织在同一序列中，为 agent 以"读文件 → 更新图 → 再检索 → 再更新"的方式持续运转提供了通用范式；Self-RAG [36] 与 Adaptive-RAG [37] 则把这类 agentic 控制注入 RAG 本身，让系统按查询复杂度自反思或自适应路由。**(3) 多模态基础模型带来模态对齐。** CLIP [31] 把视觉与语言映射到共享 embedding 空间，Whisper [32] 把语音鲁棒转译为文本表示——二者共同构成了跨模态共指与跨模态证据定位的**表征底层**，使 image / audio / video 实体与文本实体共享同一套索引在工程上首次可行。这三股进展**各自提供了必要能力**，但要在同一个知识工程系统中**结构化地组合**——以统一结构承载全模态实体 (i)、以智能体闭环维护增删改 (ii)、以意图路由兼顾精确事实、主题综合与知识发现 (iii)——仍是一项未竟工作，这正是本文 KnowledgeClaw 的出发点。
+Agentic 知识工程的底层动力来自三股正交但互补的进展。**LLM 作为通用语义处理器**——LLM [27, 28] 具备把非结构化文本 lossy 压缩进参数空间并按需解码为抽取、链接、摘要等形式的能力，为 KE 中原本依赖专家规则的环节提供了通用替身；LLM 驱动的信息抽取综述 [31] 系统整理了这一范式。**自主智能体闭环**——autonomous agent 综述 [29] 把 agent 刻画为具备感知、记忆、规划、工具使用四要素的闭环系统；**ReAct** [30] 首次把推理链与行动调用交织进同一序列，为 agent 以"读文件 → 更新图 → 再检索 → 再更新"方式持续运转提供了通用范式；**MemGPT/Letta** [16]、**Mem0** [17] 与 **A-MEM** [18] 把长时记忆层下沉为 agent 的 CRUD 接口；近期综述 [35] 系统讨论了 agent 记忆的演化；**Self-RAG** [37] 与 **Adaptive-RAG** [38] 将自反思与按复杂度路由的思想注入 RAG 控制层。**多模态基础模型带来模态对齐**——**CLIP** [32] 把视觉与语言映射到共享 embedding 空间，**Whisper** [33] 把语音鲁棒转录为文本表示；更近期的全模态大模型如 **Qwen3-Omni** [32]、**Qwen3.5-Omni** [33] 在同一模型内同时处理 text/image/audio/video，构成跨模态共指与证据定位的表征底层。这三股进展各自提供了必要能力，但要在**同一个知识工程系统中结构化地组合**——以统一结构承载全模态实体 (i)、以智能体闭环维护增删改 (ii)、以意图路由兼顾精确事实、主题综合与主动发现 (iii)——仍是一项未竟工作，这正是本文 KnowledgeClaw 的出发点。
 
 ### 参考文献（第 1–2 章范围）
 

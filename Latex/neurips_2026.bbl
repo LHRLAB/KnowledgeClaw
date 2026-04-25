@@ -1,5 +1,11 @@
 \begin{thebibliography}{10}
 
+\bibitem{ClaudeCode}
+{Anthropic}.
+\newblock Claude code overview.
+\newblock \url{https://code.claude.com/docs/en/overview}, 2026.
+\newblock Accessed: 2026-04-24.
+
 \bibitem{SelfRAG}
 Akari Asai, Zeqiu Wu, Yizhong Wang, Avirup Sil, and Hannaneh Hajishirzi.
 \newblock Self-{RAG}: Learning to retrieve, generate, and critique through
@@ -7,11 +13,71 @@ Akari Asai, Zeqiu Wu, Yizhong Wang, Avirup Sil, and Hannaneh Hajishirzi.
 \newblock In {\em The Twelfth International Conference on Learning
   Representations}, 2024.
 
+\bibitem{DBpedia}
+S{\"o}ren Auer, Christian Bizer, Georgi Kobilarov, Jens Lehmann, Richard
+  Cyganiak, and Zachary Ives.
+\newblock Dbpedia: A nucleus for a web of open data.
+\newblock In Karl Aberer, Key-Sun Choi, Natasha Noy, Dean Allemang, Kyung-Il
+  Lee, Lyndon Nixon, Jennifer Golbeck, Peter Mika, Diana Maynard, Riichiro
+  Mizoguchi, Guus Schreiber, and Philippe Cudr{\'e}-Mauroux, editors, {\em The
+  Semantic Web}, pages 722--735, Berlin, Heidelberg, 2007. Springer Berlin
+  Heidelberg.
+
+\bibitem{Qwen3-VL}
+Shuai Bai, Yuxuan Cai, Ruizhe Chen, Keqin Chen, Xionghui Chen, Zesen Cheng,
+  Lianghao Deng, Wei Ding, Chang Gao, Chunjiang Ge, Wenbin Ge, Zhifang Guo,
+  Qidong Huang, Jie Huang, Fei Huang, Binyuan Hui, Shutong Jiang, Zhaohai Li,
+  Mingsheng Li, Mei Li, Kaixin Li, Zicheng Lin, Junyang Lin, Xuejing Liu,
+  Jiawei Liu, Chenglong Liu, Yang Liu, Dayiheng Liu, Shixuan Liu, Dunjie Lu,
+  Ruilin Luo, Chenxu Lv, Rui Men, Lingchen Meng, Xuancheng Ren, Xingzhang Ren,
+  Sibo Song, Yuchong Sun, Jun Tang, Jianhong Tu, Jianqiang Wan, Peng Wang,
+  Pengfei Wang, Qiuyue Wang, Yuxuan Wang, Tianbao Xie, Yiheng Xu, Haiyang Xu,
+  Jin Xu, Zhibo Yang, Mingkun Yang, Jianxin Yang, An~Yang, Bowen Yu, Fei Zhang,
+  Hang Zhang, Xi~Zhang, Bo~Zheng, Humen Zhong, Jingren Zhou, Fan Zhou, Jing
+  Zhou, Yuanzhi Zhu, and Ke~Zhu.
+\newblock Qwen3-vl technical report, 2025.
+
 \bibitem{Louvain}
 Vincent~D Blondel, Jean-Loup Guillaume, Renaud Lambiotte, and Etienne Lefebvre.
 \newblock Fast unfolding of communities in large networks.
 \newblock {\em Journal of Statistical Mechanics: Theory and Experiment},
   2008(10):P10008, oct 2008.
+
+\bibitem{Freebase}
+Kurt Bollacker, Colin Evans, Praveen Paritosh, Tim Sturge, and Jamie Taylor.
+\newblock Freebase: a collaboratively created graph database for structuring
+  human knowledge.
+\newblock In {\em Proceedings of the 2008 ACM SIGMOD International Conference
+  on Management of Data}, SIGMOD '08, page 1247–1250, New York, NY, USA,
+  2008. Association for Computing Machinery.
+
+\bibitem{TransE}
+Antoine Bordes, Nicolas Usunier, Alberto Garcia-Duran, Jason Weston, and Oksana
+  Yakhnenko.
+\newblock Translating embeddings for modeling multi-relational data.
+\newblock In C.J. Burges, L.~Bottou, M.~Welling, Z.~Ghahramani, and K.Q.
+  Weinberger, editors, {\em Advances in Neural Information Processing Systems},
+  volume~26. Curran Associates, Inc., 2013.
+
+\bibitem{GPT3}
+Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared~D Kaplan, Prafulla
+  Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell,
+  Sandhini Agarwal, Ariel Herbert-Voss, Gretchen Krueger, Tom Henighan, Rewon
+  Child, Aditya Ramesh, Daniel Ziegler, Jeffrey Wu, Clemens Winter, Chris
+  Hesse, Mark Chen, Eric Sigler, Mateusz Litwin, Scott Gray, Benjamin Chess,
+  Jack Clark, Christopher Berner, Sam McCandlish, Alec Radford, Ilya Sutskever,
+  and Dario Amodei.
+\newblock Language models are few-shot learners.
+\newblock In H.~Larochelle, M.~Ranzato, R.~Hadsell, M.F. Balcan, and H.~Lin,
+  editors, {\em Advances in Neural Information Processing Systems}, volume~33,
+  pages 1877--1901. Curran Associates, Inc., 2020.
+
+\bibitem{NELL}
+Andrew Carlson, Justin Betteridge, Bryan Kisiel, Burr Settles, Estevam
+  Hruschka, and Tom Mitchell.
+\newblock Toward an architecture for never-ending language learning.
+\newblock {\em Proceedings of the AAAI Conference on Artificial Intelligence},
+  24(1):1306--1313, Jul. 2010.
 
 \bibitem{PathRAG}
 Boyu Chen, Zirui Guo, Zidan Yang, Yuluo Chen, Junze Chen, Zhenghao Liu, Chuan
@@ -32,6 +98,22 @@ Prateek Chhikara, Dev Khant, Saket Aryan, Taranjeet Singh, and Deshraj Yadav.
   Applications of Intelligent Systems {(PAIS} 2025)}, Frontiers in Artificial
   Intelligence and Applications, pages 2993--3000. {IOS} Press, 2025.
 
+\bibitem{BERT}
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova.
+\newblock {BERT}: Pre-training of deep bidirectional transformers for language
+  understanding.
+\newblock In Jill Burstein, Christy Doran, and Thamar Solorio, editors, {\em
+  Proceedings of the 2019 Conference of the North {A}merican Chapter of the
+  Association for Computational Linguistics: Human Language Technologies,
+  Volume 1 (Long and Short Papers)}, pages 4171--4186, Minneapolis, Minnesota,
+  June 2019. Association for Computational Linguistics.
+
+\bibitem{Youtu-GraphRAG}
+Junnan Dong, Siyu An, Yifei Yu, Qian-Wen Zhang, Linhao Luo, Xiao Huang,
+  Yunsheng Wu, Di~Yin, and Xing Sun.
+\newblock Youtu-graphrag: Vertically unified agents for graph
+  retrieval-augmented complex reasoning, 2025.
+
 \bibitem{GraphRAG}
 Darren Edge, Ha~Trinh, Newman Cheng, Joshua Bradley, Alex Chao, Apurva Mody,
   Steven Truitt, and Jonathan Larson.
@@ -45,6 +127,54 @@ Shahul Es, Jithin James, Luis Espinosa~Anke, and Steven Schockaert.
   of the 18th Conference of the European Chapter of the Association for
   Computational Linguistics: System Demonstrations}, pages 150--158, St.
   Julians, Malta, March 2024. Association for Computational Linguistics.
+
+\bibitem{OpenIE}
+Oren Etzioni, Michele Banko, Stephen Soderland, and Daniel~S. Weld.
+\newblock Open information extraction from the web.
+\newblock {\em Commun. ACM}, 51(12):68–74, December 2008.
+
+\bibitem{RAGSurvey}
+Yunfan Gao, Yun Xiong, Xinyu Gao, Kangxiang Jia, Jinliu Pan, Yuxi Bi, Yi~Dai,
+  Jiawei Sun, Meng Wang, and Haofen Wang.
+\newblock Retrieval-augmented generation for large language models: A survey,
+  2024.
+
+\bibitem{DeepSeek-R1}
+Daya Guo, Dejian Yang, Haowei Zhang, Junxiao Song, Peiyi Wang, Qihao Zhu,
+  Runxin Xu, Ruoyu Zhang, Shirong Ma, Xiao Bi, Xiaokang Zhang, Xingkai Yu,
+  Yu~Wu, Z.~F. Wu, Zhibin Gou, Zhihong Shao, Zhuoshu Li, Ziyi Gao, Aixin Liu,
+  Bing Xue, Bingxuan Wang, Bochao Wu, Bei Feng, Chengda Lu, Chenggang Zhao,
+  Chengqi Deng, Chong Ruan, Damai Dai, Deli Chen, Dongjie Ji, Erhang Li,
+  Fangyun Lin, Fucong Dai, Fuli Luo, Guangbo Hao, Guanting Chen, Guowei Li,
+  H.~Zhang, Hanwei Xu, Honghui Ding, Huazuo Gao, Hui Qu, Hui Li, Jianzhong Guo,
+  Jiashi Li, Jingchang Chen, Jingyang Yuan, Jinhao Tu, Junjie Qiu, Junlong Li,
+  J.~L. Cai, Jiaqi Ni, Jian Liang, Jin Chen, Kai Dong, Kai Hu, Kaichao You,
+  Kaige Gao, Kang Guan, Kexin Huang, Kuai Yu, Lean Wang, Lecong Zhang, Liang
+  Zhao, Litong Wang, Liyue Zhang, Lei Xu, Leyi Xia, Mingchuan Zhang, Minghua
+  Zhang, Minghui Tang, Mingxu Zhou, Meng Li, Miaojun Wang, Mingming Li, Ning
+  Tian, Panpan Huang, Peng Zhang, Qiancheng Wang, Qinyu Chen, Qiushi Du, Ruiqi
+  Ge, Ruisong Zhang, Ruizhe Pan, Runji Wang, R.~J. Chen, R.~L. Jin, Ruyi Chen,
+  Shanghao Lu, Shangyan Zhou, Shanhuang Chen, Shengfeng Ye, Shiyu Wang,
+  Shuiping Yu, Shunfeng Zhou, Shuting Pan, S.~S. Li, Shuang Zhou, Shaoqing Wu,
+  Tao Yun, Tian Pei, Tianyu Sun, T.~Wang, Wangding Zeng, Wen Liu, Wenfeng
+  Liang, Wenjun Gao, Wenqin Yu, Wentao Zhang, W.~L. Xiao, Wei An, Xiaodong Liu,
+  Xiaohan Wang, Xiaokang Chen, Xiaotao Nie, Xin Cheng, Xin Liu, Xin Xie,
+  Xingchao Liu, Xinyu Yang, Xinyuan Li, Xuecheng Su, Xuheng Lin, X.~Q. Li,
+  Xiangyue Jin, Xiaojin Shen, Xiaosha Chen, Xiaowen Sun, Xiaoxiang Wang, Xinnan
+  Song, Xinyi Zhou, Xianzu Wang, Xinxia Shan, Y.~K. Li, Y.~Q. Wang, Y.~X. Wei,
+  Yang Zhang, Yanhong Xu, Yao Li, Yao Zhao, Yaofeng Sun, Yaohui Wang, Yi~Yu,
+  Yichao Zhang, Yifan Shi, Yiliang Xiong, Ying He, Yishi Piao, Yisong Wang,
+  Yixuan Tan, Yiyang Ma, Yiyuan Liu, Yongqiang Guo, Yuan Ou, Yuduan Wang, Yue
+  Gong, Yuheng Zou, Yujia He, Yunfan Xiong, Yuxiang Luo, Yuxiang You, Yuxuan
+  Liu, Yuyang Zhou, Y.~X. Zhu, Yanping Huang, Yaohui Li, Yi~Zheng, Yuchen Zhu,
+  Yunxian Ma, Ying Tang, Yukun Zha, Yuting Yan, Z.~Z. Ren, Zehui Ren, Zhangli
+  Sha, Zhe Fu, Zhean Xu, Zhenda Xie, Zhengyan Zhang, Zhewen Hao, Zhicheng Ma,
+  Zhigang Yan, Zhiyu Wu, Zihui Gu, Zijia Zhu, Zijun Liu, Zilin Li, Ziwei Xie,
+  Ziyang Song, Zizheng Pan, Zhen Huang, Zhipeng Xu, Zhongyu Zhang, and Zhen
+  Zhang.
+\newblock Deepseek-r1 incentivizes reasoning in llms through reinforcement
+  learning.
+\newblock {\em Nature}, 645(8081):633--638, 2025.
 
 \bibitem{LightRAG}
 Zirui Guo, Lianghao Xia, Yanhua Yu, Tu~Ao, and Chao Huang.
@@ -64,6 +194,15 @@ Bernal~Jim\'{e}nez Guti\'{e}rrez, Yiheng Shu, Weijian Qi, Sizhe Zhou, and
   Proceedings of the 42nd International Conference on Machine Learning}, volume
   267 of {\em Proceedings of Machine Learning Research}, pages 21497--21515.
   PMLR, 13--19 Jul 2025.
+
+\bibitem{KG}
+Aidan Hogan, Eva Blomqvist, Michael Cochez, Claudia D’amato, Gerard~De Melo,
+  Claudio Gutierrez, Sabrina Kirrane, Jos\'{e} Emilio~Labra Gayo, Roberto
+  Navigli, Sebastian Neumaier, Axel-Cyrille~Ngonga Ngomo, Axel Polleres,
+  Sabbir~M. Rashid, Anisa Rula, Lukas Schmelzeisen, Juan Sequeda, Steffen
+  Staab, and Antoine Zimmermann.
+\newblock Knowledge graphs.
+\newblock {\em ACM Comput. Surv.}, 54(4), July 2021.
 
 \bibitem{MemorySurvey}
 Yuyang Hu, Shichun Liu, Yanwei Yue, Guibin Zhang, Boyang Liu, Fangyi Zhu,
@@ -86,6 +225,13 @@ Soyeong Jeong, Jinheon Baek, Sukmin Cho, Sung~Ju Hwang, and Jong Park.
   (Volume 1: Long Papers)}, pages 7036--7050, Mexico City, Mexico, June 2024.
   Association for Computational Linguistics.
 
+\bibitem{Search-R1}
+Bowen Jin, Hansi Zeng, Zhenrui Yue, Jinsung Yoon, Sercan~O Arik, Dong Wang,
+  Hamed Zamani, and Jiawei Han.
+\newblock Search-r1: Training {LLM}s to reason and leverage search engines with
+  reinforcement learning.
+\newblock In {\em Second Conference on Language Modeling}, 2025.
+
 \bibitem{LLMWiki}
 Andrej Karpathy.
 \newblock How i use {LLMs}: A persistent markdown wiki.
@@ -93,6 +239,11 @@ Andrej Karpathy.
   \url{https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f},
   2024.
 \newblock Public GitHub gist.
+
+\bibitem{Dynin-Omni}
+Jaeik Kim, Woojin Kim, Jihwan Hong, Yejoon Lee, Sieun Hyeon, Mintaek Lim,
+  Yunseok Han, Dogeun Kim, Hoeun Lee, Hyunggeun Kim, and Jaeyoung Do.
+\newblock Dynin-omni: Omnimodal unified large diffusion language model, 2026.
 
 \bibitem{iText2KG}
 Yassir Lairgi, Ludovic Moncla, R{\'e}my Cazabet, Khalid Benabdeslem, and Pierre
@@ -103,6 +254,11 @@ Yassir Lairgi, Ludovic Moncla, R{\'e}my Cazabet, Khalid Benabdeslem, and Pierre
   Information Systems Engineering -- WISE 2024}, pages 214--229, Singapore,
   2025. Springer Nature Singapore.
 
+\bibitem{CYC}
+Douglas~B. Lenat.
+\newblock Cyc: a large-scale investment in knowledge infrastructure.
+\newblock {\em Commun. ACM}, 38(11):33–38, November 1995.
+
 \bibitem{RAG}
 Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir
   Karpukhin, Naman Goyal, Heinrich K\"{u}ttler, Mike Lewis, Wen-tau Yih, Tim
@@ -111,6 +267,20 @@ Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir
 \newblock In H.~Larochelle, M.~Ranzato, R.~Hadsell, M.F. Balcan, and H.~Lin,
   editors, {\em Advances in Neural Information Processing Systems}, volume~33,
   pages 9459--9474. Curran Associates, Inc., 2020.
+
+\bibitem{Search-o1}
+Xiaoxi Li, Guanting Dong, Jiajie Jin, Yuyao Zhang, Yujia Zhou, Yutao Zhu,
+  Peitian Zhang, and Zhicheng Dou.
+\newblock Search-o1: Agentic search-enhanced large reasoning models.
+\newblock In Christos Christodoulopoulos, Tanmoy Chakraborty, Carolyn Rose, and
+  Violet Peng, editors, {\em Proceedings of the 2025 Conference on Empirical
+  Methods in Natural Language Processing}, pages 5420--5438, Suzhou, China,
+  November 2025. Association for Computational Linguistics.
+
+\bibitem{OmniGAIA}
+Xiaoxi Li, Wenxiang Jiao, Jiarui Jin, Shijian Wang, Guanting Dong, Jiajie Jin,
+  Hao Wang, Yinuo Wang, Ji-Rong Wen, Yuan Lu, and Zhicheng Dou.
+\newblock Omnigaia: Towards native omni-modal ai agents, 2026.
 
 \bibitem{OntoKG}
 Yitao Li, Zhanlin Liu, Anuranjan Pandey, and Muni Srikanth.
@@ -127,11 +297,53 @@ Lei Liang, Zhongpu Bo, Zhengke Gui, Zhongshu Zhu, Ling Zhong, Peilong Zhao,
   '25, page 334–343, New York, NY, USA, 2025. Association for Computing
   Machinery.
 
+\bibitem{HyperRAG}
+Wen-Sheng Lien, Yu-Kai Chan, Hao-Lung Hsiao, Bo-Kai Ruan, Meng-Fen Chiang,
+  Chien-An Chen, Yi-Ren Yeh, and Hong-Han Shuai.
+\newblock Hyperrag: Reasoning n-ary facts over hypergraphs for retrieval
+  augmented generation.
+\newblock In {\em Proceedings of the ACM Web Conference 2026}, WWW '26, page
+  2465–2476, New York, NY, USA, 2026. Association for Computing Machinery.
+
+\bibitem{HopRAG}
+Hao Liu, Zhengren Wang, Xi~Chen, Zhiyu Li, Feiyu Xiong, Qinhan Yu, and Wentao
+  Zhang.
+\newblock {H}op{RAG}: Multi-hop reasoning for logic-aware retrieval-augmented
+  generation.
+\newblock In Wanxiang Che, Joyce Nabende, Ekaterina Shutova, and Mohammad~Taher
+  Pilehvar, editors, {\em Findings of the Association for Computational
+  Linguistics: ACL 2025}, pages 1897--1913, Vienna, Austria, July 2025.
+  Association for Computational Linguistics.
+
+\bibitem{Llava}
+Haotian Liu, Chunyuan Li, Qingyang Wu, and Yong~Jae Lee.
+\newblock Visual instruction tuning.
+\newblock In A.~Oh, T.~Naumann, A.~Globerson, K.~Saenko, M.~Hardt, and
+  S.~Levine, editors, {\em Advances in Neural Information Processing Systems},
+  volume~36, pages 34892--34916. Curran Associates, Inc., 2023.
+
+\bibitem{Graph-R1}
+Haoran Luo, Haihong E, Guanting Chen, Qika Lin, Yikai Guo, Fangzhi Xu, Zemin
+  Kuang, Meina Song, Xiaobao Wu, Yifan Zhu, and Luu~Anh Tuan.
+\newblock Graph-r1: Towards agentic graphrag framework via end-to-end
+  reinforcement learning, 2025.
+
 \bibitem{HyperGraphRAG}
 Haoran Luo, Haihong E, Guanting Chen, Yandan Zheng, Xiaobao Wu, Yikai Guo, Qika
   Lin, Yu~Feng, Zemin Kuang, Meina Song, Yifan Zhu, and Luu~Anh Tuan.
 \newblock Hypergraphrag: Retrieval-augmented generation via
   hypergraph-structured knowledge representation, 2025.
+
+\bibitem{KBQA-o1}
+Haoran Luo, Haihong E, Yikai Guo, Qika Lin, Xiaobao Wu, Xinyu Mu, Wenhao Liu,
+  Meina Song, Yifan Zhu, and Anh~Tuan Luu.
+\newblock {KBQA}-o1: Agentic knowledge base question answering with {M}onte
+  {C}arlo tree search.
+\newblock In Aarti Singh, Maryam Fazel, Daniel Hsu, Simon Lacoste-Julien, Felix
+  Berkenkamp, Tegan Maharaj, Kiri Wagstaff, and Jerry Zhu, editors, {\em
+  Proceedings of the 42nd International Conference on Machine Learning}, volume
+  267 of {\em Proceedings of Machine Learning Research}, pages 41177--41199.
+  PMLR, 13--19 Jul 2025.
 
 \bibitem{HAHE}
 Haoran Luo, Haihong E, Yuhao Yang, Yikai Guo, Mingzhi Sun, Tianyu Yao, Zichen
@@ -153,6 +365,78 @@ Haoran Luo, Haihong E, Yuhao Yang, Tianyu Yao, Yikai Guo, Zichen Tang, Wentai
   Processing Systems}, volume~37, pages 27417--27439. Curran Associates, Inc.,
   2024.
 
+\bibitem{GFM-RAG}
+Linhao Luo, Zicheng Zhao, Gholamreza Haffari, Dinh Phung, Chen Gong, and Shirui
+  Pan.
+\newblock Gfm-rag: Graph foundation model for retrieval augmented generation,
+  2025.
+
+\bibitem{G-reasoner}
+Linhao Luo, Zicheng Zhao, Junnan Liu, Zhangchi Qiu, Junnan Dong, Serge Panev,
+  Chen Gong, Thuy-Trang Vu, Gholamreza Haffari, Dinh Phung, Alan Wee-Chung
+  Liew, and Shirui Pan.
+\newblock G-reasoner: Foundation models for unified reasoning over
+  graph-structured knowledge, 2026.
+
+\bibitem{WordNet}
+George~A. Miller.
+\newblock Wordnet: a lexical database for english.
+\newblock {\em Commun. ACM}, 38(11):39–41, November 1995.
+
+\bibitem{GPT-o1}
+OpenAI, :, Aaron Jaech, Adam Kalai, Adam Lerer, Adam Richardson, Ahmed
+  El-Kishky, Aiden Low, Alec Helyar, Aleksander Madry, Alex Beutel, Alex
+  Carney, Alex Iftimie, Alex Karpenko, Alex~Tachard Passos, Alexander Neitz,
+  Alexander Prokofiev, Alexander Wei, Allison Tam, Ally Bennett, Ananya Kumar,
+  Andre Saraiva, Andrea Vallone, Andrew Duberstein, Andrew Kondrich, Andrey
+  Mishchenko, Andy Applebaum, Angela Jiang, Ashvin Nair, Barret Zoph, Behrooz
+  Ghorbani, Ben Rossen, Benjamin Sokolowsky, Boaz Barak, Bob McGrew, Borys
+  Minaiev, Botao Hao, Bowen Baker, Brandon Houghton, Brandon McKinzie, Brydon
+  Eastman, Camillo Lugaresi, Cary Bassin, Cary Hudson, Chak~Ming Li, Charles
+  de~Bourcy, Chelsea Voss, Chen Shen, Chong Zhang, Chris Koch, Chris Orsinger,
+  Christopher Hesse, Claudia Fischer, Clive Chan, Dan Roberts, Daniel Kappler,
+  Daniel Levy, Daniel Selsam, David Dohan, David Farhi, David Mely, David
+  Robinson, Dimitris Tsipras, Doug Li, Dragos Oprica, Eben Freeman, Eddie
+  Zhang, Edmund Wong, Elizabeth Proehl, Enoch Cheung, Eric Mitchell, Eric
+  Wallace, Erik Ritter, Evan Mays, Fan Wang, Felipe~Petroski Such, Filippo
+  Raso, Florencia Leoni, Foivos Tsimpourlas, Francis Song, Fred von Lohmann,
+  Freddie Sulit, Geoff Salmon, Giambattista Parascandolo, Gildas Chabot, Grace
+  Zhao, Greg Brockman, Guillaume Leclerc, Hadi Salman, Haiming Bao, Hao Sheng,
+  Hart Andrin, Hessam Bagherinezhad, Hongyu Ren, Hunter Lightman, Hyung~Won
+  Chung, Ian Kivlichan, Ian O'Connell, Ian Osband, Ignasi~Clavera Gilaberte,
+  Ilge Akkaya, Ilya Kostrikov, Ilya Sutskever, Irina Kofman, Jakub Pachocki,
+  James Lennon, Jason Wei, Jean Harb, Jerry Twore, Jiacheng Feng, Jiahui Yu,
+  Jiayi Weng, Jie Tang, Jieqi Yu, Joaquin~Quiñonero Candela, Joe Palermo, Joel
+  Parish, Johannes Heidecke, John Hallman, John Rizzo, Jonathan Gordon,
+  Jonathan Uesato, Jonathan Ward, Joost Huizinga, Julie Wang, Kai Chen, Kai
+  Xiao, Karan Singhal, Karina Nguyen, Karl Cobbe, Katy Shi, Kayla Wood, Kendra
+  Rimbach, Keren Gu-Lemberg, Kevin Liu, Kevin Lu, Kevin Stone, Kevin Yu, Lama
+  Ahmad, Lauren Yang, Leo Liu, Leon Maksin, Leyton Ho, Liam Fedus, Lilian Weng,
+  Linden Li, Lindsay McCallum, Lindsey Held, Lorenz Kuhn, Lukas Kondraciuk,
+  Lukasz Kaiser, Luke Metz, Madelaine Boyd, Maja Trebacz, Manas Joglekar, Mark
+  Chen, Marko Tintor, Mason Meyer, Matt Jones, Matt Kaufer, Max Schwarzer,
+  Meghan Shah, Mehmet Yatbaz, Melody~Y. Guan, Mengyuan Xu, Mengyuan Yan, Mia
+  Glaese, Mianna Chen, Michael Lampe, Michael Malek, Michele Wang, Michelle
+  Fradin, Mike McClay, Mikhail Pavlov, Miles Wang, Mingxuan Wang, Mira Murati,
+  Mo~Bavarian, Mostafa Rohaninejad, Nat McAleese, Neil Chowdhury, Neil
+  Chowdhury, Nick Ryder, Nikolas Tezak, Noam Brown, Ofir Nachum, Oleg Boiko,
+  Oleg Murk, Olivia Watkins, Patrick Chao, Paul Ashbourne, Pavel Izmailov,
+  Peter Zhokhov, Rachel Dias, Rahul Arora, Randall Lin, Rapha~Gontijo Lopes,
+  Raz Gaon, Reah Miyara, Reimar Leike, Renny Hwang, Rhythm Garg, Robin Brown,
+  Roshan James, Rui Shu, Ryan Cheu, Ryan Greene, Saachi Jain, Sam Altman, Sam
+  Toizer, Sam Toyer, Samuel Miserendino, Sandhini Agarwal, Santiago Hernandez,
+  Sasha Baker, Scott McKinney, Scottie Yan, Shengjia Zhao, Shengli Hu, Shibani
+  Santurkar, Shraman~Ray Chaudhuri, Shuyuan Zhang, Siyuan Fu, Spencer Papay,
+  Steph Lin, Suchir Balaji, Suvansh Sanjeev, Szymon Sidor, Tal Broda, Aidan
+  Clark, Tao Wang, Taylor Gordon, Ted Sanders, Tejal Patwardhan, Thibault
+  Sottiaux, Thomas Degry, Thomas Dimson, Tianhao Zheng, Timur Garipov, Tom
+  Stasi, Trapit Bansal, Trevor Creech, Troy Peterson, Tyna Eloundou, Valerie
+  Qi, Vineet Kosaraju, Vinnie Monaco, Vitchyr Pong, Vlad Fomenko, Weiyi Zheng,
+  Wenda Zhou, Wes McCabe, Wojciech Zaremba, Yann Dubois, Yinghai Lu, Yining
+  Chen, Young Cha, Yu~Bai, Yuchen He, Yuchen Zhang, Yunyun Wang, Zheng Shao,
+  and Zhuohan Li.
+\newblock Openai o1 system card, 2024.
+
 \bibitem{GPT4}
 OpenAI, Josh Achiam, Steven Adler, Sandhini Agarwal, Lama Ahmad, Ilge Akkaya,
   Florencia~Leoni Aleman, Diogo Almeida, Janko Altenschmidt, Sam Altman, et~al.
@@ -163,6 +447,16 @@ OpenAI, Josh Achiam, Steven Adler, Sandhini Agarwal, Lama Ahmad, Ilge Akkaya,
 \newblock Openclaw.
 \newblock \url{https://github.com/openclaw/openclaw}, 2026.
 \newblock GitHub repository.
+
+\bibitem{InstructGPT}
+Long Ouyang, Jeffrey Wu, Xu~Jiang, Diogo Almeida, Carroll Wainwright, Pamela
+  Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, John
+  Schulman, Jacob Hilton, Fraser Kelton, Luke Miller, Maddie Simens, Amanda
+  Askell, Peter Welinder, Paul~F Christiano, Jan Leike, and Ryan Lowe.
+\newblock Training language models to follow instructions with human feedback.
+\newblock In S.~Koyejo, S.~Mohamed, A.~Agarwal, D.~Belgrave, K.~Cho, and A.~Oh,
+  editors, {\em Advances in Neural Information Processing Systems}, volume~35,
+  pages 27730--27744. Curran Associates, Inc., 2022.
 
 \bibitem{MemGPT}
 Charles Packer, Sarah Wooders, Kevin Lin, Vivian Fang, Shishir~G. Patil, Ion
@@ -175,12 +469,39 @@ Shirui Pan, Linhao Luo, Yufei Wang, Chen Chen, Jiapu Wang, and Xindong Wu.
 \newblock {\em IEEE Transactions on Knowledge and Data Engineering},
   36(7):3580--3599, 2024.
 
+\bibitem{Gemini3}
+Sundar Pichai, Demis Hassabis, and Koray Kavukcuoglu.
+\newblock A new era of intelligence with {Gemini 3}.
+\newblock
+  \url{https://blog.google/products-and-platforms/products/gemini/gemini-3/},
+  2025.
+\newblock Google Blog.
+
 \bibitem{HelloBench}
 Haoran Que, Feiyu Duan, Liqun He, Yutao Mou, Wangchunshu Zhou, Jiaheng Liu,
   Wenge Rong, Zekun~Moore Wang, Jian Yang, Ge~Zhang, Junran Peng, Zhaoxiang
   Zhang, Songyang Zhang, and Kai Chen.
 \newblock Hellobench: Evaluating long text generation capabilities of large
   language models, 2024.
+
+\bibitem{CLIP}
+Alec Radford, Jong~Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh,
+  Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark,
+  Gretchen Krueger, and Ilya Sutskever.
+\newblock Learning transferable visual models from natural language
+  supervision.
+\newblock In Marina Meila and Tong Zhang, editors, {\em Proceedings of the 38th
+  International Conference on Machine Learning}, volume 139 of {\em Proceedings
+  of Machine Learning Research}, pages 8748--8763. PMLR, 18--24 Jul 2021.
+
+\bibitem{Whisper}
+Alec Radford, Jong~Wook Kim, Tao Xu, Greg Brockman, Christine Mcleavey, and
+  Ilya Sutskever.
+\newblock Robust speech recognition via large-scale weak supervision.
+\newblock In Andreas Krause, Emma Brunskill, Kyunghyun Cho, Barbara Engelhardt,
+  Sivan Sabato, and Jonathan Scarlett, editors, {\em Proceedings of the 40th
+  International Conference on Machine Learning}, volume 202 of {\em Proceedings
+  of Machine Learning Research}, pages 28492--28518. PMLR, 23--29 Jul 2023.
 
 \bibitem{Graphiti}
 Preston Rasmussen, Pavlo Paliychuk, Travis Beauvais, Jack Ryan, and Daniel
@@ -195,16 +516,64 @@ Parth Sarthi, Salman Abdullah, Aditi Tuli, Shubh Khanna, Anna Goldie, and
 \newblock In {\em The Twelfth International Conference on Learning
   Representations}, 2024.
 
+\bibitem{Toolformer}
+Timo Schick, Jane Dwivedi-Yu, Roberto Dessi, Roberta Raileanu, Maria Lomeli,
+  Eric Hambro, Luke Zettlemoyer, Nicola Cancedda, and Thomas Scialom.
+\newblock Toolformer: Language models can teach themselves to use tools.
+\newblock In A.~Oh, T.~Naumann, A.~Globerson, K.~Saenko, M.~Hardt, and
+  S.~Levine, editors, {\em Advances in Neural Information Processing Systems},
+  volume~36, pages 68539--68551. Curran Associates, Inc., 2023.
+
 \bibitem{Graphify}
 Safi Shamsi.
 \newblock Graphify.
 \newblock \url{https://github.com/safishamsi/graphify}, 2026.
 \newblock GitHub repository.
 
+\bibitem{Reflexion}
+Noah Shinn, Federico Cassano, Ashwin Gopinath, Karthik Narasimhan, and Shunyu
+  Yao.
+\newblock Reflexion: language agents with verbal reinforcement learning.
+\newblock In A.~Oh, T.~Naumann, A.~Globerson, K.~Saenko, M.~Hardt, and
+  S.~Levine, editors, {\em Advances in Neural Information Processing Systems},
+  volume~36, pages 8634--8652. Curran Associates, Inc., 2023.
+
+\bibitem{AgenticRAGSurvey}
+Aditi Singh, Abul Ehtesham, Saket Kumar, Tala~Talaei Khoei, and Athanasios~V.
+  Vasilakos.
+\newblock Agentic retrieval-augmented generation: A survey on agentic rag,
+  2026.
+
+\bibitem{EHRAG}
+Yifan Song, Xingjian Tao, Zhicheng Yang, Yihong Luo, and Jing Tang.
+\newblock Ehrag: Bridging semantic gaps in lightweight graphrag via hybrid
+  hypergraph construction and retrieval, 2026.
+
 \bibitem{KEclassic}
 Rudi Studer, V.Richard Benjamins, and Dieter Fensel.
 \newblock Knowledge engineering: Principles and methods.
 \newblock {\em Data \& Knowledge Engineering}, 25(1):161--197, 1998.
+
+\bibitem{YAGO}
+Fabian~M. Suchanek, Gjergji Kasneci, and Gerhard Weikum.
+\newblock Yago: a core of semantic knowledge.
+\newblock In {\em Proceedings of the 16th International Conference on World
+  Wide Web}, WWW '07, page 697–706, New York, NY, USA, 2007. Association for
+  Computing Machinery.
+
+\bibitem{ToG}
+Jiashuo Sun, Chengjin Xu, Lumingyuan Tang, Saizhuo Wang, Chen Lin, Yeyun Gong,
+  Lionel Ni, Heung-Yeung Shum, and Jian Guo.
+\newblock Think-on-graph: Deep and responsible reasoning of large language
+  model on knowledge graph.
+\newblock In {\em The Twelfth International Conference on Learning
+  Representations}, 2024.
+
+\bibitem{ClawGUI}
+Fei Tang, Zhiqiong Lu, Boxuan Zhang, Weiming Lu, Jun Xiao, Yueting Zhuang, and
+  Yongliang Shen.
+\newblock Clawgui: A unified framework for training, evaluating, and deploying
+  gui agents, 2026.
 
 \bibitem{Qwen3.5-Omni}
 Qwen Team.
@@ -216,12 +585,111 @@ Qwen Team.
 \newblock \url{https://github.com/topoteretes/cognee}, 2026.
 \newblock GitHub repository.
 
+\bibitem{ComplexE}
+Théo Trouillon, Johannes Welbl, Sebastian Riedel, Eric Gaussier, and Guillaume
+  Bouchard.
+\newblock Complex embeddings for simple link prediction.
+\newblock In Maria~Florina Balcan and Kilian~Q. Weinberger, editors, {\em
+  Proceedings of The 33rd International Conference on Machine Learning},
+  volume~48 of {\em Proceedings of Machine Learning Research}, pages
+  2071--2080, New York, New York, USA, 20--22 Jun 2016. PMLR.
+
+\bibitem{Transformer}
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones,
+  Aidan~N Gomez, \L~ukasz Kaiser, and Illia Polosukhin.
+\newblock Attention is all you need.
+\newblock In I.~Guyon, U.~Von Luxburg, S.~Bengio, H.~Wallach, R.~Fergus,
+  S.~Vishwanathan, and R.~Garnett, editors, {\em Advances in Neural Information
+  Processing Systems}, volume~30. Curran Associates, Inc., 2017.
+
+\bibitem{Wikidata}
+Denny Vrande\v{c}i\'{c}.
+\newblock Wikidata: a new platform for collaborative data collection.
+\newblock In {\em Proceedings of the 21st International Conference on World
+  Wide Web}, WWW '12 Companion, page 1063–1064, New York, NY, USA, 2012.
+  Association for Computing Machinery.
+
+\bibitem{PropRAG}
+Jingjin Wang and Jiawei Han.
+\newblock {P}rop{RAG}: Guiding retrieval with beam search over proposition
+  paths.
+\newblock In Christos Christodoulopoulos, Tanmoy Chakraborty, Carolyn Rose, and
+  Violet Peng, editors, {\em Proceedings of the 2025 Conference on Empirical
+  Methods in Natural Language Processing}, pages 6212--6227, Suzhou, China,
+  November 2025. Association for Computational Linguistics.
+
+\bibitem{PIKE-RAG}
+Jinyu Wang, Jingjing Fu, Rui Wang, Lei Song, and Jiang Bian.
+\newblock Pike-rag: specialized knowledge and rationale augmented generation,
+  2025.
+
 \bibitem{AgentSurvey}
 Lei Wang, Chen Ma, Xueyang Feng, Zeyu Zhang, Hao Yang, Jingsen Zhang, Zhiyuan
   Chen, Jiakai Tang, Xu~Chen, Yankai Lin, Wayne~Xin Zhao, Zhewei Wei, and
   Jirong Wen.
 \newblock A survey on large language model based autonomous agents.
 \newblock {\em Frontiers of Computer Science}, 18(6):186345, 3 2024.
+
+\bibitem{CausalRAG}
+Nengbo Wang, Xiaotian Han, Jagdip Singh, Jing Ma, and Vipin Chaudhary.
+\newblock {C}ausal{RAG}: Integrating causal graphs into retrieval-augmented
+  generation.
+\newblock In Wanxiang Che, Joyce Nabende, Ekaterina Shutova, and Mohammad~Taher
+  Pilehvar, editors, {\em Findings of the Association for Computational
+  Linguistics: ACL 2025}, pages 22680--22693, Vienna, Austria, July 2025.
+  Association for Computational Linguistics.
+
+\bibitem{OpenHands}
+Xingyao Wang, Boxuan Li, Yufan Song, Frank~F. Xu, Xiangru Tang, Mingchen Zhuge,
+  Jiayi Pan, Yueqi Song, Bowen Li, Jaskirat Singh, Hoang~H. Tran, Fuqiang Li,
+  Ren Ma, Mingzhang Zheng, Bill Qian, Yanjun Shao, Niklas Muennighoff, Yizhe
+  Zhang, Binyuan Hui, Junyang Lin, Robert Brennan, Hao Peng, Heng Ji, and
+  Graham Neubig.
+\newblock Openhands: An open platform for {AI} software developers as
+  generalist agents.
+\newblock In {\em The Thirteenth International Conference on Learning
+  Representations}, 2025.
+
+\bibitem{CoT}
+Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, brian ichter, Fei Xia,
+  Ed~Chi, Quoc~V Le, and Denny Zhou.
+\newblock Chain-of-thought prompting elicits reasoning in large language
+  models.
+\newblock In S.~Koyejo, S.~Mohamed, A.~Agarwal, D.~Belgrave, K.~Cho, and A.~Oh,
+  editors, {\em Advances in Neural Information Processing Systems}, volume~35,
+  pages 24824--24837. Curran Associates, Inc., 2022.
+
+\bibitem{MedGraphRAG}
+Junde Wu, Jiayuan Zhu, Yunli Qi, Jingkun Chen, Min Xu, Filippo Menolascina,
+  Yueming Jin, and Vicente Grau.
+\newblock Medical graph {RAG}: Evidence-based medical large language model via
+  graph retrieval-augmented generation.
+\newblock In Wanxiang Che, Joyce Nabende, Ekaterina Shutova, and Mohammad~Taher
+  Pilehvar, editors, {\em Proceedings of the 63rd Annual Meeting of the
+  Association for Computational Linguistics (Volume 1: Long Papers)}, pages
+  28443--28467, Vienna, Austria, July 2025. Association for Computational
+  Linguistics.
+
+\bibitem{BLINK}
+Ledell Wu, Fabio Petroni, Martin Josifoski, Sebastian Riedel, and Luke
+  Zettlemoyer.
+\newblock Scalable zero-shot entity linking with dense entity retrieval.
+\newblock In Bonnie Webber, Trevor Cohn, Yulan He, and Yang Liu, editors, {\em
+  Proceedings of the 2020 Conference on Empirical Methods in Natural Language
+  Processing (EMNLP)}, pages 6397--6407, Online, November 2020. Association for
+  Computational Linguistics.
+
+\bibitem{OSWorld}
+Tianbao Xie, Danyang Zhang, Jixuan Chen, Xiaochuan Li, Siheng Zhao, Ruisheng
+  Cao, Toh~Jing Hua, Zhoujun Cheng, Dongchan Shin, Fangyu Lei, Yitao Liu,
+  Yiheng Xu, Shuyan Zhou, Silvio Savarese, Caiming Xiong, Victor Zhong, and Tao
+  Yu.
+\newblock Osworld: Benchmarking multimodal agents for open-ended tasks in real
+  computer environments.
+\newblock In A.~Globerson, L.~Mackey, D.~Belgrave, A.~Fan, U.~Paquet,
+  J.~Tomczak, and C.~Zhang, editors, {\em Advances in Neural Information
+  Processing Systems}, volume~37, pages 52040--52094. Curran Associates, Inc.,
+  2024.
 
 \bibitem{LLMIEsurvey}
 Derong Xu, Wei Chen, Wenjun Peng, Chao Zhang, Tong Xu, Xiangyu Zhao, Xian Wu,
@@ -239,9 +707,52 @@ Jin Xu, Zhifang Guo, Hangrui Hu, Yunfei Chu, Xiong Wang, Jinzheng He, Yuxuan
   Zhou, Bowen Yu, Jianxin Yang, Le~Yu, Jingren Zhou, and Junyang Lin.
 \newblock Qwen3-omni technical report, 2025.
 
+\bibitem{NodeRAG}
+Tianyang Xu, Haojie Zheng, Chengze Li, Haoxiang Chen, Yixin Liu, Ruoxi Chen,
+  and Lichao Sun.
+\newblock Noderag: Structuring graph-based rag with heterogeneous nodes, 2025.
+
 \bibitem{A-MEM}
 Wujiang Xu, Zujie Liang, Kai Mei, Hang Gao, Juntao Tan, and Yongfeng Zhang.
 \newblock A-mem: Agentic memory for llm agents, 2025.
+
+\bibitem{Qwen3}
+An~Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo~Zheng, Bowen
+  Yu, Chang Gao, Chengen Huang, Chenxu Lv, Chujie Zheng, Dayiheng Liu, Fan
+  Zhou, Fei Huang, Feng Hu, Hao Ge, Haoran Wei, Huan Lin, Jialong Tang, Jian
+  Yang, Jianhong Tu, Jianwei Zhang, Jianxin Yang, Jiaxi Yang, Jing Zhou,
+  Jingren Zhou, Junyang Lin, Kai Dang, Keqin Bao, Kexin Yang, Le~Yu, Lianghao
+  Deng, Mei Li, Mingfeng Xue, Mingze Li, Pei Zhang, Peng Wang, Qin Zhu, Rui
+  Men, Ruize Gao, Shixuan Liu, Shuang Luo, Tianhao Li, Tianyi Tang, Wenbiao
+  Yin, Xingzhang Ren, Xinyu Wang, Xinyu Zhang, Xuancheng Ren, Yang Fan, Yang
+  Su, Yichang Zhang, Yinger Zhang, Yu~Wan, Yuqiong Liu, Zekun Wang, Zeyu Cui,
+  Zhenru Zhang, Zhipeng Zhou, and Zihan Qiu.
+\newblock Qwen3 technical report, 2025.
+
+\bibitem{GraphSearch}
+Cehao Yang, Xiaojun Wu, Xueyuan Lin, Chengjin Xu, Xuhui Jiang, Yuanliang Sun,
+  Jia Li, Hui Xiong, and Jian Guo.
+\newblock Graphsearch: An agentic deep searching workflow for graph
+  retrieval-augmented generation, 2025.
+
+\bibitem{SWE-agent}
+John Yang, Carlos~E. Jimenez, Alexander Wettig, Kilian Lieret, Shunyu Yao,
+  Karthik Narasimhan, and Ofir Press.
+\newblock Swe-agent: Agent-computer interfaces enable automated software
+  engineering.
+\newblock In A.~Globerson, L.~Mackey, D.~Belgrave, A.~Fan, U.~Paquet,
+  J.~Tomczak, and C.~Zhang, editors, {\em Advances in Neural Information
+  Processing Systems}, volume~37, pages 50528--50652. Curran Associates, Inc.,
+  2024.
+
+\bibitem{ToT}
+Shunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran, Tom Griffiths, Yuan Cao, and
+  Karthik Narasimhan.
+\newblock Tree of thoughts: Deliberate problem solving with large language
+  models.
+\newblock In A.~Oh, T.~Naumann, A.~Globerson, K.~Saenko, M.~Hardt, and
+  S.~Levine, editors, {\em Advances in Neural Information Processing Systems},
+  volume~36, pages 11809--11822. Curran Associates, Inc., 2023.
 
 \bibitem{ReAct}
 Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik~R Narasimhan,
@@ -250,6 +761,17 @@ Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik~R Narasimhan,
 \newblock In {\em The Eleventh International Conference on Learning
   Representations}, 2023.
 
+\bibitem{AgenticMemory}
+Yi~Yu, Liuyi Yao, Yuexiang Xie, Qingquan Tan, Jiaqi Feng, Yaliang Li, and
+  Libing Wu.
+\newblock Agentic memory: Learning unified long-term and short-term memory
+  management for large language model agents, 2026.
+
+\bibitem{HyperMem}
+Juwei Yue, Chuanrui Hu, Jiawei Sheng, Zuyi Zhou, Wenyuan Zhang, Tingwen Liu,
+  Li~Guo, and Yafeng Deng.
+\newblock Hypermem: Hypergraph memory for long-term conversations, 2026.
+
 \bibitem{LLMsurvey}
 Wayne~Xin Zhao, Kun Zhou, Junyi Li, Tianyi Tang, Xiaolei Wang, Yupeng Hou,
   Yingqian Min, Beichen Zhang, Junjie Zhang, Zican Dong, Yifan Du, Chen Yang,
@@ -257,15 +779,33 @@ Wayne~Xin Zhao, Kun Zhou, Junyi Li, Tianyi Tang, Xiaolei Wang, Yupeng Hou,
   Zikang Liu, Peiyu Liu, Jian-Yun Nie, and Ji-Rong Wen.
 \newblock A survey of large language models, 2024.
 
+\bibitem{E2GraphRAG}
+Yibo Zhao, Jiapeng Zhu, Ye~Guo, Kangkang He, and Xiang Li.
+\newblock {E}$^2${GraphRAG}: Streamlining graph-based rag for high efficiency
+  and effectiveness, 2025.
+
 \bibitem{Hypergraph}
 Dengyong Zhou, Jiayuan Huang, and Bernhard Sch\"{o}lkopf.
 \newblock Learning with hypergraphs: Clustering, classification, and embedding.
 \newblock In B.~Sch\"{o}lkopf, J.~Platt, and T.~Hoffman, editors, {\em Advances
   in Neural Information Processing Systems}, volume~19. MIT Press, 2006.
 
+\bibitem{WebArena}
+Shuyan Zhou, Frank~F. Xu, Hao Zhu, Xuhui Zhou, Robert Lo, Abishek Sridhar,
+  Xianyi Cheng, Tianyue Ou, Yonatan Bisk, Daniel Fried, Uri Alon, and Graham
+  Neubig.
+\newblock Webarena: A realistic web environment for building autonomous agents,
+  2024.
+
 \bibitem{OmniRAG-Agent}
 Yifan Zhu, Xinyu Mu, Tao Feng, Zhonghong Ou, Yuning Gong, and Haoran Luo.
 \newblock Omnirag-agent: Agentic omnimodal reasoning for low-resource long
   audio-video question answering, 2026.
+
+\bibitem{LinearRAG}
+Luyao Zhuang, Shengyuan Chen, Yilin Xiao, Huachi Zhou, Yujing Zhang, Hao Chen,
+  Qinggang Zhang, and Xiao Huang.
+\newblock Linearrag: Linear graph retrieval augmented generation on large-scale
+  corpora, 2025.
 
 \end{thebibliography}
