@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.3.11)  25 APR 2026 19:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.3.11)  25 APR 2026 22:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -586,8 +586,13 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+
+Underfull \hbox (badness 1325) in paragraph at lines 127--128
+[]\T1/ptm/m/n/10 (+20) Knowledge en-gi-neer-ing (KE) has pro-gressed from chunk-based Retrieval-
+ []
+
 LaTeX Font Info:    Trying to load font information for T1+phv on input line 128.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
 Package microtype Info: Loading generic protrusion settings for font family
@@ -597,10 +602,10 @@ Package microtype Info: Loading generic protrusion settings for font family
 <F1.pdf, id=66, 3285.27374pt x 2402.9775pt>
 File: F1.pdf Graphic file (type pdf)
 <use F1.pdf>
-Package pdftex.def Info: F1.pdf  used on input line 136.
+Package pdftex.def Info: F1.pdf  used on input line 135.
 (pdftex.def)             Requested size: 214.63922pt x 156.96901pt.
 
-Underfull \hbox (badness 1325) in paragraph at lines 141--142
+Underfull \hbox (badness 1325) in paragraph at lines 140--141
 \T1/ptm/m/n/10 (+20) a queryable, reasoning-ready struc-tured
  []
 
@@ -611,13 +616,13 @@ Underfull \hbox (badness 1325) in paragraph at lines 141--142
 <F2.pdf, id=107, 1361.69322pt x 622.04391pt>
 File: F2.pdf Graphic file (type pdf)
 <use F2.pdf>
-Package pdftex.def Info: F2.pdf  used on input line 147.
+Package pdftex.def Info: F2.pdf  used on input line 146.
 (pdftex.def)             Requested size: 392.64812pt x 179.36302pt.
  [2 <./F2.pdf>] [3]
-<F3.pdf, id=334, 1334.14133pt x 662.1299pt>
+<F3.pdf, id=187, 1334.14133pt x 662.1299pt>
 File: F3.pdf Graphic file (type pdf)
 <use F3.pdf>
-Package pdftex.def Info: F3.pdf  used on input line 174.
+Package pdftex.def Info: F3.pdf  used on input line 163.
 (pdftex.def)             Requested size: 397.48499pt x 197.26645pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -628,18 +633,18 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ]
 
-LaTeX Warning: Reference `app:proof1' on page 7 undefined on input line 285.
+LaTeX Warning: Reference `app:proof1' on page 7 undefined on input line 272.
 
 
-LaTeX Warning: Reference `app:proof2' on page 7 undefined on input line 325.
+LaTeX Warning: Reference `app:proof2' on page 7 undefined on input line 312.
 
 [7]
 
-Package natbib Warning: Citation `RRF' on page 8 undefined on input line 333.
+Package natbib Warning: Citation `RRF' on page 8 undefined on input line 320.
 
 [8]
 
-LaTeX Warning: Reference `app:proof3' on page 9 undefined on input line 385.
+LaTeX Warning: Reference `app:proof3' on page 9 undefined on input line 372.
 
 [9] [10
 
@@ -658,18 +663,18 @@ Package natbib Warning: There were undefined citations.
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `neurips_2026.out' has not changed.
-(rerunfilecheck)             Checksum: 971134F37B20F669C35C0B64EFD6E051;2641.
+(rerunfilecheck)             Checksum: 841AA6AD91F07F0DF01C6633A0E7A89D;2644.
  ) 
 Here is how much of TeX's memory you used:
- 15332 strings out of 478287
- 239431 string characters out of 5849289
+ 15335 strings out of 478287
+ 239457 string characters out of 5849289
  663676 words of memory out of 5000000
  32686 multiletter control sequences out of 15000+600000
- 536378 words of font info for 327 fonts, out of 8000000 for 9000
+ 536505 words of font info for 329 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  70i,16n,76p,1717b,809s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on neurips_2026.pdf (29 pages, 3221084 bytes).
+Output written on neurips_2026.pdf (29 pages, 3221169 bytes).
 PDF statistics:
  715 PDF objects out of 1000 (max. 8388607)
  638 compressed objects within 7 object streams

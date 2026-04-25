@@ -1,0 +1,118 @@
+{
+  "angles": [
+    "SUB",
+    "COM",
+    "DISC"
+  ],
+  "query_types": [
+    "factoid",
+    "multi-hop",
+    "synthesis",
+    "discovery"
+  ],
+  "strategies": [
+    "sub-only",
+    "com-only",
+    "disc-only",
+    "oracle",
+    "KC router"
+  ],
+  "confusion_recall": {
+    "SUB": {
+      "SUB": 0.933,
+      "COM": 0.054,
+      "DISC": 0.013
+    },
+    "COM": {
+      "SUB": 0.1,
+      "COM": 0.849,
+      "DISC": 0.051
+    },
+    "DISC": {
+      "SUB": 0.052,
+      "COM": 0.127,
+      "DISC": 0.821
+    }
+  },
+  "confusion_count": {
+    "SUB": {
+      "SUB": 1605,
+      "COM": 93,
+      "DISC": 23
+    },
+    "COM": {
+      "SUB": 143,
+      "COM": 1213,
+      "DISC": 73
+    },
+    "DISC": {
+      "SUB": 44,
+      "COM": 108,
+      "DISC": 698
+    }
+  },
+  "means": {
+    "sub-only": {
+      "factoid": 79.56,
+      "multi-hop": 58.62,
+      "synthesis": 37.66,
+      "discovery": 28.04
+    },
+    "com-only": {
+      "factoid": 43.23,
+      "multi-hop": 48.41,
+      "synthesis": 68.97,
+      "discovery": 36.24
+    },
+    "disc-only": {
+      "factoid": 42.0,
+      "multi-hop": 35.07,
+      "synthesis": 36.69,
+      "discovery": 57.12
+    },
+    "oracle": {
+      "factoid": 81.81,
+      "multi-hop": 75.01,
+      "synthesis": 76.76,
+      "discovery": 69.26
+    },
+    "KC router": {
+      "factoid": 78.8,
+      "multi-hop": 71.47,
+      "synthesis": 69.96,
+      "discovery": 62.68
+    }
+  },
+  "stds": {
+    "sub-only": {
+      "factoid": 12.4,
+      "multi-hop": 23.53,
+      "synthesis": 16.57,
+      "discovery": 13.27
+    },
+    "com-only": {
+      "factoid": 11.33,
+      "multi-hop": 19.82,
+      "synthesis": 17.82,
+      "discovery": 22.14
+    },
+    "disc-only": {
+      "factoid": 9.69,
+      "multi-hop": 11.02,
+      "synthesis": 13.39,
+      "discovery": 18.4
+    },
+    "oracle": {
+      "factoid": 5.93,
+      "multi-hop": 6.21,
+      "synthesis": 6.8,
+      "discovery": 6.85
+    },
+    "KC router": {
+      "factoid": 12.54,
+      "multi-hop": 13.97,
+      "synthesis": 17.04,
+      "discovery": 17.55
+    }
+  }
+}
