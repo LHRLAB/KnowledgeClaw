@@ -68,35 +68,27 @@
 \@writefile{toc}{\contentsline {paragraph}{Evaluation Metrics.}{4}{section*.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}Methodology: KnowledgeClaw}{4}{section.4}\protected@file@percent }
 \newlabel{sec:method}{{4}{4}{Methodology: KnowledgeClaw}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}C1: Omnimodal Typed Hypergraph}{4}{subsection.4.1}\protected@file@percent }
-\newlabel{sec:c1}{{4.1}{4}{C1: Omnimodal Typed Hypergraph}{subsection.4.1}{}}
-\newlabel{eq:hg}{{1}{4}{C1: Omnimodal Typed Hypergraph}{equation.4.1}{}}
-\newlabel{eq:hyperedge}{{2}{4}{C1: Omnimodal Typed Hypergraph}{equation.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}C1: Omnimodal Knowledge Hypergraph}{4}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:c1}{{4.1}{4}{C1: Omnimodal Knowledge Hypergraph}{subsection.4.1}{}}
+\newlabel{eq:hg}{{1}{4}{C1: Omnimodal Knowledge Hypergraph}{equation.4.1}{}}
+\newlabel{eq:coref}{{2}{4}{C1: Omnimodal Knowledge Hypergraph}{equation.4.2}{}}
 \citation{GraphRAG,LightRAG,HippoRAG2,KAG}
-\newlabel{eq:extract}{{3}{5}{C1: Omnimodal Typed Hypergraph}{equation.4.3}{}}
-\newlabel{eq:coref}{{4}{5}{C1: Omnimodal Typed Hypergraph}{equation.4.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}C2: Closed-loop Lifecycle Agent}{5}{subsection.4.2}\protected@file@percent }
-\newlabel{sec:c2}{{4.2}{5}{C2: Closed-loop Lifecycle Agent}{subsection.4.2}{}}
-\newlabel{eq:loop}{{5}{5}{C2: Closed-loop Lifecycle Agent}{equation.4.5}{}}
-\newlabel{eq:orphan}{{6}{5}{C2: Closed-loop Lifecycle Agent}{equation.4.6}{}}
-\newlabel{eq:cascade}{{7}{5}{C2: Closed-loop Lifecycle Agent}{equation.4.7}{}}
-\newlabel{eq:refresh}{{8}{5}{C2: Closed-loop Lifecycle Agent}{equation.4.8}{}}
 \citation{RRF}
 \citation{PathRAG,HippoRAG2}
 \citation{Louvain}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}C3: Multi-angle Application with Intent Routing}{6}{subsection.4.3}\protected@file@percent }
-\newlabel{sec:c3}{{4.3}{6}{C3: Multi-angle Application with Intent Routing}{subsection.4.3}{}}
-\@writefile{toc}{\contentsline {paragraph}{Subgraph-level retrieval.}{6}{section*.3}\protected@file@percent }
-\newlabel{eq:rrf}{{9}{6}{Subgraph-level retrieval}{equation.4.9}{}}
-\newlabel{eq:walk}{{10}{6}{Subgraph-level retrieval}{equation.4.10}{}}
-\@writefile{toc}{\contentsline {paragraph}{Community-level synthesis.}{6}{section*.4}\protected@file@percent }
-\newlabel{eq:louvain}{{11}{6}{Community-level synthesis}{equation.4.11}{}}
-\newlabel{eq:com}{{12}{6}{Community-level synthesis}{equation.4.12}{}}
-\@writefile{toc}{\contentsline {paragraph}{Knowledge discovery.}{6}{section*.5}\protected@file@percent }
-\newlabel{eq:disc}{{13}{6}{Knowledge discovery}{equation.4.13}{}}
-\@writefile{toc}{\contentsline {paragraph}{Intent routing.}{7}{section*.6}\protected@file@percent }
-\newlabel{eq:router}{{14}{7}{Intent routing}{equation.4.14}{}}
-\newlabel{eq:gen}{{15}{7}{Intent routing}{equation.4.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}C2: Closed-loop Lifecycle Agent}{5}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:c2}{{4.2}{5}{C2: Closed-loop Lifecycle Agent}{subsection.4.2}{}}
+\newlabel{eq:loop}{{3}{5}{C2: Closed-loop Lifecycle Agent}{equation.4.3}{}}
+\newlabel{eq:cascade}{{4}{5}{C2: Closed-loop Lifecycle Agent}{equation.4.4}{}}
+\newlabel{eq:refresh}{{5}{5}{C2: Closed-loop Lifecycle Agent}{equation.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}C3: Multi-angle Application with Intent Routing}{5}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:c3}{{4.3}{5}{C3: Multi-angle Application with Intent Routing}{subsection.4.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Subgraph-level retrieval ($\mathrm  {sub}$).}{5}{section*.3}\protected@file@percent }
+\newlabel{eq:sub}{{6}{5}{Subgraph-level retrieval ($\mathrm {sub}$)}{equation.4.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Community-level synthesis ($\mathrm  {com}$).}{5}{section*.4}\protected@file@percent }
+\newlabel{eq:com}{{7}{5}{Community-level synthesis ($\mathrm {com}$)}{equation.4.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{Knowledge discovery ($\mathrm  {disc}$) and intent routing.}{5}{section*.5}\protected@file@percent }
+\newlabel{eq:disc-route}{{8}{5}{Knowledge discovery ($\mathrm {disc}$) and intent routing}{equation.4.8}{}}
 \citation{RAG}
 \citation{RAPTOR}
 \citation{GraphRAG}
@@ -135,13 +127,13 @@
 \citation{Graphify}
 \citation{RAGAS}
 \citation{HelloBench}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Main results on OmniKE-Bench v0.1. \textbf  {T1}-\textbf  {T6}: per-task scores (T1 knowledge acquisition, T2 cross-modal coreference, T3 multi-hop retrieval, T4 cross-modal reasoning, T5 lifecycle consistency, T6 knowledge discovery). \textbf  {HC}-\textbf  {Rob}: per-persona average (Healthcare, Finance, Education, Law, Psychology, Music, Gaming, Building, Software, Robotics). \textbf  {OKE}: arithmetic mean over T1-T6 with architecturally unsupported tasks counted as 0. $\boldsymbol  {\Delta }$: gap to OpenClaw (anchor). ``-'' = task not architecturally supported. Best scores in bold.}}{8}{table.1}\protected@file@percent }
-\newlabel{tab:main}{{1}{8}{Main results on OmniKE-Bench v0.1. \textbf {T1}-\textbf {T6}: per-task scores (T1 knowledge acquisition, T2 cross-modal coreference, T3 multi-hop retrieval, T4 cross-modal reasoning, T5 lifecycle consistency, T6 knowledge discovery). \textbf {HC}-\textbf {Rob}: per-persona average (Healthcare, Finance, Education, Law, Psychology, Music, Gaming, Building, Software, Robotics). \textbf {OKE}: arithmetic mean over T1-T6 with architecturally unsupported tasks counted as 0. $\boldsymbol {\Delta }$: gap to OpenClaw (anchor). ``-'' = task not architecturally supported. Best scores in bold}{table.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{8}{section.5}\protected@file@percent }
-\newlabel{sec:exp}{{5}{8}{Experiments}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Experimental Setup}{8}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Main Results (RQ1)}{9}{subsection.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Ablation Study (RQ2)}{9}{subsection.5.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Main results on OmniKE-Bench v0.1. \textbf  {T1}-\textbf  {T6}: per-task scores (T1 knowledge acquisition, T2 cross-modal coreference, T3 multi-hop retrieval, T4 cross-modal reasoning, T5 lifecycle consistency, T6 knowledge discovery). \textbf  {HC}-\textbf  {Rob}: per-persona average (Healthcare, Finance, Education, Law, Psychology, Music, Gaming, Building, Software, Robotics). \textbf  {OKE}: arithmetic mean over T1-T6 with architecturally unsupported tasks counted as 0. $\boldsymbol  {\Delta }$: gap to OpenClaw (anchor). ``-'' = task not architecturally supported. Best scores in bold.}}{6}{table.1}\protected@file@percent }
+\newlabel{tab:main}{{1}{6}{Main results on OmniKE-Bench v0.1. \textbf {T1}-\textbf {T6}: per-task scores (T1 knowledge acquisition, T2 cross-modal coreference, T3 multi-hop retrieval, T4 cross-modal reasoning, T5 lifecycle consistency, T6 knowledge discovery). \textbf {HC}-\textbf {Rob}: per-persona average (Healthcare, Finance, Education, Law, Psychology, Music, Gaming, Building, Software, Robotics). \textbf {OKE}: arithmetic mean over T1-T6 with architecturally unsupported tasks counted as 0. $\boldsymbol {\Delta }$: gap to OpenClaw (anchor). ``-'' = task not architecturally supported. Best scores in bold}{table.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{6}{section.5}\protected@file@percent }
+\newlabel{sec:exp}{{5}{6}{Experiments}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Experimental Setup}{6}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Main Results (RQ1)}{7}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Ablation Study (RQ2)}{7}{subsection.5.3}\protected@file@percent }
 \bibdata{custom}
 \bibcite{ClaudeCode}{{1}{}{{}}{{}}}
 \bibcite{SelfRAG}{{2}{}{{}}{{}}}
@@ -273,9 +265,9 @@
 \citation{SWE-agent,OpenHands,ClaudeCode}
 \citation{OpenClaw}
 \citation{Cognee,LLMWiki,Graphify}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Technical appendices and supplementary material}{20}{appendix.A}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B}Related Work}{20}{appendix.B}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Knowledge Engineering}{20}{subsection.B.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}LLMs and Agents}{20}{subsection.B.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}Technical appendices and supplementary material}{18}{appendix.A}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B}Related Work}{18}{appendix.B}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Knowledge Engineering}{18}{subsection.B.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}LLMs and Agents}{18}{subsection.B.2}\protected@file@percent }
 \providecommand\NAT@force@numbers{}\NAT@force@numbers
-\gdef \@abspage@last{27}
+\gdef \@abspage@last{25}

@@ -192,148 +192,85 @@ The aggregate \textbf{OKE Score} is the arithmetic mean of T1--T6 on $0$--$100$,
 \vspace{0.5mm}
 \end{figure}
 
-\section{Methodology: KnowledgeClaw}
-\label{sec:method}
+\section{Methodology: KnowledgeClaw}\label{sec:method}
 
-We instantiate the three necessary properties of agentic knowledge engineering---\textbf{(i) Omnimodality}, \textbf{(ii) Closed-loop Lifecycle}, and \textbf{(iii) Multi-angle Application}---into a single agentic pipeline, \textbf{KnowledgeClaw}. As illustrated in Figure~\ref{F1}, KnowledgeClaw maintains an \emph{omnimodal typed hypergraph} (C1, \S\ref{sec:c1}) under a \emph{closed-loop lifecycle agent} (C2, \S\ref{sec:c2}), and serves heterogeneous query intents through \emph{multi-angle application with intent routing} (C3, \S\ref{sec:c3}).
+We instantiate properties \textbf{(i)--(iii)} of \S\ref{sec:intro} into a single agent, \textbf{KnowledgeClaw} (Figure~\ref{F1}): an \emph{omnimodal knowledge hypergraph} (C1, \S\ref{sec:c1}) maintained by a \emph{closed-loop lifecycle agent} (C2, \S\ref{sec:c2}) and served via \emph{multi-angle application with intent routing} (C3, \S\ref{sec:c3}). We continue the symbols of \S\ref{sec:task}: corpus $\mathcal{D}\!=\!\{f_i\}$ with modalities $m(f_i)\!\in\!\mathcal{M}$, entities $\mathcal{E}$, propositions $\mathcal{P}$, modality map $\mu$, topic/query $t,q$.
 
-\subsection{C1: Omnimodal Typed Hypergraph}
-\label{sec:c1}
+\subsection{C1: Omnimodal Knowledge Hypergraph}\label{sec:c1}
 
-The first contribution lifts the knowledge representation from a text-only graph to a single substrate that absorbs entities from all five modalities. We define an omnimodal typed hypergraph as the tuple
+C1 lifts the substrate from a text-only graph to a hypergraph that absorbs entities from all five modalities. We define
 \begin{equation}
-\mathcal{G} \;=\; \bigl(\mathcal{V},\, \mathcal{E},\, \mathcal{A},\, \mathcal{M},\, \mu,\, \tau,\, \chi\bigr),
+\mathcal{G} = \bigl(\mathcal{E},\mathcal{H},\mathcal{A},\mathcal{P};\,\mu,\tau,\chi,\phi\bigr),\quad
+h = \bigl(\mathcal{E}_h,\tau_h,\pi_h,\mathcal{A}_h,\omega_h\bigr),\;\,|\mathcal{E}_h|\!\geq\!2,\;\,\omega_h\!\in\![0,1],
 \label{eq:hg}
 \end{equation}
-where $\mathcal{V}$ is the entity vertex set, $\mathcal{E}\subseteq 2^{\mathcal{V}}$ is the typed hyperedge set with $|e|\!\geq\! 2$ for every $e\!\in\!\mathcal{E}$, $\mathcal{A}$ is the set of asset nodes (source files treated as first-class citizens), and $\mathcal{M}=\{\textit{text},\textit{pdf},\textit{image},\textit{audio},\textit{video}\}$ is the modality set. The maps $\mu\!:\!\mathcal{V}\!\to\!2^{\mathcal{M}}$, $\tau\!:\!\mathcal{E}\!\to\!\mathcal{T}$, and $\chi\!:\!\mathcal{V}\!\times\!\mathcal{V}\!\to\!\{0,1\}$ record, respectively, the observed modalities of each entity, the relation type of each hyperedge, and the cross-modal coreference flags between entity pairs.
+where $\mathcal{H}\!\subseteq\!2^{\mathcal{E}}$ is the typed hyperedge set, $\mathcal{A}\!\subseteq\!\mathcal{D}$ the resident assets, and the maps $\mu\!:\!\mathcal{E}\!\to\!2^{\mathcal{M}}$, $\tau\!:\!\mathcal{H}\!\to\!\mathcal{T}$, $\chi\!:\!\mathcal{E}^{2}\!\to\!\{0,1\}$, $\phi\!:\!\mathcal{E}\!\cup\!\mathcal{H}\!\to\!\mathbb{R}^{d}$ encode observed modalities (extending $\hat{\mu}$ in T1), relation type, cross-modal coreference, and a shared embedding; each $h$ carries proposition $\pi_h\!\in\!\mathcal{P}$, supporting assets $\mathcal{A}_h\!\subseteq\!\mathcal{A}$, and extractor confidence $\omega_h$. Eq.~\eqref{eq:hg} subsumes binary edges of prior graph RAG~\citep{GraphRAG,LightRAG} as the $|\mathcal{E}_h|\!=\!2$ case and lifts HyperGraphRAG~\citep{HyperGraphRAG} from text to all five modalities by letting $\mathcal{A}_h$ mix file types.
 
-The central object in this tuple is $\mathcal{E}$, since a single hyperedge is what allows ``one event, multiple roles'' semantics to be stored without splitting it into binary triples. Concretely, every hyperedge $e\!\in\!\mathcal{E}$ is recorded as
+For every $f$, $\mathrm{Extract}_{\mathrm{LLM}}(f,m(f))$ yields T1 outputs $(\hat{\mathcal{E}}_f,\hat{\mathcal{P}}_f,\hat{\mathcal{H}}_f,\hat{\mu}_f)$, deduped within modality by canonicalization $\kappa\!:\!\bigsqcup_f\!\hat{\mathcal{E}}_f\!\to\!\mathcal{E}$. Cross-modal mentions $\kappa$ misses (e.g., portrait/voice/text of one person) are linked separately: for $e_a,e_b\!\in\!\mathcal{E}$ with $\mu(e_a)\!\cap\!\mu(e_b)\!=\!\emptyset$,
 \begin{equation}
-e \;=\; \bigl(\,\mathcal{V}_e,\, \tau_e,\, \pi_e,\, \mathcal{S}_e\,\bigr),
-\qquad \mathcal{V}_e\!\subseteq\!\mathcal{V},\; |\mathcal{V}_e|\geq 2,\; \mathcal{S}_e\!\subseteq\!\mathcal{A},
-\label{eq:hyperedge}
-\end{equation}
-where $\pi_e$ is its natural-language proposition and $\mathcal{S}_e$ is the set of supporting source assets. This generalizes binary edges in prior graph RAG~\citep{GraphRAG,LightRAG} to the n-ary form first proposed in HyperGraphRAG~\citep{HyperGraphRAG}, but lifts it from text to all five modalities by allowing $\mathcal{S}_e$ to mix file types.
-
-To populate $\mathcal{V}$ and $\mathcal{E}$ from raw files, an LLM extractor produces, for every file $f\!\in\!\mathcal{A}$ with modality $m(f)$, the tuple
-\begin{equation}
-\bigl(\hat{\mathcal{E}}_f,\, \hat{\mathcal{P}}_f,\, \hat{\mathcal{H}}_f\bigr)
-\;=\; \mathrm{Extract}_{\mathrm{LLM}}\!\bigl(f,\, m(f)\bigr),
-\label{eq:extract}
-\end{equation}
-of per-file entities, propositions, and hyperedge candidates. The global vertex set is then $\mathcal{V}\!=\!\bigcup_f\!\hat{\mathcal{E}}_f$ after a deduplicating canonicalization $\kappa\!:\!\hat{\mathcal{V}}\!\to\!\mathcal{V}$ that merges surface variants of the same physical entity (e.g., ``Albert E.'' and ``A.\ Einstein'').
-
-Canonicalization alone, however, cannot bridge mentions that look entirely different across modalities (a portrait image, a spoken name, and a written reference all denoting the same person). To bridge these, we add explicit cross-modal coreference edges. For two vertices $v_1,v_2\!\in\!\mathcal{V}$ whose modality sets are disjoint, $\mu(v_1)\!\cap\!\mu(v_2)\!=\!\emptyset$, we declare a coreference iff
-\begin{equation}
-\chi(v_1,v_2) \;=\; \mathbb{1}\!\Bigl[\,\cos\!\bigl(\phi(v_1),\phi(v_2)\bigr) \geq \theta_{\chi}\;\wedge\;\mathrm{Verify}_{\mathrm{LLM}}(v_1,v_2)\,\Bigr],
+\chi(e_a,e_b)\!=\!\mathbb{1}\!\Bigl[\bigl\langle\phi(e_a),\phi(e_b)\bigr\rangle\!\geq\!\theta_{\chi}\;\wedge\;\mathrm{Verify}_{\mathrm{LLM}}\!\bigl(e_a,e_b\,\big|\,\mathcal{S}(e_a)\!\cup\!\mathcal{S}(e_b)\bigr)\Bigr],
 \label{eq:coref}
 \end{equation}
-where $\phi(\cdot)$ is the entity embedding produced by the same backbone, $\theta_{\chi}$ is a tunable similarity threshold, and the LLM acts as a final verifier that rejects false positives that pass the cosine cut but fail semantic agreement. The result of Eqs.~\eqref{eq:hg}--\eqref{eq:coref} is a single connected substrate that links all five modalities through both shared vertices (when canonicalization succeeds) and explicit coreference edges (when it does not), directly grounding tasks T1 (knowledge acquisition) and T2 (cross-modal coreference).
+with cosine $\langle\cdot,\cdot\rangle$, margin $\theta_{\chi}$, and source-asset support $\mathcal{S}(e)\!=\!\bigcup_{h:\,e\in\mathcal{E}_h}\!\mathcal{A}_h$; the verifier rejects false positives passing the cosine cut but failing semantic agreement. Eqs.~\eqref{eq:hg}--\eqref{eq:coref} fuse all five modalities through both shared entities (when $\kappa$ succeeds) and explicit coreference edges (when it does not), grounding T1, T2; expressiveness over text-only binary graphs is established in App.~\ref{app:proof1}.
 
-\textbf{Proposition 1.} \textit{An omnimodal typed hypergraph is strictly more expressive than a text-only binary graph: it preserves every binary triple as a $2$-ary hyperedge while admitting $n$-ary cross-modal facts that no binary text-only graph can represent without loss.}\vspace{-2mm}
-\begin{proof}
-We provide experimental evidence in Section~\ref{sec:exp} (T1, T2 columns of Table~\ref{tab:main}) and a formal proof in Appendix~\ref{app:proof1}.
-\end{proof}
+\subsection{C2: Closed-loop Lifecycle Agent}\label{sec:c2}
 
-\subsection{C2: Closed-loop Lifecycle Agent}
-\label{sec:c2}
-
-A live knowledge base does not stay correct unless every change to its source corpus is reflected in $\mathcal{G}$. We therefore wrap $\mathcal{G}$ in a four-stage agentic loop: every event $\Delta_t$ (a file added, deleted, or refreshed) drives one full pass through
+Every corpus event $\Delta_n\!\in\!\{\textsc{Add},\textsc{Del},\textsc{Refresh}\}\!\times\!\mathcal{D}$ drives a four-stage pass that keeps $\mathcal{G}$ in sync with its corpus:
 \begin{equation}
-\mathcal{G}_{t+1} \;=\; \mathrm{Update}\,\circ\,\mathrm{Reason}\,\circ\,\mathrm{Query}\,\circ\,\mathrm{Build}\bigl(\mathcal{G}_t,\,\Delta_t\bigr),
+\mathcal{G}_{n+1}\!=\!\bigl(\mathrm{Update}\!\circ\!\mathrm{Reason}\!\circ\!\mathrm{Query}\!\circ\!\mathrm{Build}\bigr)\!\bigl(\mathcal{G}_n,\Delta_n\bigr),\;\;
+\mathcal{L}_{n+1}\!=\!\mathcal{L}_n\!\cup\!\bigl\{(\Delta_n,\mathcal{G}_{n+1}\!\ominus\!\mathcal{G}_n)\bigr\},
 \label{eq:loop}
 \end{equation}
-so that $\mathcal{G}$ evolves alongside its corpus rather than being rebuilt from scratch.
-
-The most subtle case in Eq.~\eqref{eq:loop} is deletion. Naively erasing a file leaves dangling entities sustained only by that file; conversely, erasing every entity ever co-occurring with the file would over-delete and lose evidence still corroborated elsewhere. To resolve this, we first define the support set of an entity, $\mathcal{S}(v)=\{\,a\!\in\!\mathcal{A} \mid \exists\,e\!\in\!\mathcal{E},\,v\!\in\!\mathcal{V}_e\wedge a\!\in\!\mathcal{S}_e\,\}$, and then identify the orphans introduced by removing $f$:
+with audit log $\mathcal{L}_n$ recording diffs for replay. The non-trivial operator is $\textsc{Del}$: orphans induced by removing $f$ (using $\mathcal{S}$ from Eq.~\eqref{eq:coref}) and their unsupported hyperedges are evicted transactionally:
 \begin{equation}
-\mathcal{V}_{\mathrm{orphan}} \;=\; \bigl\{\,v\!\in\!\mathcal{V} \,\big|\, \mathcal{S}(v)\subseteq\{f\}\,\bigr\}.
-\label{eq:orphan}
-\end{equation}
-An entity is orphaned iff every supporting hyperedge sat on the now-removed file---a sufficient and necessary condition. The orphans, together with hyperedges that lose their last support, are then evicted in a single transactional pass that simultaneously updates all three sets:
-\begin{equation}
-\begin{aligned}
-\mathcal{V}_{t+1} &= \mathcal{V}_t \,\setminus\, \mathcal{V}_{\mathrm{orphan}}, \\
-\mathcal{E}_{t+1} &= \bigl\{\,e\!\in\!\mathcal{E}_t \,\big|\, \mathcal{S}_e \not\subseteq \{f\}\;\wedge\;\mathcal{V}_e\!\cap\!\mathcal{V}_{\mathrm{orphan}}\!=\!\emptyset\,\bigr\}, \\
-\mathcal{A}_{t+1} &= \mathcal{A}_t \setminus \{f\}.
+\mathcal{E}_n^{\mathrm{orph}}(f)\!=\!\bigl\{e\!\in\!\mathcal{E}_n:\mathcal{S}(e)\!\subseteq\!\{f\}\bigr\},\;\;
+\begin{aligned}[t]
+\mathcal{E}_{n+1} &= \mathcal{E}_n\!\setminus\!\mathcal{E}_n^{\mathrm{orph}}(f),\\[-1pt]
+\mathcal{H}_{n+1} &= \bigl\{h\!\in\!\mathcal{H}_n\!:\mathcal{A}_h\!\not\subseteq\!\{f\}\,\wedge\,\mathcal{E}_h\!\cap\!\mathcal{E}_n^{\mathrm{orph}}(f)\!=\!\emptyset\bigr\},\\[-1pt]
+\mathcal{A}_{n+1} &= \mathcal{A}_n\!\setminus\!\{f\},
 \end{aligned}
 \label{eq:cascade}
 \end{equation}
-Eq.~\eqref{eq:cascade} encodes the cascading-delete invariant: no edge ever points into the deleted set, and no orphan ever survives.
-
-Refresh is the dual operation: a fact change does not delete and rebuild but rewrites the affected hyperedge in place and re-embeds it,
+encoding the cascading-delete invariant: no surviving hyperedge points into a deleted entity, no orphan survives. $\textsc{Refresh}$ is the dual---it rewrites the affected hyperedge in place and re-embeds it,
 \begin{equation}
-\mathcal{E}_{t+1} \;=\; \bigl(\mathcal{E}_t\setminus\{e_{\mathrm{old}}\}\bigr)\cup\{e_{\mathrm{new}}\},
-\qquad
-\phi_{e_{\mathrm{new}}} = \mathrm{Embed}\!\bigl(\pi_{e_{\mathrm{new}}}\bigr).
+\mathcal{H}_{n+1}\!=\!\bigl(\mathcal{H}_n\!\setminus\!\{h_{\mathrm{old}}\}\bigr)\!\cup\!\{h_{\mathrm{new}}\},\;\;
+\phi(h_{\mathrm{new}})\!=\!\mathrm{Embed}\!\bigl(\pi_{h_{\mathrm{new}}}\bigr),
 \label{eq:refresh}
 \end{equation}
-This keeps the structural neighborhood of the edge stable while updating both its proposition and its embedding, so downstream retrieval automatically reflects the new fact without re-indexing the entire graph. Every event $\Delta_t$ is appended to an audit log $\mathcal{L}_t$, so the trajectory $(\mathcal{G}_0,\Delta_1,\mathcal{G}_1,\ldots,\Delta_T,\mathcal{G}_T)$ is fully reconstructable. Together, Eqs.~\eqref{eq:loop}--\eqref{eq:refresh} close the static-corpus assumption shared by prior graph RAG~\citep{GraphRAG,LightRAG,HippoRAG2,KAG} and directly ground task T5 (lifecycle consistency).
+preserving structural neighborhoods so retrieval tracks the new fact without re-indexing. Eqs.~\eqref{eq:loop}--\eqref{eq:refresh} lift the static-corpus assumption~\citep{GraphRAG,LightRAG,HippoRAG2,KAG} and ground T5; consistency ($\mathcal{S}(e)\!\neq\!\emptyset\,\forall e\!\in\!\mathcal{E}_N$, $\mathcal{E}_h\!\subseteq\!\mathcal{E}_N\,\forall h\!\in\!\mathcal{H}_N$) is proved by induction in App.~\ref{app:proof2}.
 
-\textbf{Proposition 2.} \textit{Under any finite sequence of add/delete/refresh events $(\Delta_1,\dots,\Delta_T)$, the closed-loop lifecycle agent preserves graph consistency: every surviving entity has non-empty support and every surviving hyperedge connects only surviving entities, i.e.\ $\mathcal{S}(v)\!\neq\!\emptyset$ for all $v\!\in\!\mathcal{V}_T$ and $\mathcal{V}_e\!\subseteq\!\mathcal{V}_T$ for all $e\!\in\!\mathcal{E}_T$.}\vspace{-2mm}
-\begin{proof}
-We provide experimental evidence in Section~\ref{sec:exp} (T5 column of Table~\ref{tab:main} and the ``KC w/o C2'' ablation) and a formal proof by induction in Appendix~\ref{app:proof2}.
-\end{proof}
+\subsection{C3: Multi-angle Application with Intent Routing}\label{sec:c3}
 
-\subsection{C3: Multi-angle Application with Intent Routing}
-\label{sec:c3}
+Different queries demand different angles: factoid lookup needs a precise subgraph, topic synthesis a global digest, research probes the corpus's blind spots. KnowledgeClaw exposes three angles $\mathcal{R}\!=\!\{\mathrm{sub},\mathrm{com},\mathrm{disc}\}$ and routes among them.
 
-A queryable, reasoning-ready service must speak the language of qualitatively different queries: a factual lookup needs a precise subgraph, a topic-summarization request needs a global digest, and a research question may require surfacing what the corpus does \emph{not} yet cover. Rather than letting one retrieval scheme answer all three, KnowledgeClaw exposes three retrieval angles and lets a lightweight router decide which to invoke.
-
-\paragraph{Subgraph-level retrieval.} For factoid and multi-hop questions, we maintain two vector indexes---one over entities and one over hyperedge propositions---and combine their rankings via reciprocal rank fusion (RRF~\citep{RRF}):
+\paragraph{Subgraph-level retrieval ($\mathrm{sub}$).} Dual indexes over $\mathcal{E},\mathcal{H}$ are fused via reciprocal rank fusion~\citep{RRF}; the top-$K$ seeds $\mathcal{Z}_q$ are expanded by an $\ell$-hop walk~\citep{PathRAG,HippoRAG2}:
 \begin{equation}
-s_{\mathrm{RRF}}(x;q) \;=\; \sum_{r \in \{r_{\mathcal{V}},\,r_{\mathcal{E}}\}} \frac{1}{k + r(x;q)},\qquad k = 60.
-\label{eq:rrf}
+s_{\mathrm{RRF}}(x;q)\!=\!\!\!\!\sum_{r\,\in\,\{r_{\mathcal{E}},r_{\mathcal{H}}\}}\!\!\!\frac{1}{k_0\!+\!r(x;q)},\;\;\,
+\mathcal{G}_q^{\mathrm{sub}}\!=\!\mathcal{G}\!\bigl[\mathcal{N}_{\leq\ell}(\mathcal{Z}_q)\bigr],\;\;\,
+\mathcal{N}_{\leq\ell}(\mathcal{Z}_q)\!=\!\!\!\bigcup_{x\,\in\,\mathcal{Z}_q}\!\bigcup_{i=0}^{\ell}\!\mathcal{N}^{(i)}(x),
+\label{eq:sub}
 \end{equation}
-Eq.~\eqref{eq:rrf} calibrates entity recall against hyperedge recall without any trained re-ranker, since RRF is robust to score-distribution mismatch. The top-$K$ items by $s_{\mathrm{RRF}}$ become the seed set $\mathcal{S}_q$. Because real questions often require facts within a few hops of the seeds rather than the seeds themselves, we expand $\mathcal{S}_q$ by an $h$-hop walk~\citep{PathRAG,HippoRAG2} into the answer subgraph
-\begin{equation}
-\mathcal{G}_q^{\mathrm{sub}} \;=\; \mathcal{G}\bigl[\,\mathcal{N}_{\leq h}(\mathcal{S}_q)\,\bigr],
-\qquad
-\mathcal{N}_{\leq h}(\mathcal{S}_q) = \bigcup_{x\in\mathcal{S}_q}\!\bigcup_{i=0}^{h}\,\mathcal{N}^{(i)}(x),
-\label{eq:walk}
-\end{equation}
-which carries the relational neighborhood needed for n-ary reasoning.
+with $k_0\!=\!60$ and per-index ranks $r_{\mathcal{E}},r_{\mathcal{H}}$ from cosine to $\phi(q)$; the walk carries the relational neighborhood for $n$-ary multi-hop reasoning (T3, T4).
 
-\paragraph{Community-level synthesis.} A subgraph alone cannot answer ``what does this corpus say about X overall?''. To support such global queries, we partition the entity-cooccurrence graph by maximizing the Louvain modularity~\citep{Louvain}
+\paragraph{Community-level synthesis ($\mathrm{com}$).} For ``what does this corpus say about $X$ overall?'', we partition the entity-cooccurrence graph by Louvain modularity~\citep{Louvain}, summarize each community $\mathcal{C}_k$ via an LLM into $\sigma_k$, and retrieve the top-$L$ relevant ones:
 \begin{equation}
-Q \;=\; \frac{1}{2m}\sum_{i,j}\Bigl[\,A_{ij} - \frac{k_i k_j}{2m}\,\Bigr]\,\delta(c_i,c_j),
-\label{eq:louvain}
-\end{equation}
-where $A$ is the weighted entity-cooccurrence adjacency, $m=\tfrac{1}{2}\sum_{ij}A_{ij}$ is the total weight, $k_i=\sum_j A_{ij}$, and $c_i$ is the community of vertex $i$. Each resulting community $\mathcal{C}_k$ is condensed by an LLM into a natural-language summary $\sigma_k$ and embedded as $\phi_{\sigma_k}$. A synthesis query then retrieves the top-$L$ communities most relevant to it,
-\begin{equation}
-\mathcal{C}_q^{\mathrm{com}} \;=\; \mathrm{TopK}_{\mathcal{C}_k}\!\bigl[\,\cos\!\bigl(\phi_q,\phi_{\sigma_k}\bigr)\bigr],
+Q\!=\!\frac{1}{2W}\!\!\sum_{i,j\,\in\,\mathcal{E}}\!\!\Bigl[A_{ij}\!-\!\tfrac{k_i k_j}{2W}\Bigr]\delta(c_i,c_j),\;\, A_{ij}\!=\!\!\!\sum_{h:\{i,j\}\subseteq\mathcal{E}_h}\!\!\!\!\omega_h,\;\,
+\mathcal{C}_q^{\mathrm{com}}\!=\!\mathrm{TopL}_{\mathcal{C}_k}\!\bigl[\bigl\langle\phi(q),\phi(\sigma_k)\bigr\rangle\bigr],
 \label{eq:com}
 \end{equation}
-so that the agent reasons over a topic-level digest rather than a flat chunk concatenation.
+with $W\!=\!\tfrac{1}{2}\!\sum_{ij}\!A_{ij}$, $k_i\!=\!\sum_j\!A_{ij}$, so synthesis runs over a topic digest, not flat chunks.
 
-\paragraph{Knowledge discovery.} The same community structure serves a third use that neither subgraph nor community retrieval covers: telling the user what the KB does \emph{not} yet know. Given a topic $t$, KnowledgeClaw exposes three lists,
+\paragraph{Knowledge discovery ($\mathrm{disc}$) and intent routing.} The same structure also reveals what the KB does \emph{not} yet know. For topic $t$ and query $q$, KnowledgeClaw exposes the T6 triplet, scores each angle, and concatenates selected outputs:
 \begin{equation}
 \begin{aligned}
-\mathrm{known}(t) &= \bigl\{\, v\!\in\!\mathcal{V} \,\big|\, \cos\!\bigl(\phi_t,\phi_v\bigr) \geq \theta_{\mathrm{k}}\,\bigr\}, \\
-\bigl(\mathrm{gap}(t),\,\mathrm{sug}(t)\bigr) &= \mathrm{LLM}_{\mathrm{disc}}\!\Bigl(\,t,\,\{\sigma_k\}_{\mathcal{C}_k\in\mathcal{C}_t^{\mathrm{com}}},\,\mathrm{known}(t)\,\Bigr),
+\mathrm{known}(t)&\!=\!\bigl\{e\!\in\!\mathcal{E}\!:\!\langle\phi(t),\phi(e)\rangle\!\geq\!\theta_{\mathrm{k}}\bigr\},\;
+\bigl(\mathrm{gaps}(t),\mathrm{sug}(t)\bigr)\!=\!\mathrm{LLM}_{\mathrm{disc}}\!\bigl(t,\{\sigma_k\}_{\mathcal{C}_t^{\mathrm{com}}},\mathrm{known}(t)\bigr),\\[-1pt]
+\pi^{*}(q)&\!=\!\bigl\{a\!\in\!\mathcal{R}\!:\!w_a(q)\!\geq\!\theta_{\pi}\bigr\},\;\;\;
+\hat{a}(q)\!=\!\mathrm{LLM}_{\mathrm{gen}}\!\Bigl(q,\!\!\!\bigoplus_{a\,\in\,\pi^{*}(q)}\!\!\!R_a(q)\Bigr),
 \end{aligned}
-\label{eq:disc}
+\label{eq:disc-route}
 \end{equation}
-where $\mathrm{known}(t)$ surfaces the entities the KB already covers, while the LLM operates on the retrieved community summaries to surface uncovered subtopics ($\mathrm{gap}$) and concrete suggestions for what to acquire next ($\mathrm{sug}$). Discovery is therefore a first-class application angle, not a post-hoc summary, because it answers a different question than retrieval does.
-
-\paragraph{Intent routing.} An incoming query may need any one or several of the three angles. A lightweight router scores each angle $a\!\in\!\mathcal{P}\!=\!\{\mathrm{sub},\mathrm{com},\mathrm{disc}\}$ and selects those above threshold:
-\begin{equation}
-\pi^{*}(q) \;=\; \bigl\{\,a\!\in\!\mathcal{P} \,\big|\, w_a(q) \geq \theta_{\pi}\,\bigr\},
-\qquad
-w_a(q) \;=\; \mathrm{Router}(q, a).
-\label{eq:router}
-\end{equation}
-The router is heuristic-first (cheap regex-style features over $q$, e.g., the presence of summary trigger words) with an LLM fallback for ambiguous cases, keeping the per-query overhead under one extra inference. The selected angles' outputs are then concatenated into the generation context:
-\begin{equation}
-\hat{a}(q) \;=\; \mathrm{LLM}_{\mathrm{gen}}\!\Bigl(q,\,\bigoplus_{a\in\pi^{*}(q)} R_a(q)\Bigr),
-\label{eq:gen}
-\end{equation}
-with $R_{\mathrm{sub}}\!=\!\mathcal{G}_q^{\mathrm{sub}}$, $R_{\mathrm{com}}\!=\!\{\sigma_k\}_{\mathcal{C}_k\in\mathcal{C}_q^{\mathrm{com}}}$, and $R_{\mathrm{disc}}\!=\!(\mathrm{known}(q),\mathrm{gap}(q),\mathrm{sug}(q))$. A factual question therefore conditions $\hat{a}$ on a precise subgraph alone, a synthesis question on community summaries, a discovery prompt on the three discovery lists, and a hybrid question on any non-empty subset---which is what allows a single system to support T3 (multi-hop retrieval), T4 (cross-modal reasoning), and T6 (knowledge discovery) without specialized pipelines for each.
-
-\textbf{Proposition 3.} \textit{Multi-angle application with intent routing strictly subsumes any single-angle retrieval on the OmniKE query distribution: no single $a\!\in\!\mathcal{P}\!=\!\{\mathrm{sub},\mathrm{com},\mathrm{disc}\}$ alone covers $\{T3,T4,T6\}$, while the union induced by $\pi^{*}(q)$ does.}\vspace{-2mm}
-\begin{proof}
-We provide experimental evidence in Section~\ref{sec:exp} (T3, T4, T6 columns of Table~\ref{tab:main} and the ``KC w/o C3'' ablation) and a formal proof in Appendix~\ref{app:proof3}.
-\end{proof}
+with $w_a\!=\!\mathrm{Router}(q,a)$ (regex; LLM on ambiguity), $R_{\mathrm{sub}}\!=\!\mathcal{G}_q^{\mathrm{sub}}$, $R_{\mathrm{com}}\!=\!\{\sigma_k\}_{\mathcal{C}_q^{\mathrm{com}}}$, $R_{\mathrm{disc}}\!=\!(\mathrm{known},\mathrm{gaps},\mathrm{sug})$, so factoid/synthesis/discovery/hybrid queries each pick a non-empty subset---one system covering T3, T4, T6 (single-angle insufficiency: App.~\ref{app:proof3}).
 
 
 
@@ -382,7 +319,7 @@ We provide experimental evidence in Section~\ref{sec:exp} (T3, T4, T6 columns of
 
 This section presents the experimental setup, main results, and analysis. We answer the following research questions (RQs):
 \textbf{RQ1:} Does KnowledgeClaw outperform existing methods on OmniKE-Bench?
-\textbf{RQ2:} Does each of the three contributions (C1 omnimodal typed hypergraph, C2 closed-loop lifecycle agent, C3 multi-angle application with intent routing) work?
+\textbf{RQ2:} Does each of the three contributions (C1 omnimodal knowledge hypergraph, C2 closed-loop lifecycle agent, C3 multi-angle application with intent routing) work?
 \textbf{RQ3:} How does KnowledgeClaw generalize across the five modalities and ten professional-domain personas?
 \textbf{RQ4:} How robust is the closed-loop lifecycle agent under continuous add/delete/refresh events on a live knowledge base?
 \textbf{RQ5:} How effective is intent routing compared to each individual retrieval mode on different query types?
@@ -396,7 +333,7 @@ This section presents the experimental setup, main results, and analysis. We ans
 
 \textbf{Evaluation Metrics.} Each task reports a task-level score (0-100) that combines structural correctness and generation quality; the aggregate \textbf{OKE} score is the arithmetic mean over T1-T6, with architecturally unsupported tasks counted as 0. Tasks T1 and T2 evaluate faithfulness and coverage via entity/proposition matching against unified ground truth; T3 and T4 follow end-to-end RAG assessment~\citep{RAGAS} with an F1-style answer-match metric; T5 scores operational correctness of natural-language CRUD plus post-edit answer fidelity; T6 uses an LLM-as-judge protocol adapted from HelloBench~\citep{HelloBench} to score known/gap/suggestion triplets across accuracy, relevance, novelty, and completeness. Per-persona scores average T1-T6 within a persona. Details and per-metric breakdowns are in Appendix~E.
 
-\textbf{Implementation Details.} We use \texttt{gemini-3.1-flash-lite-preview} for extraction, retrieval, and generation, and \texttt{gemini-embedding-2-preview} for vector representations. For subgraph-level retrieval we set entity/hyperedge RRF top-$k_V = 40$, $k_H = 40$ with graph-walk depth 2; community-level synthesis uses Louvain clustering with summary chunk size 300 tokens; the intent router is a single LLM call dispatching among subgraph retrieval, community synthesis, and knowledge discovery. All baselines are run with their default hyperparameters from the original repositories. Scores are averaged over five random seeds per persona. Experiments are conducted on a single server with an 80-core CPU and 512\,GB RAM; no GPU is required since all LLM inference is called through remote APIs.
+\textbf{Implementation Details.} We use \texttt{gemini-3.1-flash-lite-preview} for extraction, retrieval, and generation, and \texttt{gemini-embedding-2-preview} for vector representations. For subgraph-level retrieval we set entity/hyperedge RRF top-$K_{\mathcal{E}}\!=\!40$, $K_{\mathcal{H}}\!=\!40$ with walk depth $\ell\!=\!2$; community-level synthesis uses Louvain clustering with summary chunk size 300 tokens; the intent router is a single LLM call dispatching among subgraph retrieval, community synthesis, and knowledge discovery. All baselines are run with their default hyperparameters from the original repositories. Scores are averaged over five random seeds per persona. Experiments are conducted on a single server with an 80-core CPU and 512\,GB RAM; no GPU is required since all LLM inference is called through remote APIs.
 
 \subsection{Main Results (RQ1)}
 
@@ -410,9 +347,9 @@ To evaluate the effectiveness of KnowledgeClaw, we compare its performance with 
 
 \subsection{Ablation Study (RQ2)}
 
-As shown in the last four rows of Table~\ref{tab:main}, we remove each of the three contributions in turn---C1 (omnimodal typed hypergraph), C2 (closed-loop lifecycle agent), and C3 (multi-angle application with intent routing)---and report the effect on each task.
+As shown in the last four rows of Table~\ref{tab:main}, we remove each of the three contributions in turn---C1 (omnimodal knowledge hypergraph), C2 (closed-loop lifecycle agent), and C3 (multi-angle application with intent routing)---and report the effect on each task.
 
-\textbf{Impact of C1 (Omnimodal Typed Hypergraph).} C1 unifies entities from all five modalities under a shared hypergraph. Without C1, the system reduces to text-only ingestion and cross-modal coreference collapses: T2 and T4 become unscorable and OKE falls from 59.8 to 29.4 ($-$30.4). This is by far the largest single-component impact and confirms that C1 is the structural foundation on which C2 and C3 operate.
+\textbf{Impact of C1 (Omnimodal Knowledge Hypergraph).} C1 unifies entities from all five modalities under a shared hypergraph. Without C1, the system reduces to text-only ingestion and cross-modal coreference collapses: T2 and T4 become unscorable and OKE falls from 59.8 to 29.4 ($-$30.4). This is by far the largest single-component impact and confirms that C1 is the structural foundation on which C2 and C3 operate.
 
 \textbf{Impact of C2 (Closed-Loop Lifecycle Agent).} C2 maintains graph consistency under add, delete, and refresh events. Without C2, the knowledge base cannot respond to lifecycle signals: T5 becomes unscorable and OKE drops from 59.8 to 52.0 ($-$7.8). The other five tasks are preserved, showing that C2's effect is orthogonal to the other two and targets lifecycle specifically.
 

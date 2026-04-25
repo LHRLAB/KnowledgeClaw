@@ -1,14 +1,14 @@
 # Fdb version 3
-["bibtex neurips_2026"] 1777138886 "neurips_2026.aux" "neurips_2026.bbl" "neurips_2026" 1777138914
+["bibtex neurips_2026"] 1777143166 "neurips_2026.aux" "neurips_2026.bbl" "neurips_2026" 1777143173
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
   "custom.bib" 1777033104 94104 e74944a3716aaf38223a87fe7572acc2 ""
-  "neurips_2026.aux" 1777138914 14343 d1554e3c5672115957b9324706260feb "pdflatex"
+  "neurips_2026.aux" 1777143173 13907 6a31a7a990ab835f7fb18daedf1411d7 "pdflatex"
   (generated)
   "neurips_2026.bbl"
   "neurips_2026.blg"
-["pdflatex"] 1777138913 "/mnt/hdd2/home/luohaoran/github/KnowledgeClaw/Latex/neurips_2026.tex" "neurips_2026.pdf" "neurips_2026" 1777138914
+["pdflatex"] 1777143172 "/mnt/hdd2/home/luohaoran/github/KnowledgeClaw/Latex/neurips_2026.tex" "neurips_2026.pdf" "neurips_2026" 1777143173
   "/etc/texmf/web2c/texmf.cnf" 1773184974 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/mnt/hdd2/home/luohaoran/github/KnowledgeClaw/Latex/neurips_2026.tex" 1777138912 48652 7631834bf67ea328c01faccbb8315fbb ""
+  "/mnt/hdd2/home/luohaoran/github/KnowledgeClaw/Latex/neurips_2026.tex" 1777143171 42887 7a225c3b9de444fef5213e44cb4d1797 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvr8r.tfm" 1136768653 4712 9ef4d7d106579d4b136e1529e1a4533c ""
@@ -18,6 +18,7 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8c.tfm" 1136768653 1352 fa28a7e6d323c65ce7d13d5342ff6be2 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm" 1136768653 4408 25b74d011a4c66b7f212c0cc3c90061b ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8t.tfm" 1136768653 6672 e3ab9e37e925f3045c9005e6d1473d56 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmrc8t.tfm" 1136768653 16648 7e91c60ebf91b9c60e16ef52b3070f9c ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm" 1136768653 4640 532ca3305aad10cc01d769f3f91f1029 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmri8t.tfm" 1136768653 6944 94c55ad86e6ea2826f78ba2240d50df9 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ectt0800.tfm" 1136768653 1536 0b0b8ca286de6a006b681926403f35cd ""
@@ -65,6 +66,7 @@
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmb8t.vf" 1136768653 2340 df9c920cc5688ebbf16a93f45ce7bdd3 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmr8c.vf" 1136768653 3556 8a9a6dcbcd146ef985683f677f4758a6 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmr8t.vf" 1136768653 2348 91706c542228501c410c266421fbe30c ""
+  "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmrc8t.vf" 1136768653 3608 78e4c999d9e69f03f448158d01821741 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmri8t.vf" 1136768653 2328 6cd7df782b09b29cfc4d93e55b6b9a59 ""
   "/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/share/texlive/texmf-dist/tex/generic/atbegshi/atbegshi.sty" 1575674566 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
@@ -164,11 +166,11 @@
   "F2.pdf" 1777063621 1200376 aa0d799fefd7b4d0f4190588b865cea5 ""
   "F3.pdf" 1777136294 2036553 c8f5ab3c7fa9d9fc344e920bfbcf55a7 ""
   "checklist.tex" 1776574390 26167 b3450429513a86f46735450d0288b722 ""
-  "neurips_2026.aux" 1777138914 14343 d1554e3c5672115957b9324706260feb "pdflatex"
-  "neurips_2026.bbl" 1777138886 39574 7c666d085e0cb8f3f37cc0c9e49a39b7 "bibtex neurips_2026"
-  "neurips_2026.out" 1777138914 2644 841aa6ad91f07f0df01c6633a0e7a89d "pdflatex"
+  "neurips_2026.aux" 1777143173 13907 6a31a7a990ab835f7fb18daedf1411d7 "pdflatex"
+  "neurips_2026.bbl" 1777143166 39574 7c666d085e0cb8f3f37cc0c9e49a39b7 "bibtex neurips_2026"
+  "neurips_2026.out" 1777143173 2664 257cf3fa0df66988c82bbd7f27bb4e68 "pdflatex"
   "neurips_2026.sty" 1776574390 13462 818d80447f57703e59b8270885421e82 ""
-  "neurips_2026.tex" 1777138912 48652 7631834bf67ea328c01faccbb8315fbb ""
+  "neurips_2026.tex" 1777143171 42887 7a225c3b9de444fef5213e44cb4d1797 ""
   (generated)
   "neurips_2026.aux"
   "neurips_2026.log"
