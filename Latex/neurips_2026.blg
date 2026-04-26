@@ -3,10 +3,9 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: neurips_2026.aux
 The style file: plain.bst
 Database file #1: custom.bib
-Warning--I didn't find a database entry for "RRF"
 You've used 96 entries,
             2118 wiz_defined-function locations,
-            1064 strings with 39061 characters,
+            1062 strings with 39055 characters,
 and the built_in function-call counts, 72594 in all, are:
 = -- 5870
 > -- 7579
@@ -45,4 +44,3 @@ warning$ -- 0
 while$ -- 331
 width$ -- 98
 write$ -- 1035
-(There was 1 warning)
