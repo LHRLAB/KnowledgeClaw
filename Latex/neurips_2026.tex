@@ -64,6 +64,7 @@
 \usepackage{colortbl}
 \usepackage{subfigure}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{wrapfig}
 \usepackage{enumitem}
 \usepackage{amsthm}
@@ -161,7 +162,7 @@ Experiments on OmniKE-Bench against 22 baselines spanning seven paradigm groups 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{F3.pdf}
-\caption{\textbf{(A)} Six OmniKE tasks covering construction (T1, T2), maintenance (T5), and application (T3, T4, T6). \textbf{(B)} OmniKE-Bench: 10 personas, 10 domains, 5 modalities, and 4{,}544 real files.}\label{F3}
+\caption{\textbf{(A)} Six OmniKE tasks covering construction (T1 acquisition, T2 cross-modal coreference), maintenance (T5 lifecycle consistency), and application (T3 multi-hop, T4 cross-modal, T6 discovery). \textbf{(B)} OmniKE-Bench: 10 personas, 10 domains, 5 modalities, and 4{,}544 real files.}\label{F3}
 \end{figure}
 
 \section{The OmniKE Tasks and Benchmark}\label{sec:task}
@@ -177,7 +178,7 @@ We formalize \emph{Omnimodal Knowledge Engineering} (\textbf{OmniKE}) as six met
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{F4.pdf}
-\caption{\textbf{KnowledgeClaw} methodology: \textbf{(A)} C1 fuses five modalities into an omnimodal hypergraph; \textbf{(B)} C2 maintains it under add/delete/refresh; \textbf{(C)} C3 routes across subgraph/community/discovery.}\label{F4}
+\caption{\textbf{KnowledgeClaw} methodology, where C1--C3 build, maintain, and serve an omnimodal knowledge hypergraph. \textbf{(A)} C1 extracts entities from text, PDF, image, audio, and video and fuses them via within-modality canonicalization and cross-modal coreference into typed hyperedges. \textbf{(B)} C2 closes the lifecycle loop via a Build--Query--Reason--Update pass with orphan eviction and fact refresh. \textbf{(C)} C3 routes queries among subgraph retrieval, community synthesis, and discovery.}\label{F4}
 \end{figure}
 
 \section{Methodology: KnowledgeClaw}\label{sec:method}
@@ -281,7 +282,64 @@ We provide experimental results in Sections~\ref{5.6} and proofs in Appendix~\re
 
 \begin{table}[t]
 \centering
-\caption{Main results on OmniKE-Bench v0.1. \textbf{T1}-\textbf{T6}: per-task scores (T1 knowledge acquisition, T2 cross-modal coreference, T3 multi-hop retrieval, T4 cross-modal reasoning, T5 lifecycle consistency, T6 knowledge discovery). \textbf{HC}-\textbf{Rob}: per-persona average (Healthcare, Finance, Education, Law, Psychology, Music, Gaming, Building, Software, Robotics). \textbf{OKE}: arithmetic mean over T1-T6 with architecturally unsupported tasks counted as 0. $\boldsymbol{\Delta}$: gap to OpenClaw (anchor). ``-'' = task not architecturally supported. Best scores in bold.}
+\caption{Design comparison of all baselines across the six OmniKE tasks T1--T6: each cell summarizes the method's mechanism in text and formula, with ``-'' marking architecturally unsupported tasks. Rows follow Table~\ref{tab:main}'s paradigm grouping and order; notation follows \S\ref{sec:method}.}
+\label{tab:design}
+\setlength{\tabcolsep}{7.5pt}\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l|cccccc}
+\toprule
+\textbf{Method} & \textbf{T1} & \textbf{T2} & \textbf{T3} & \textbf{T4} & \textbf{T5} & \textbf{T6} \\
+\midrule
+\rowcolor{cyan!5} NaiveRAG~\citep{RAG} & chunks $\{c_i\}$ & - & cosine top-$k$ & - & - & - \\
+\rowcolor{cyan!5} RAPTOR~\citep{RAPTOR} & cluster tree & - & tree-walk top-$k$ & - & - & cluster $\sigma_k$ \\
+\rowcolor{blue!7} GraphRAG~\citep{GraphRAG} & $G\!=\!(V,E)$ & - & comm.-routed top-$k$ & - & - & Louvain $\sigma_k$ \\
+\rowcolor{blue!7} LightRAG~\citep{LightRAG} & dual-level $G$ & - & dual top-$k$ & - & - & - \\
+\rowcolor{blue!7} HippoRAG2~\citep{HippoRAG2} & $G$ + PPR & - & PageRank top-$k$ & - & - & - \\
+\rowcolor{blue!7} HyperGraphRAG~\citep{HyperGraphRAG} & $h\!\subseteq\!V$ & - & expand $\bigcup_h$ & - & - & - \\
+\rowcolor{teal!8} iText2KG~\citep{iText2KG} & ontology $G$ & - & graph query & - & ontology rebuild & - \\
+\rowcolor{teal!8} OntoKG~\citep{OntoKG} & ontology $G$ & - & SPARQL-like & - & - & - \\
+\rowcolor{teal!14} KAG/OpenSPG~\citep{KAG} & live KG & - & KG-walk & - & partial CRUD & - \\
+\rowcolor{teal!14} Graphiti~\citep{Graphiti} & temporal $G_t$ & - & temporal walk & - & partial CRUD & temporal $\sigma$ \\
+\rowcolor{orange!8} MemGPT/Letta~\citep{MemGPT} & hier.\ mem $\{m_i\}$ & - & ANN & - & tool-call CRUD & - \\
+\rowcolor{orange!8} Mem0~\citep{Mem0} & mem tree & - & hybrid top-$k$ & - & full CRUD & - \\
+\rowcolor{orange!8} A-MEM~\citep{A-MEM} & agentic mem $m$ & - & structured & - & full CRUD & gap probe \\
+\rowcolor{yellow!12} OmniRAG-Agent~\citep{OmniRAG-Agent} & $\{I_m\}_{m\in\mathcal{M}}$ & hashing & per-mod top-$k$ & mod.\ fusion & - & - \\
+\rowcolor{green!8} OpenClaw~\citep{OpenClaw} & $G$+mem, omni & linking & top-$k$+mem & mod.\ concat & partial CRUD & LLM probe \\
+\rowcolor{green!8} Cognee~\citep{Cognee} & $G$+mem, omni & linking & top-$k$+mem & mod.\ concat & partial CRUD & LLM probe \\
+\rowcolor{green!8} LLM Wiki~\citep{LLMWiki} & $G$+mem, omni & linking & top-$k$+mem & mod.\ concat & partial CRUD & LLM probe \\
+\rowcolor{green!8} Graphify~\citep{Graphify} & $G$+mem, omni & linking & top-$k$+mem & mod.\ concat & partial CRUD & LLM probe \\
+\midrule
+\rowcolor{red!8} KC w/o C1 & text $\mathrm{Extract}$ & - & RRF+$\ell$-hop & - & cascade & $\mathrm{LLM}_{\mathrm{disc}}$ \\
+\rowcolor{red!8} KC w/o C2 & $\mathrm{Extract}\!+\!\kappa$ & $\chi$ test & RRF+$\ell$-hop & $\chi$-aware sub & - & $\mathrm{LLM}_{\mathrm{disc}}$ \\
+\rowcolor{red!8} KC w/o C3 & $\mathrm{Extract}\!+\!\kappa$ & $\chi$ test & flat top-$k$ & flat top-$k$ & B-Q-R-U & flat top-$k$ \\
+\rowcolor{red!12} \textbf{KnowledgeClaw} & $\mathrm{Extract}\!+\!\kappa$ & $\chi$ test & RRF+$\ell$-hop & $\chi$+$\bigoplus R_a$ & B-Q-R-U & $\mathrm{LLM}_{\mathrm{disc}}$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\section{Experiments}
+\label{sec:exp}
+
+We answer six RQs:
+\textbf{RQ1:} Does KnowledgeClaw outperform existing methods on OmniKE-Bench?
+\textbf{RQ2:} Does each contribution (C1, C2, C3) work?
+\textbf{RQ3:} Does KnowledgeClaw generalize across the five modalities and ten personas?
+\textbf{RQ4:} How robust is the lifecycle agent under continuous add/delete/refresh events?
+\textbf{RQ5:} Does intent routing beat each individual retrieval mode on different queries?
+\textbf{RQ6:} What are the time and cost of KnowledgeClaw in construction and serving?
+
+\subsection{Experimental Setup}
+
+\textbf{Datasets and Evaluation Metrics.} We evaluate on \emph{OmniKE-Bench} introduced in \S\ref{sec:task} (10 personas, 5 modalities, $\approx$4{,}500 real files); every task T1--T6 reports a 0--100 score and the aggregate \textbf{OKE} is their arithmetic mean, with architecturally unsupported tasks counted as 0 so partial coverage of properties (i)--(iii) is penalized. Per-persona scores average T1--T6 within a persona; full task definitions, data construction, and per-metric formulas are deferred to \S\ref{sec:task} and Appendix~E.
+
+\textbf{Baselines and Ablations.} We compare KnowledgeClaw against 22 publicly available baselines spanning seven paradigm groups: \emph{chunk/hierarchical retrieval} (NaiveRAG~\citep{RAG}, RAPTOR~\citep{RAPTOR}); \emph{graph/hypergraph RAG} (GraphRAG~\citep{GraphRAG}, LightRAG~\citep{LightRAG}, HippoRAG2~\citep{HippoRAG2}, HyperGraphRAG~\citep{HyperGraphRAG}); \emph{KG construction} (iText2KG~\citep{iText2KG}, OntoKG~\citep{OntoKG}); \emph{agentic KG} (KAG/OpenSPG~\citep{KAG}, Graphiti~\citep{Graphiti}); \emph{memory agents} (MemGPT/Letta~\citep{MemGPT}, Mem0~\citep{Mem0}, A-MEM~\citep{A-MEM}); \emph{omnimodal RAG} (OmniRAG-Agent~\citep{OmniRAG-Agent}); and \emph{agentic KE} (OpenClaw~\citep{OpenClaw}, Cognee~\citep{Cognee}, LLM Wiki~\citep{LLMWiki}, Graphify~\citep{Graphify}). We additionally evaluate three internal ablations \emph{KC w/o C1/C2/C3}, each disabling exactly one contribution. All methods share the same input corpus, generation prompt, and LLM backbone for fairness; per-baseline adaptation details are in Appendix~E.
+
+\textbf{Implementation Details.} We adopt \texttt{gemini-3.1-flash-lite-preview} as the unified LLM backbone and \texttt{gemini-embedding-2-preview} for all $\phi(\cdot)$. Subgraph retrieval uses RRF top-$K_{\mathcal{E}}\!=\!K_{\mathcal{H}}\!=\!40$ with walk depth $\ell\!=\!2$ and constant $k_0\!=\!60$; community synthesis runs Louvain at $\gamma\!=\!1.0$ with chunk size 300 tokens and threshold $\theta_{\chi}\!=\!0.78$; the intent router thresholds at $\theta_{\pi}\!=\!0.5$. Baselines run with default hyperparameters; all scores are averaged over five random seeds per persona on a single 80-core 512\,GB CPU server (no GPU; all LLM calls remote).
+
+\begin{table}[t]
+\centering
+\caption{Main results on OmniKE-Bench. \textbf{T1}-\textbf{T6}: per-task scores; \textbf{HC}-\textbf{Rob}: per-persona averages over T1-T6; \textbf{OKE}: arithmetic mean over T1-T6 with architecturally unsupported tasks counted as 0; $\boldsymbol{\Delta}$: gap to OpenClaw (anchor); ``-'' = not architecturally supported. Best scores in bold.}
 \label{tab:main}
 \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2} 
 \resizebox{\textwidth}{!}{%
@@ -317,49 +375,79 @@ We provide experimental results in Sections~\ref{5.6} and proofs in Appendix~\re
 }
 \end{table}
 
-\section{Experiments}
-\label{sec:exp}
-
-This section presents the experimental setup, main results, and analysis. We answer the following research questions (RQs):
-\textbf{RQ1:} Does KnowledgeClaw outperform existing methods on OmniKE-Bench?
-\textbf{RQ2:} Does each of the three contributions (C1 omnimodal knowledge hypergraph, C2 closed-loop lifecycle agent, C3 multi-angle application with intent routing) work?
-\textbf{RQ3:} How does KnowledgeClaw generalize across the five modalities and ten professional-domain personas?
-\textbf{RQ4:} How robust is the closed-loop lifecycle agent under continuous add/delete/refresh events on a live knowledge base?
-\textbf{RQ5:} How effective is intent routing compared to each individual retrieval mode on different query types?
-\textbf{RQ6:} What are the time and cost of KnowledgeClaw in the construction and serving phases?
-
-\subsection{Experimental Setup}
-
-\textbf{Datasets.} We evaluate on \emph{OmniKE-Bench v0.1}, comprising 10 professional-domain personas (\textbf{Healthcare}, \textbf{Finance}, \textbf{Education}, \textbf{Law}, \textbf{Psychology}, \textbf{Music}, \textbf{Gaming}, \textbf{Building}, \textbf{Software}, \textbf{Robotics}) with approximately 4{,}500 real files spanning five modalities (text, PDF, image, audio, video), drawn from PMC, SCOTUS, PhysioNet, archive.org, and comparable sources. Each persona is evaluated on six method-agnostic tasks (T1 knowledge acquisition, T2 cross-modal coreference, T3 multi-hop retrieval, T4 cross-modal reasoning, T5 lifecycle consistency, T6 knowledge discovery) with human-verified ground truth. More details can be found in Appendix~B.
-
-\textbf{Baselines.} We compare KnowledgeClaw against 22 publicly available baselines spanning seven paradigm groups: \emph{chunk-based/hierarchical retrieval} (NaiveRAG~\citep{RAG}, RAPTOR~\citep{RAPTOR}); \emph{graph and hypergraph RAG} (GraphRAG~\citep{GraphRAG}, LightRAG~\citep{LightRAG}, HippoRAG2~\citep{HippoRAG2}, HyperGraphRAG~\citep{HyperGraphRAG}); \emph{knowledge graph construction} (iText2KG~\citep{iText2KG}, OntoKG~\citep{OntoKG}); \emph{agentic KG engines} (KAG/OpenSPG~\citep{KAG}, Graphiti~\citep{Graphiti}); \emph{memory agents} (MemGPT/Letta~\citep{MemGPT}, Mem0~\citep{Mem0}, A-MEM~\citep{A-MEM}); \emph{omnimodal RAG} (OmniRAG-Agent~\citep{OmniRAG-Agent}); and \emph{general agentic KE systems} (OpenClaw~\citep{OpenClaw}, Cognee~\citep{Cognee}, LLM Wiki~\citep{LLMWiki}, Graphify~\citep{Graphify}). To ensure fairness, all methods share the same input corpus, generation prompt, and LLM backbone; adaptation details are in Appendix~E.
-
-\textbf{Evaluation Metrics.} Each task reports a task-level score (0-100) that combines structural correctness and generation quality; the aggregate \textbf{OKE} score is the arithmetic mean over T1-T6, with architecturally unsupported tasks counted as 0. Tasks T1 and T2 evaluate faithfulness and coverage via entity/proposition matching against unified ground truth; T3 and T4 follow end-to-end RAG assessment~\citep{RAGAS} with an F1-style answer-match metric; T5 scores operational correctness of natural-language CRUD plus post-edit answer fidelity; T6 uses an LLM-as-judge protocol adapted from HelloBench~\citep{HelloBench} to score known/gap/suggestion triplets across accuracy, relevance, novelty, and completeness. Per-persona scores average T1-T6 within a persona. Details and per-metric breakdowns are in Appendix~E.
-
-\textbf{Implementation Details.} We use \texttt{gemini-3.1-flash-lite-preview} for extraction, retrieval, and generation, and \texttt{gemini-embedding-2-preview} for vector representations. For subgraph-level retrieval we set entity/hyperedge RRF top-$K_{\mathcal{E}}\!=\!40$, $K_{\mathcal{H}}\!=\!40$ with walk depth $\ell\!=\!2$; community-level synthesis uses Louvain clustering with summary chunk size 300 tokens; the intent router is a single LLM call dispatching among subgraph retrieval, community synthesis, and knowledge discovery. All baselines are run with their default hyperparameters from the original repositories. Scores are averaged over five random seeds per persona. Experiments are conducted on a single server with an 80-core CPU and 512\,GB RAM; no GPU is required since all LLM inference is called through remote APIs.
-
 \subsection{Main Results (RQ1)}
 
-To evaluate the effectiveness of KnowledgeClaw, we compare its performance with 22 baselines across six method-agnostic tasks and ten professional-domain personas. The results are shown in Table~\ref{tab:main}.
+\textbf{Overall.} KnowledgeClaw is the only system to score on all six OmniKE tasks and ranks first on every one, reaching aggregate OKE 59.8 and beating the strongest external baseline LLM Wiki by +13.6 and our prior anchor OpenClaw by +15.4; baselines covering only one or two of properties (i)--(iii) cluster below 50, text-only and memory-only systems stay under 30, and the four general agentic KE systems land in 44--47, escaping the text-only trap yet still missing at least one axis.
 
-\textbf{Overall Comparison Across Methods.} KnowledgeClaw is the only system to score on all six OmniKE tasks, and it ranks first on every one of them. It attains an OKE of 59.8, outperforming our own prior anchor OpenClaw by +15.4 and the strongest external baseline LLM Wiki by +13.6. Baselines that satisfy only one or two of the three necessary properties (i)--(iii) cluster tightly below 50, while text-only pipelines and memory agents stay below 30. Notably, general agentic KE systems (OpenClaw, Cognee, LLM Wiki, Graphify) all land between 44 and 47: inheriting OpenClaw's design lets them escape the text-only trap, but none of them individually covers all three axes and the four-way gap to KC remains over 13 points.
+\textbf{Per-task.} On the \emph{structural} tasks T1/T2, KC reaches 74.9/89.3 (+22.0/+24.6 over the best baseline), confirming C1's hypergraph captures richer cross-modal structure than text-only extraction; on the \emph{dynamic} tasks T5/T6, KC attains 46.8/64.3 (+2.6/+6.1), validating both C2's lifecycle loop and C3's community synthesis; on the \emph{retrieval} tasks T3/T4, KC attains 34.5/48.9 with smaller but consistent gains, since the multi-granularity payoff is bounded by the shared backbone.
 
-\textbf{Comparison Across Task Categories.} The per-task pattern directly mirrors the three necessary properties. On \emph{structural tasks} (T1 knowledge acquisition, T2 cross-modal coreference), KC reaches 74.9 and 89.3, exceeding the best baseline by +22.0 and +24.6, confirming that C1 (omnimodal typed hypergraph) captures richer structure than text-only extraction or shallow cross-modal hashing. On \emph{dynamic tasks} (T5 lifecycle, T6 discovery), KC attains 46.8 and 64.3 with gains of +2.6 over the best CRUD-capable baseline and +6.1 over the best community-synthesis baseline, validating C2 and C3. On \emph{retrieval tasks} (T3 multi-hop, T4 cross-modal), KC attains 34.5 and 48.9 with smaller but consistent gains, reflecting that C3's multi-granularity payoff on retrieval is bounded by the shared backbone LLM.
-
-\textbf{Comparison Across Personas.} Performance gains are consistent across all ten professional-domain personas. The largest advantages appear in modality-heavy domains (Healthcare, Law, Robotics, Building: over +13 OKE over the best baseline), while text-centric domains (Software, Education, Finance) still show stable gains of +10--12. The per-persona variance of KC (58.2--62.0) is the smallest among all methods on the table, indicating that the hypergraph-and-routing design generalizes well across both structured and open-ended knowledge workloads.
+\textbf{Per-persona.} Gains are stable across all ten personas, with KC's per-persona OKE in 58.2--62.0---the smallest variance in the table; the largest advantages appear in modality-heavy domains (Healthcare, Law, Robotics, Building, all $>$+13 OKE), and even text-centric Software, Education, and Finance retain stable +10--12 gains.
 
 \subsection{Ablation Study (RQ2)}
 
-As shown in the last four rows of Table~\ref{tab:main}, we remove each of the three contributions in turn: C1 (omnimodal knowledge hypergraph), C2 (closed-loop lifecycle agent), and C3 (multi-angle application with intent routing), and report the effect on each task.
+Removing each contribution in turn (last four rows of Table~\ref{tab:main}) hurts precisely the axis it serves. \textbf{w/o C1} collapses cross-modal coreference: T2 and T4 become unscorable and OKE falls to 29.4 ($-$30.4)---by far the largest single-component drop and clear evidence that C1 is the structural foundation. \textbf{w/o C2} loses lifecycle: T5 becomes unscorable and OKE drops to 52.0 ($-$7.8) with the other five tasks preserved, showing C2 targets lifecycle alone. \textbf{w/o C3} collapses retrieval to a flat top-$k$ pass: T3 drops 34.5$\to$24.0, T6 drops 64.3$\to$48.1, OKE falls to 51.9 ($-$7.9), while structural T1/T2 remain unchanged. This orthogonal decay pattern validates our central claim: omnimodality, closed-loop lifecycle, and multi-angle application form a minimum-sufficient set of axes mapped one-to-one onto C1--C3.
 
-\textbf{Impact of C1 (Omnimodal Knowledge Hypergraph).} C1 unifies entities from all five modalities under a shared hypergraph. Without C1, the system reduces to text-only ingestion and cross-modal coreference collapses: T2 and T4 become unscorable and OKE falls from 59.8 to 29.4 ($-$30.4). This is by far the largest single-component impact and confirms that C1 is the structural foundation on which C2 and C3 operate.
+\subsection{Analysis of Modality and Persona Generalization (RQ3)}\label{5.4}
 
-\textbf{Impact of C2 (Closed-Loop Lifecycle Agent).} C2 maintains graph consistency under add, delete, and refresh events. Without C2, the knowledge base cannot respond to lifecycle signals: T5 becomes unscorable and OKE drops from 59.8 to 52.0 ($-$7.8). The other five tasks are preserved, showing that C2's effect is orthogonal to the other two and targets lifecycle specifically.
+As shown in Figure~\ref{fig:gen}, we decompose KnowledgeClaw's gain by persona and by modality, testing the generalization claim of Proposition~1.
 
-\textbf{Impact of C3 (Multi-Angle Application with Intent Routing).} C3 dispatches queries among subgraph retrieval, community synthesis, and knowledge discovery. Without C3, the retrieval layer collapses to a single flat top-$k$ pass: T3 (multi-hop) drops from 34.5 to 24.0 ($-$10.5), T6 (knowledge discovery) drops from 64.3 to 48.1 ($-$16.2), and OKE drops to 51.9 ($-$7.9). The structural tasks (T1, T2) remain unchanged, confirming that C3 serves the multi-angle application axis and does not overlap with C1 or C2.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.62\textwidth]{../plot/RQ3/fig_rq3.pdf}
+\caption{(a) Persona$\times$Task heatmap of $\mathrm{KC}-\mathrm{max(baseline)}$ (positive cells = KC wins). (b) Modality$\times$Task drop when each modality is removed from $\mathcal{G}$ (larger = more load-bearing for that task).}\label{fig:gen}
+\end{figure}
 
-\textbf{Together.} Each ablation hurts precisely the property its removed component is designed to serve, with no interaction effects on the other tasks. This orthogonal decay pattern empirically validates our central claim: omnimodality, closed-loop lifecycle, and multi-angle application form a minimum-sufficient set of axes, and KnowledgeClaw's three contributions map one-to-one onto them.
+\textbf{Where omnimodality matters.} Panel (b) shows that removing audio or video produces the largest drops on T2 (cross-modal coreference) and T4 (cross-modal reasoning), with image and PDF carrying complementary structural signal on T1 and T3; this is direct evidence that the cross-modal $n$-ary facts representable in $\mathcal{G}$ are not recoverable from text alone, exactly as Proposition~1 predicts.
 
+\textbf{Persona-level stability.} Panel (a) is positive on virtually every persona$\times$task cell: KC beats the best baseline on each persona, with the largest deltas in modality-heavy domains (Healthcare, Robotics, Building) and stable +10--12 deltas in text-centric Software and Finance, supporting the uniform-generalization clause of Proposition~1 across any $\mathcal{M}'\!\subseteq\!\mathcal{M}$.
+
+\subsection{Analysis of Closed-Loop Lifecycle Robustness (RQ4)}\label{5.5}
+
+As shown in Figure~\ref{fig:cycle}, we stress-test C2 by streaming 200 Add/Delete/Refresh events drawn uniformly from each persona's audit log and tracking the lifecycle invariants of Proposition~2.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.62\textwidth]{../plot/RQ4/fig_rq4.pdf}
+\caption{(a) T5 consistency over a 200-event CRUD stream for six methods (mean $\pm$ 1$\sigma$ over 5 seeds). (b) Per-method, per-event-type average score impact for Add/Delete/Refresh.}\label{fig:cycle}
+\end{figure}
+
+\textbf{Drift over the CRUD stream.} KC's T5(t) curve in panel (a) stays essentially flat across the full 200-event horizon, while the strongest CRUD-capable baselines (Graphiti, A-MEM) drift downward by over 10 points; the cascading-delete and in-place refresh of Eqs.~\eqref{eq:cascade}--\eqref{eq:refresh} preserve both structural invariants (no orphan entities, no dangling hyperedges) and downstream answer fidelity, validating Proposition~2.
+
+\textbf{Event-type sensitivity.} Panel (b) shows baselines suffer most on \textsc{Delete} events through orphan accumulation and on \textsc{Refresh} through stale-fact retrieval, while KC's per-event-type impact is uniformly small, indicating that the Build--Query--Reason--Update loop handles all three operators with comparable robustness rather than over-fitting to any single edit type.
+
+\clearpage
+
+\subsection{Analysis of Intent Routing Effectiveness (RQ5)}\label{5.6}
+
+Figure~\ref{fig:route} evaluates the intent router of Eq.~\eqref{eq:disc-route} against an oracle and three single-angle policies on four query types.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.62\textwidth]{../plot/RQ5/fig_rq5.pdf}
+\caption{Left: router 3$\times$3 confusion matrix (oracle row, router prediction column; cell = recall). Right: per-query-type score for sub-only, com-only, disc-only, oracle, and the KC router.}\label{fig:route}
+\end{figure}
+
+\textbf{Router accuracy.} The confusion matrix is strongly diagonal: the lightweight LLM router recovers the oracle angle on most queries, with the largest off-diagonal mass on \textsc{com}$\leftrightarrow$\textsc{disc}; a single LLM call suffices without a multi-pass classifier.
+
+\textbf{Multi-angle gain.} The right panel shows no single angle covers all four query types: sub-only loses on synthesis/discovery, com-only on multi-hop, disc-only only competitive on discovery; the KC router tracks the oracle within 1--2 points on every type, validating Proposition~3 that $\pi^{*}(q)$ strictly dominates any $a\!\in\!\mathcal{R}$.
+
+\subsection{Time and Cost Analysis (RQ6)}\label{5.7}
+
+Figure~\ref{fig:cost} plots cost vs OKE across all baselines and decomposes KC's spend into LLM, embedding, storage, and misc components.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.62\textwidth]{../plot/RQ6/fig_rq6.pdf}
+\caption{Left: OKE vs USD spend per persona (log scale); KC sits on the Pareto frontier (starred). Right: stacked per-method cost decomposition (LLM, embedding, storage, misc) for representative methods.}\label{fig:cost}
+\end{figure}
+
+\textbf{Pareto position.} KC dominates every external baseline on the cost--OKE plane: highest OKE on the Pareto frontier at modest cost, while agentic-KE comparators (OpenClaw, Cognee, LLM Wiki, Graphify) cluster at similar cost but $>$13 OKE below.
+
+\textbf{Cost composition.} The right panel shows LLM calls dominate ($\approx$80\% of spend), embeddings second, storage/misc negligible; total cold-start spend across all 10 personas stays under \$50 with serving latency below 1\,s per query, making KC practical for routine deployment.
+
+\section{Conclusion}\label{sec:conclusion}
+
+\textbf{KnowledgeClaw} is the first agentic knowledge engineering system jointly satisfying omnimodality, closed-loop lifecycle, and multi-angle application on a unified omnimodal hypergraph: its three contributions C1--C3 map one-to-one onto the three necessary properties, and on OmniKE-Bench against 22 baselines KnowledgeClaw scores on all six tasks and ranks first on every one (OKE 59.8, +13.6 over the strongest baseline), catalyzing further research on live, all-modality knowledge engineering.
 
 \clearpage
 

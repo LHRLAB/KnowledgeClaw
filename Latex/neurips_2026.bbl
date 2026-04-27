@@ -477,13 +477,6 @@ Sundar Pichai, Demis Hassabis, and Koray Kavukcuoglu.
   2025.
 \newblock Google Blog.
 
-\bibitem{HelloBench}
-Haoran Que, Feiyu Duan, Liqun He, Yutao Mou, Wangchunshu Zhou, Jiaheng Liu,
-  Wenge Rong, Zekun~Moore Wang, Jian Yang, Ge~Zhang, Junran Peng, Zhaoxiang
-  Zhang, Songyang Zhang, and Kai Chen.
-\newblock Hellobench: Evaluating long text generation capabilities of large
-  language models, 2024.
-
 \bibitem{CLIP}
 Alec Radford, Jong~Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh,
   Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark,
