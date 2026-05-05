@@ -1,0 +1,638 @@
+\documentclass{article}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2026
+
+% The authors should use one of these tracks.
+% Before accepting by the NeurIPS conference, select one of the options below.
+% 0. "default" for submission
+\usepackage{neurips_2026}
+% the "default" option is equal to the "main" option, which is used for the Main Track with double-blind reviewing.
+% 1. "main" option is used for the Main Track
+%  \usepackage[main]{neurips_2026}
+% 2. "position" option is used for the Position Paper Track
+%  \usepackage[position]{neurips_2026}
+% 3. "eandd" option is used for the Evaluations & Datasets Track
+ % \usepackage[eandd]{neurips_2026}
+ % if you need to opt-in for a single-blind submission in the E&D track:
+ %\usepackage[eandd, nonanonymous]{neurips_2026}
+% 4. "creativeai" option is used for the Creative AI Track
+%  \usepackage[creativeai]{neurips_2026}
+% 5. "sglblindworkshop" option is used for the Workshop with single-blind reviewing
+ % \usepackage[sglblindworkshop]{neurips_2026}
+% 6. "dblblindworkshop" option is used for the Workshop with double-blind reviewing
+%  \usepackage[dblblindworkshop]{neurips_2026}
+
+% After being accepted, the authors should add "final" behind the track to compile a camera-ready version.
+% 1. Main Track
+ % \usepackage[main, final]{neurips_2026}
+% 2. Position Paper Track
+%  \usepackage[position, final]{neurips_2026}
+% 3. Evaluations & Datasets Track
+ % \usepackage[eandd, final]{neurips_2026}
+% 4. Creative AI Track
+%  \usepackage[creativeai, final]{neurips_2026}
+% 5. Workshop with single-blind reviewing
+%  \usepackage[sglblindworkshop, final]{neurips_2026}
+% 6. Workshop with double-blind reviewing
+%  \usepackage[dblblindworkshop, final]{neurips_2026}
+% Note. For the workshop paper template, both \title{} and \workshoptitle{} are required, with the former indicating the paper title shown in the title and the latter indicating the workshop title displayed in the footnote.
+% For workshops (5., 6.), the authors should add the name of the workshop, "\workshoptitle" command is used to set the workshop title.
+% \workshoptitle{WORKSHOP TITLE}
+
+% "preprint" option is used for arXiv or other preprint submissions
+ % \usepackage[preprint]{neurips_2026}
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2026}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+%add package
+
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{subfigure}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{wrapfig}
+\usepackage{enumitem}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{array}
+
+% Note. For the workshop paper template, both \title{} and \workshoptitle{} are required, with the former indicating the paper title shown in the title and the latter indicating the workshop title displayed in the footnote. 
+\title{KnowledgeClaw: Towards Agentic Knowledge Engineering with Omnimodal Hypergraphs}
+
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to break the
+% lines. Using \AND forces a line break at that point. So, if LaTeX puts 3 of 4
+% authors names on the first line, and the last on the second line, try using
+% \AND instead of \And before the third author name.
+
+
+\author{%
+  David S.~Hippocampus\thanks{Use footnote for providing further information
+    about author (webpage, alternative address)-\emph{not} for acknowledging
+    funding agencies.} \\
+  Department of Computer Science\\
+  Cranberry-Lemon University\\
+  Pittsburgh, PA 15213 \\
+  \texttt{hippo@cs.cranberry-lemon.edu} \\
+  % examples of more authors
+  % \And
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  % \AND
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  % \And
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  % \And
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+}
+
+
+\begin{document}
+
+
+\maketitle
+
+\vspace{-4mm}
+
+
+\begin{abstract}
+Knowledge engineering (KE) has progressed from chunk-based Retrieval-Augmented Generation (RAG) to graph-based RAG, and more recently to agentic systems capable of multimodal ingestion and lifecycle maintenance. However, existing agentic KE systems remain incomplete: each satisfies at most two of three necessary properties: omnimodality, closed-loop lifecycle, and multi-angle application, limiting their ability to serve a live, all-modality knowledge base. In this work, we propose \textbf{KnowledgeClaw}, the first agentic knowledge engineering system that jointly satisfies all three properties on a unified omnimodal knowledge hypergraph. KnowledgeClaw consists of a comprehensive function pipeline, including omnimodal knowledge hypergraph construction, closed-loop lifecycle maintenance, and multi-angle application with intent routing. Experiments on our released OmniKE-Bench against 22 baselines show that KnowledgeClaw obtains the highest score on all six OmniKE tasks, attaining an aggregate OKE of 59.8 and surpassing the strongest baseline by +13.6. Our project is publicly available\footnote{Anonymous GitHub link: \url{https://anonymous.4open.science/r/KnowledgeClaw}}.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+\begin{wrapfigure}{r}{0.54\textwidth}
+\vspace{-4.5mm}
+\centering
+\includegraphics[width=0.54\textwidth]{F1.pdf}
+\caption{An illustration of KnowledgeClaw agent.}\label{F1}
+\vspace{-2mm}
+\end{wrapfigure}
+
+Knowledge engineering (KE)~\citep{KEclassic} aims to transform unstructured information into queryable, reasoning-ready system, but it relies on manual expert construction for a long time and resists large-scale deployment~\citep{KGLLMsurvey}. Large Language Models (LLMs)~\citep{GPT4,LLMsurvey} and autonomous agents~\citep{ReAct,AgentSurvey} loosen this constraint: an agent can now read files, extract entities, link relations, reason, and update knowledge end to end~\citep{LLMIEsurvey,KGLLMsurvey}, making it feasible to continuously curate raw files into a live knowledge base.
+
+Realizing agentic knowledge engineering in practice is demanding. Consider a researcher's knowledge base: papers arrive as PDFs, lectures as audio, demos as video, slides as images, and notes as text; retractions and revisions rewrite earlier entries; and queries range from locating a sentence in a recorded talk to surfacing unexplored directions. Such workloads demand three properties: \textbf{(i) Omnimodality}: a unified index over text, file, image, audio, and video~\citep{Qwen3-Omni,Qwen3.5-Omni,OmniRAG-Agent}; \textbf{(ii) Closed-loop lifecycle}: autonomous consistency under add/delete/refresh operations~\citep{MemorySurvey,MemGPT,Mem0,A-MEM}; and \textbf{(iii) Multi-angle application}: joint support for precise lookup, topic synthesis, and proactive discovery~\citep{GraphRAG,HyperGraphRAG,LLMWiki}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=13.8cm]{F2.pdf}
+\caption{Three contributions map onto three necessary properties: C1 unifies five modalities via cross-modal hyperedges (T1, T2), C2 maintains lifecycle consistency on the live hypergraph (T5), and C3 routes queries among subgraph retrieval, community synthesis, and knowledge discovery (T3, T4, T6). KnowledgeClaw obtains the highest scoring on all six OmniKE tasks (OKE\,$=$\,59.8).}\label{F2}
+\vspace{0.5mm}
+\end{figure}
+
+However, existing systems each rarely satisfy all of these three properties. Chunk- and graph-based RAG~\citep{RAG,RAPTOR,GraphRAG,LightRAG,HippoRAG2,HyperGraphRAG}, ontology-grounded knowledge graph (KG) construction~\citep{iText2KG,OntoKG}, and agentic KG engines~\citep{KAG,Graphiti} most operate on static text alone, violating (i) and (ii). Memory agents (MemGPT~\citep{MemGPT}, Mem0~\citep{Mem0}, A-MEM~\citep{A-MEM}) provide full CRUD but rely on flat vector storage without structured omnimodal representation, violating (i) and (iii). Omnimodal pipelines such as OmniRAG-Agent~\citep{OmniRAG-Agent} extend retrieval across modalities but lack lifecycle maintenance and multi-angle application, violating (ii) and (iii). OpenClaw~\citep{OpenClaw} and its successors Cognee~\citep{Cognee}, LLM Wiki~\citep{LLMWiki}, and Graphify~\citep{Graphify} approach unified agentic KE but still lack a common benchmark and evaluation that jointly measure all three properties, motivating the unified agent illustrated in Figure~\ref{F1}.
+
+To address these gaps, for the first time, we formalize the problem as \emph{Omnimodal Knowledge Engineering} (OmniKE) and release \emph{OmniKE-Bench}, with six method-agnostic tasks (T1 knowledge acquisition, T2 cross-modal coreference, T3 multi-hop retrieval, T4 cross-modal reasoning, T5 lifecycle consistency, T6 knowledge discovery) that jointly stress the three axes across 10 professional-domain personas, 5 modalities, and $\approx$4{,}500 real files, with protocols adapted from previous traditional KE evaluation methods~\citep{RAGAS}. Figure~\ref{F2} previews how our contributions cover these tasks.
+
+Building on this foundation, we propose \textbf{KnowledgeClaw}, an agentic system that autonomously maintains an omnimodal knowledge hypergraph through three contributions. \textbf{(C1) Omnimodal Knowledge Hypergraph} unifies entities from all five modalities (text, PDF, image, audio, video) under cross-modal hyperedges~\citep{Hypergraph,HAHE,Text2NKG}, extending HyperGraphRAG~\citep{HyperGraphRAG} beyond text. \textbf{(C2) Closed-loop Lifecycle Agent} runs a build-query-reason-update loop with consistency-preserving addition, cascading deletion, and orphan cleanup, lifting the static-corpus assumption~\citep{GraphRAG,LightRAG,HippoRAG2}. \textbf{(C3) Multi-angle Application with Intent Routing} fuses subgraph-level retrieval~\citep{HyperGraphRAG,PathRAG,HippoRAG2}, community-level synthesis via Louvain~\citep{Louvain} clustering with summary embeddings~\citep{GraphRAG}, and community-based knowledge discovery under a lightweight intent router~\citep{SelfRAG,AdaptiveRAG}, each targeting a distinct query type.
+
+Experiments on OmniKE-Bench against 22 baselines spanning seven paradigm groups show that KnowledgeClaw is the only system to score on all six tasks and ranks first on each (T1 = 74.9, T2 = 89.3, T3 = 34.5, T4 = 48.9, T5 = 46.8, T6 = 64.3), attaining an OKE of 59.8 that surpasses the strongest external baseline LLM Wiki~\citep{LLMWiki} by \textbf{+13.6} and our prior anchor OpenClaw~\citep{OpenClaw} by \textbf{+15.4}. Three orthogonal ablations confirm each contribution precisely targets the property it serves, demonstrating KnowledgeClaw's potential for real-world agentic knowledge engineering.
+
+\clearpage
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{F3.pdf}
+\caption{\textbf{(A)} Six OmniKE tasks covering construction (T1 acquisition, T2 cross-modal coreference), maintenance (T5 lifecycle consistency), and application (T3 multi-hop, T4 cross-modal, T6 discovery). \textbf{(B)} OmniKE-Bench: 10 personas, 10 domains, 5 modalities, and 4{,}544 real files.}\label{F3}
+\end{figure}
+
+\section{The OmniKE Tasks and Benchmark}\label{sec:task}
+
+We formalize \emph{Omnimodal Knowledge Engineering} (\textbf{OmniKE}) as six method-agnostic tasks (Figure~\ref{F3}A) that jointly cover the three properties \textbf{(i)--(iii)} of \S\ref{sec:intro}, and instantiate them as \emph{OmniKE-Bench} (Figure~\ref{F3}B), the first end-to-end benchmark for agentic KE on real omnimodal personal files.
+
+\textbf{Task Definition.} The six tasks form three groups, one per property. \emph{Construction (T1, T2)} targets \textbf{(i) Omnimodality} over $\mathcal{M}\!=\!\{\textit{text},\textit{pdf},\textit{image},\textit{audio},\textit{video}\}$: given files $\mathcal{D}\!=\!\{f_i\}$ with $m(f_i)\!\in\!\mathcal{M}$, \emph{T1 (Knowledge Acquisition)} outputs entities $\hat{\mathcal{E}}$, propositions $\hat{\mathcal{P}}$, and modality map $\hat{\mu}\!:\!\hat{\mathcal{E}}\!\to\!2^{\mathcal{M}}$, and \emph{T2 (Cross-modal Coreference)} links mentions $(e_a,e_b)$ to a canonical referent across modalities. \emph{Maintenance (T5)} targets \textbf{(ii) Closed-loop Lifecycle} via \emph{NL CRUD} (e.g., ``this paper is retracted, remove it'' + verification probe) and \emph{Fact-refresh} (old fact, its replacement, and a question whose answer must track the change). \emph{Application (T3, T4, T6)} targets \textbf{(iii) Multi-angle Application}: \emph{T3 (Multi-hop Retrieval)} returns an answer $\hat{a}$ with evidence for a 2--4-hop question $q$; \emph{T4 (Cross-modal Reasoning)} restricts T3 to answers \emph{requiring} evidence from $\geq\!2$ modalities; \emph{T6 (Knowledge Discovery)} emits \emph{known}($t$), \emph{gaps}($t$), and \emph{sug}($t$) for a topic $t$. The aggregate \emph{OKE Score} averages T1--T6 on $0$--$100$, scoring architecturally unsupported tasks as $0$ so partial coverage of (i)--(iii) is penalized.
+
+\textbf{Benchmark Construction.} OmniKE-Bench is organized by \emph{personas}, each a researcher with months of accumulated files in one professional domain, spanning \textbf{10} domains (Healthcare, Finance, Education, Law, Psychology, Music, Gaming, Building, Software, Robotics), \textbf{5} modalities, and \textbf{4{,}544} real native files ($\approx$22\,GB; 985\,/\,1{,}285\,/\,1{,}507\,/\,362\,/\,255 for text\,/\,PDF\,/\,image\,/\,audio\,/\,video). Construction runs in four phases (Figure~\ref{F3}B): \emph{(1) Corpus}: collect real files per persona and modality; \emph{(2) Derive}: convert each file to a unified JSON record via PyMuPDF (PDFs), \texttt{gpt-4o-mini} vision (image captions), and \texttt{gemini-3.1-flash-lite} transcription (audio/video after \texttt{ffmpeg} downsampling); \emph{(3) Annotate}: generate gold with \texttt{gpt-4o-mini} for T3/T4/T5 (NL-CRUD + fact-refresh probes) and T6 ($\sim$35 topics/persona), leaving T1, T2 reference-free; \emph{(4) Freeze}: package each persona for release. Total cost: $\approx$30~min derivation + $\approx$\$30 annotation, $\sim$60\% cheaper than annotating all six tasks.
+
+\textbf{Evaluation Method.} Adapting traditional KE evaluation methods~\citep{RAGAS}, all tasks score \emph{automatically} without LLM calls ($<$1\,s/run); reference-free tasks (T1, T2, T6) score against the corpus, not gold labels. \emph{T1}: entity/proposition faithfulness (substring or $>\!20\%$ token overlap), quantity sanity, and modality coverage. \emph{T2}: link faithfulness, semantic relatedness, non-triviality, modality diversity, and link quantity. \emph{T3}: SQuAD-style token F1. \emph{T4}: $0.7\!\cdot\!\text{F1}\!+\!0.3\!\cdot\!\text{XMEv}$ (cross-modal evidence rate). \emph{T5}: NL-CRUD accuracy (keyword check; delete\,/\,update\,/\,others $3\!:\!2\!:\!1$) + fact-refresh F1. \emph{T6}: $\geq\!3$-char bigram presence in KB (\emph{known} should appear, \emph{gaps} should not).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{F4.pdf}
+\caption{\textbf{KnowledgeClaw} methodology, where C1--C3 build, maintain, and serve an omnimodal knowledge hypergraph. \textbf{(A)} C1 extracts entities from text, PDF, image, audio, and video and fuses them via within-modality canonicalization and cross-modal coreference into typed hyperedges. \textbf{(B)} C2 closes the lifecycle loop via a Build--Query--Reason--Update pass with orphan eviction and fact refresh. \textbf{(C)} C3 routes queries among subgraph retrieval, community synthesis, and discovery.}\label{F4}
+\end{figure}
+
+\section{Methodology: KnowledgeClaw}\label{sec:method}
+
+\textbf{KnowledgeClaw} (Figure~\ref{F4}) realizes \textbf{(i)--(iii)} via three contributions that respectively \emph{build} (C1), \emph{maintain} (C2), and \emph{serve} (C3) an omnimodal knowledge hypergraph; notation follows \S\ref{sec:task}.
+
+\subsection{C1: Omnimodal Knowledge Hypergraph}\label{sec:c1}
+
+To unify entities from all five modalities under a single algebraic structure, C1 lifts the substrate from a binary graph to a typed hypergraph:
+\begin{equation}
+\mathcal{G}\!=\!\bigl(\mathcal{E},\mathcal{H},\mathcal{A},\mathcal{P};\,\mu,\tau,\chi,\phi\bigr),\quad
+h\!=\!\bigl(\mathcal{E}_h,\tau_h,\pi_h,\mathcal{A}_h,\omega_h\bigr),\;\,|\mathcal{E}_h|\!\geq\!2,\;\,\omega_h\!\in\![0,1],
+\label{eq:hg}
+\end{equation}
+where $\mathcal{E}$ is the entity set, $\mathcal{H}\!\subseteq\!2^{\mathcal{E}}$ the typed hyperedges, $\mathcal{A}\!\subseteq\!\mathcal{D}$ the resident assets, and $\mathcal{P}$ the propositions; the four maps $\mu\!:\!\mathcal{E}\!\to\!2^{\mathcal{M}}$, $\tau\!:\!\mathcal{H}\!\to\!\mathcal{T}$, $\chi\!:\!\mathcal{E}^{2}\!\to\!\{0,1\}$, $\phi\!:\!\mathcal{E}\!\cup\!\mathcal{H}\!\to\!\mathbb{R}^{d}$ assign each entity its observed modalities (extending $\hat{\mu}$), each hyperedge a relation type, each entity pair a cross-modal coreference flag, and every node and hyperedge a shared embedding; each $h$ further records its proposition $\pi_h$, supporting assets $\mathcal{A}_h$, and confidence $\omega_h$. Allowing $|\mathcal{E}_h|\!\geq\!2$ with mixed-modality $\mathcal{A}_h$, Eq.~\eqref{eq:hg} subsumes binary graph RAG~\citep{GraphRAG,LightRAG} as the $|\mathcal{E}_h|\!=\!2$ case and lifts HyperGraphRAG~\citep{HyperGraphRAG} from text to all five modalities.
+
+Populating $\mathcal{G}$ proceeds in two stages. An LLM extractor first emits $(\hat{\mathcal{E}}_f,\hat{\mathcal{P}}_f,\hat{\mathcal{H}}_f,\hat{\mu}_f)\!=\!\mathrm{Extract}_{\mathrm{LLM}}(f,m(f))$ for every $f\!\in\!\mathcal{A}$, and a canonicalization $\kappa\!:\!\bigsqcup_f\!\hat{\mathcal{E}}_f\!\to\!\mathcal{E}$ merges surface variants within each modality. Mentions that $\kappa$ cannot bridge across modalities are linked by an explicit coreference test, defined for any $e_a,e_b$ with $\mu(e_a)\!\cap\!\mu(e_b)\!=\!\emptyset$ as:
+\begin{equation}
+\chi(e_a,e_b)\!=\!\mathbb{1}\!\Bigl[\,\bigl\langle\phi(e_a),\phi(e_b)\bigr\rangle\!\geq\!\theta_{\chi}\;\wedge\;\mathrm{Verify}_{\mathrm{LLM}}\!\bigl(e_a,e_b\,\big|\,\mathcal{S}(e_a)\!\cup\!\mathcal{S}(e_b)\bigr)\,\Bigr],
+\label{eq:coref}
+\end{equation}
+where $\langle\cdot,\cdot\rangle$ is cosine similarity, $\theta_{\chi}$ a tunable margin, and $\mathcal{S}(e)\!=\!\bigcup_{h:\,e\in\mathcal{E}_h}\!\mathcal{A}_h$ the source-asset support; the verifier rejects pairs that pass cosine but fail semantic agreement. Together, $\kappa$ fuses within-modality mentions while $\chi$ links across modalities, jointly grounding T1 and T2.
+
+\textbf{Proposition 1.} \textit{$\mathcal{G}$ strictly subsumes text-only graphs: $n$-ary cross-modal facts on any $\mathcal{M}'\!\subseteq\!\mathcal{M}$ are uniquely representable in $\mathcal{G}$ yet unrecoverable from text, generalizing uniformly across modalities.}\vspace{-2mm}
+\begin{proof}
+We provide experimental results in Sections~\ref{5.4} and proofs in Appendix~\ref{proof1}.
+\end{proof}
+
+\subsection{C2: Closed-loop Lifecycle Agent}\label{sec:c2}
+
+A live knowledge base stays correct only if every corpus change propagates to $\mathcal{G}$. Each event $\Delta_n\!\in\!\{\textsc{Add},\textsc{Del},\textsc{Refresh}\}\!\times\!\mathcal{D}$ at step $n$ drives a four-stage \emph{Build--Query--Reason--Update} pass:
+\begin{equation}
+\mathcal{G}_{n+1}\!=\!\bigl(\mathrm{Update}\!\circ\!\mathrm{Reason}\!\circ\!\mathrm{Query}\!\circ\!\mathrm{Build}\bigr)\!\bigl(\mathcal{G}_n,\Delta_n\bigr),\;\;
+\mathcal{L}_{n+1}\!=\!\mathcal{L}_n\!\cup\!\bigl\{\bigl(\Delta_n,\mathcal{G}_{n+1}\!\ominus\!\mathcal{G}_n\bigr)\bigr\},
+\label{eq:loop}
+\end{equation}
+where the four stages respectively ingest $\Delta_n$, retrieve its neighborhood, resolve conflicts via LLM, and commit $\mathcal{G}_{n+1}$; $\ominus$ is the structural diff between consecutive states and $\mathcal{L}_n$ a replayable audit log. The non-trivial operator $\textsc{Del}$ avoids both dangling entities and over-deletion: reusing $\mathcal{S}(\cdot)$ from Eq.~\eqref{eq:coref}, we evict orphans with their unsupported hyperedges in one transactional pass:
+\begin{equation}
+\mathcal{E}_n^{\mathrm{orph}}(f)\!=\!\bigl\{\,e\!\in\!\mathcal{E}_n\!:\,\mathcal{S}(e)\!\subseteq\!\{f\}\,\bigr\},\;\;
+\begin{aligned}[t]
+\mathcal{E}_{n+1} &= \mathcal{E}_n\!\setminus\!\mathcal{E}_n^{\mathrm{orph}}(f),\\[-1pt]
+\mathcal{H}_{n+1} &= \bigl\{h\!\in\!\mathcal{H}_n\!:\,\mathcal{A}_h\!\not\subseteq\!\{f\}\,\wedge\,\mathcal{E}_h\!\cap\!\mathcal{E}_n^{\mathrm{orph}}(f)\!=\!\emptyset\bigr\},\\[-1pt]
+\mathcal{A}_{n+1} &= \mathcal{A}_n\!\setminus\!\{f\},
+\end{aligned}
+\label{eq:cascade}
+\end{equation}
+where $\mathcal{E}_n^{\mathrm{orph}}(f)$ are entities supported solely by $f$, and the three updates drop these orphans, dangling hyperedges, and $f$, enforcing the cascading-delete invariant. $\textsc{Refresh}$ is the dual: it rewrites $h_{\mathrm{old}}$ to $h_{\mathrm{new}}$ with new proposition $\pi_{h_{\mathrm{new}}}$ and re-embeds in place,
+\begin{equation}
+\mathcal{H}_{n+1}\!=\!\bigl(\mathcal{H}_n\!\setminus\!\{h_{\mathrm{old}}\}\bigr)\!\cup\!\{h_{\mathrm{new}}\},\;\;
+\phi(h_{\mathrm{new}})\!=\!\mathrm{Embed}\!\bigl(\pi_{h_{\mathrm{new}}}\bigr),
+\label{eq:refresh}
+\end{equation}
+where $\mathrm{Embed}(\cdot)$ shares the encoder of $\phi$, so the neighborhood is preserved while retrieval tracks the new fact. Eqs.~\eqref{eq:loop}--\eqref{eq:refresh} lift the static-corpus assumption~\citep{GraphRAG,LightRAG,HippoRAG2,KAG} and ground T5.
+
+\textbf{Proposition 2.} \textit{Under any finite event sequence, the lifecycle agent preserves consistency: $\mathcal{S}(e)\!\neq\!\emptyset$ for every $e\!\in\!\mathcal{E}_N$ and $\mathcal{E}_h\!\subseteq\!\mathcal{E}_N$ for every $h\!\in\!\mathcal{H}_N$.}\vspace{-2mm}
+\begin{proof}
+We provide experimental results in Sections~\ref{5.5} and proofs in Appendix~\ref{proof2}.
+\end{proof}
+
+\subsection{C3: Multi-angle Application with Intent Routing}\label{sec:c3}
+
+KnowledgeClaw exposes three angles $\mathcal{R}\!=\!\{\mathrm{sub},\mathrm{com},\mathrm{disc}\}$ and routes among them by intent.
+
+\paragraph{Subgraph-level retrieval ($\mathrm{sub}$).} For factoid/multi-hop $q$, dual indexes over $\mathcal{E},\mathcal{H}$ are fused via reciprocal rank fusion and top-$K$ seeds $\mathcal{Z}_q$ expanded by an $\ell$-hop walk~\citep{PathRAG,HippoRAG2}:
+\begin{equation}
+s_{\mathrm{RRF}}(x;q)\!=\!\!\!\!\sum_{r\,\in\,\{r_{\mathcal{E}},r_{\mathcal{H}}\}}\!\!\!\frac{1}{k_0\!+\!r(x;q)},\;\;\,
+\mathcal{G}_q^{\mathrm{sub}}\!=\!\mathcal{G}\!\bigl[\mathcal{N}_{\leq\ell}(\mathcal{Z}_q)\bigr],\;\;\,
+\mathcal{N}_{\leq\ell}(\mathcal{Z}_q)\!=\!\!\!\bigcup_{x\,\in\,\mathcal{Z}_q}\!\bigcup_{i=0}^{\ell}\!\mathcal{N}^{(i)}(x),
+\label{eq:sub}
+\end{equation}
+with per-index ranks $r_{\mathcal{E}},r_{\mathcal{H}}$ under cosine to $\phi(q)$, RRF constant $k_0\!=\!60$, $i$-hop neighborhood $\mathcal{N}^{(i)}(x)$, and induced subgraph $\mathcal{G}[\,\cdot\,]$ (T3, T4).
+
+\paragraph{Community-level synthesis ($\mathrm{com}$).} For topic queries, we partition the cooccurrence graph by Louvain modularity $Q$~\citep{Louvain}, summarize each $\mathcal{C}_k$ into $\sigma_k$ via LLM, and retrieve top-$L$:
+\begin{equation}
+Q\!=\!\frac{1}{2W}\!\!\sum_{i,j\,\in\,\mathcal{E}}\!\!\Bigl[A_{ij}\!-\!\tfrac{k_i k_j}{2W}\Bigr]\delta(c_i,c_j),\;\, A_{ij}\!=\!\!\!\sum_{h:\{i,j\}\subseteq\mathcal{E}_h}\!\!\!\!\omega_h,\;\,
+\mathcal{C}_q^{\mathrm{com}}\!=\!\mathrm{TopL}_{\mathcal{C}_k}\!\bigl[\bigl\langle\phi(q),\phi(\sigma_k)\bigr\rangle\bigr],
+\label{eq:com}
+\end{equation}
+with confidence-weighted adjacency $A_{ij}$ from $\mathcal{H}$, total weight $W\!=\!\tfrac{1}{2}\!\sum_{ij}\!A_{ij}$, weighted degree $k_i\!=\!\sum_j\!A_{ij}$, community label $c_i$, and Kronecker delta $\delta(\cdot,\cdot)$.
+
+\paragraph{Knowledge discovery ($\mathrm{disc}$) and intent routing.} Reusing communities, for topic $t$ and query $q$ we emit the T6 triplet, score each angle, and concatenate selected outputs into $\hat{a}(q)$:
+\begin{equation}
+\begin{aligned}
+\mathrm{known}(t)&\!=\!\bigl\{e\!\in\!\mathcal{E}\!:\,\langle\phi(t),\phi(e)\rangle\!\geq\!\theta_{\mathrm{k}}\bigr\},\;
+\bigl(\mathrm{gaps}(t),\mathrm{sug}(t)\bigr)\!=\!\mathrm{LLM}_{\mathrm{disc}}\!\bigl(t,\{\sigma_k\}_{\mathcal{C}_t^{\mathrm{com}}},\mathrm{known}(t)\bigr),\\[-1pt]
+\pi^{*}(q)&\!=\!\bigl\{a\!\in\!\mathcal{R}\!:\,w_a(q)\!\geq\!\theta_{\pi}\bigr\},\;\;
+\hat{a}(q)\!=\!\mathrm{LLM}_{\mathrm{gen}}\!\Bigl(q,\!\!\bigoplus_{a\,\in\,\pi^{*}(q)}\!\!R_a(q)\Bigr),
+\end{aligned}
+\label{eq:disc-route}
+\end{equation}
+with discovery threshold $\theta_{\mathrm{k}}$, router score $w_a(q)\!=\!\mathrm{Router}(q,a)$ gated by $\theta_{\pi}$, concatenation $\bigoplus$, and per-angle outputs $R_{\mathrm{sub}}, R_{\mathrm{com}}, R_{\mathrm{disc}}$ from above, covering T3, T4, T6.
+
+\textbf{Proposition 3.} \textit{Multi-angle routing $\pi^{*}(q)$ covers $\{T3,T4,T6\}$, while no single $a\!\in\!\mathcal{R}$ does.}\vspace{-2mm}
+\begin{proof}
+We provide experimental results in Sections~\ref{5.6} and proofs in Appendix~\ref{proof3}.
+\end{proof}
+
+
+
+\clearpage
+
+\begin{table}[t]
+\centering
+\caption{Design comparison of all baselines across the six OmniKE tasks T1--T6: each cell summarizes the method's mechanism in text and formula, with ``-'' marking architecturally unsupported tasks. Rows follow Table~\ref{tab:main}'s paradigm grouping and order; notation follows \S\ref{sec:method}.}
+\label{tab:design}
+\setlength{\tabcolsep}{7.5pt}\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l|cccccc}
+\toprule
+\textbf{Method} & \textbf{T1} & \textbf{T2} & \textbf{T3} & \textbf{T4} & \textbf{T5} & \textbf{T6} \\
+\midrule
+\rowcolor{cyan!5} NaiveRAG~\citep{RAG} & chunks $\{c_i\}$ & - & cosine top-$k$ & - & - & - \\
+\rowcolor{cyan!5} RAPTOR~\citep{RAPTOR} & cluster tree & - & tree-walk top-$k$ & - & - & cluster $\sigma_k$ \\
+\rowcolor{blue!7} GraphRAG~\citep{GraphRAG} & $G\!=\!(V,E)$ & - & comm.-routed top-$k$ & - & - & Louvain $\sigma_k$ \\
+\rowcolor{blue!7} LightRAG~\citep{LightRAG} & dual-level $G$ & - & dual top-$k$ & - & - & - \\
+\rowcolor{blue!7} HippoRAG2~\citep{HippoRAG2} & $G$ + PPR & - & PageRank top-$k$ & - & - & - \\
+\rowcolor{blue!7} HyperGraphRAG~\citep{HyperGraphRAG} & $h\!\subseteq\!V$ & - & expand $\bigcup_h$ & - & - & - \\
+\rowcolor{teal!8} iText2KG~\citep{iText2KG} & ontology $G$ & - & graph query & - & ontology rebuild & - \\
+\rowcolor{teal!8} OntoKG~\citep{OntoKG} & ontology $G$ & - & SPARQL-like & - & - & - \\
+\rowcolor{teal!14} KAG/OpenSPG~\citep{KAG} & live KG & - & KG-walk & - & partial CRUD & - \\
+\rowcolor{teal!14} Graphiti~\citep{Graphiti} & temporal $G_t$ & - & temporal walk & - & partial CRUD & temporal $\sigma$ \\
+\rowcolor{orange!8} MemGPT/Letta~\citep{MemGPT} & hier.\ mem $\{m_i\}$ & - & ANN & - & tool-call CRUD & - \\
+\rowcolor{orange!8} Mem0~\citep{Mem0} & mem tree & - & hybrid top-$k$ & - & full CRUD & - \\
+\rowcolor{orange!8} A-MEM~\citep{A-MEM} & agentic mem $m$ & - & structured & - & full CRUD & gap probe \\
+\rowcolor{yellow!12} OmniRAG-Agent~\citep{OmniRAG-Agent} & $\{I_m\}_{m\in\mathcal{M}}$ & hashing & per-mod top-$k$ & mod.\ fusion & - & - \\
+\rowcolor{green!8} OpenClaw~\citep{OpenClaw} & $G$+mem, omni & linking & top-$k$+mem & mod.\ concat & partial CRUD & LLM probe \\
+\rowcolor{green!8} Cognee~\citep{Cognee} & $G$+mem, omni & linking & top-$k$+mem & mod.\ concat & partial CRUD & LLM probe \\
+\rowcolor{green!8} LLM Wiki~\citep{LLMWiki} & $G$+mem, omni & linking & top-$k$+mem & mod.\ concat & partial CRUD & LLM probe \\
+\rowcolor{green!8} Graphify~\citep{Graphify} & $G$+mem, omni & linking & top-$k$+mem & mod.\ concat & partial CRUD & LLM probe \\
+\midrule
+\rowcolor{red!8} KC w/o C1 & text $\mathrm{Extract}$ & - & RRF+$\ell$-hop & - & cascade & $\mathrm{LLM}_{\mathrm{disc}}$ \\
+\rowcolor{red!8} KC w/o C2 & $\mathrm{Extract}\!+\!\kappa$ & $\chi$ test & RRF+$\ell$-hop & $\chi$-aware sub & - & $\mathrm{LLM}_{\mathrm{disc}}$ \\
+\rowcolor{red!8} KC w/o C3 & $\mathrm{Extract}\!+\!\kappa$ & $\chi$ test & flat top-$k$ & flat top-$k$ & B-Q-R-U & flat top-$k$ \\
+\rowcolor{red!12} \textbf{KnowledgeClaw} & $\mathrm{Extract}\!+\!\kappa$ & $\chi$ test & RRF+$\ell$-hop & $\chi$+$\bigoplus R_a$ & B-Q-R-U & $\mathrm{LLM}_{\mathrm{disc}}$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\section{Experiments}
+\label{sec:exp}
+
+We answer six RQs:
+\textbf{RQ1:} Does KnowledgeClaw outperform existing methods on OmniKE-Bench?
+\textbf{RQ2:} Does each contribution (C1, C2, C3) work?
+\textbf{RQ3:} Does KnowledgeClaw generalize across the five modalities and ten personas?
+\textbf{RQ4:} How robust is the lifecycle agent under continuous add/delete/refresh events?
+\textbf{RQ5:} Does intent routing beat each individual retrieval mode on different queries?
+\textbf{RQ6:} What are the time and cost of KnowledgeClaw in construction and serving?
+
+\subsection{Experimental Setup}
+
+\textbf{Datasets and Evaluation Metrics.} We evaluate on \emph{OmniKE-Bench} introduced in \S\ref{sec:task} (10 personas, 5 modalities, $\approx$4{,}500 real files); every task T1--T6 reports a 0--100 score and the aggregate \textbf{OKE} is their arithmetic mean, with architecturally unsupported tasks counted as 0 so partial coverage of properties (i)--(iii) is penalized. Per-persona scores average T1--T6 within a persona; full task definitions, data construction, and per-metric formulas are deferred to \S\ref{sec:task} and Appendix~E.
+
+\textbf{Baselines and Ablations.} We compare KnowledgeClaw against 22 publicly available baselines spanning seven paradigm groups: \emph{chunk/hierarchical retrieval} (NaiveRAG~\citep{RAG}, RAPTOR~\citep{RAPTOR}); \emph{graph/hypergraph RAG} (GraphRAG~\citep{GraphRAG}, LightRAG~\citep{LightRAG}, HippoRAG2~\citep{HippoRAG2}, HyperGraphRAG~\citep{HyperGraphRAG}); \emph{KG construction} (iText2KG~\citep{iText2KG}, OntoKG~\citep{OntoKG}); \emph{agentic KG} (KAG/OpenSPG~\citep{KAG}, Graphiti~\citep{Graphiti}); \emph{memory agents} (MemGPT/Letta~\citep{MemGPT}, Mem0~\citep{Mem0}, A-MEM~\citep{A-MEM}); \emph{omnimodal RAG} (OmniRAG-Agent~\citep{OmniRAG-Agent}); and \emph{agentic KE} (OpenClaw~\citep{OpenClaw}, Cognee~\citep{Cognee}, LLM Wiki~\citep{LLMWiki}, Graphify~\citep{Graphify}). We additionally evaluate three internal ablations \emph{KC w/o C1/C2/C3}, each disabling exactly one contribution. All methods share the same input corpus, generation prompt, and LLM backbone for fairness; per-baseline adaptation details are in Appendix~E.
+
+\textbf{Implementation Details.} We adopt \texttt{gemini-3.1-flash-lite-preview} as the unified LLM backbone and \texttt{gemini-embedding-2-preview} for all $\phi(\cdot)$. Subgraph retrieval uses RRF top-$K_{\mathcal{E}}\!=\!K_{\mathcal{H}}\!=\!40$ with walk depth $\ell\!=\!2$ and constant $k_0\!=\!60$; community synthesis runs Louvain at $\gamma\!=\!1.0$ with chunk size 300 tokens and threshold $\theta_{\chi}\!=\!0.78$; the intent router thresholds at $\theta_{\pi}\!=\!0.5$. Baselines run with default hyperparameters; all scores are averaged over five random seeds per persona on a single 80-core 512\,GB CPU server (no GPU; all LLM calls remote).
+
+\begin{table}[t]
+\centering
+\caption{Main results on OmniKE-Bench. \textbf{T1}-\textbf{T6}: per-task scores; \textbf{HC}-\textbf{Rob}: per-persona averages over T1-T6; \textbf{OKE}: arithmetic mean over T1-T6 with architecturally unsupported tasks counted as 0; $\boldsymbol{\Delta}$: gap to OpenClaw (anchor); ``-'' = not architecturally supported. Best scores in bold.}
+\label{tab:main}
+\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.2} 
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l|cccccc|cccccccccc|cc}
+\toprule
+\textbf{Method} & \textbf{T1} & \textbf{T2} & \textbf{T3} & \textbf{T4} & \textbf{T5} & \textbf{T6} & \textbf{HC} & \textbf{Fin} & \textbf{Edu} & \textbf{Law} & \textbf{Psy} & \textbf{Mus} & \textbf{Gam} & \textbf{Bld} & \textbf{Sft} & \textbf{Rob} & \textbf{OKE} & $\boldsymbol{\Delta}$ \\
+\midrule
+\rowcolor{cyan!5} NaiveRAG~\citep{RAG} & 23.6 & - & 30.1 & - & - & - & 26.3 & 27.5 & 26.6 & 26.3 & 26.2 & 27.0 & 27.1 & 27.2 & 26.6 & 27.5 & 9.0 & \textcolor{red}{-35.4} \\
+\rowcolor{cyan!5} RAPTOR~\citep{RAPTOR} & 26.7 & - & 33.3 & - & - & 51.5 & 33.6 & 35.8 & 37.8 & 41.7 & 40.3 & 37.9 & 34.8 & 41.5 & 32.9 & 35.8 & 18.6 & \textcolor{red}{-25.8} \\
+\rowcolor{blue!7} GraphRAG~\citep{GraphRAG} & 34.4 & - & 34.1 & - & - & 58.2 & 40.4 & 40.7 & 44.5 & 45.9 & 44.7 & 42.3 & 39.8 & 45.5 & 38.4 & 40.5 & 21.1 & \textcolor{red}{-23.3} \\
+\rowcolor{blue!7} LightRAG~\citep{LightRAG} & 32.8 & - & 33.8 & - & - & - & 32.8 & 32.9 & 33.7 & 32.5 & 32.8 & 33.9 & 33.8 & 33.7 & 32.9 & 34.1 & 11.1 & \textcolor{red}{-33.3} \\
+\rowcolor{blue!7} HippoRAG2~\citep{HippoRAG2} & 37.6 & - & 34.4 & - & - & - & 35.6 & 34.9 & 36.7 & 35.0 & 35.3 & 36.8 & 36.4 & 36.4 & 36.0 & 36.9 & 12.0 & \textcolor{red}{-32.4} \\
+\rowcolor{blue!7} HyperGraphRAG~\citep{HyperGraphRAG} & 36.0 & - & 34.2 & - & - & - & 34.6 & 34.2 & 35.7 & 34.3 & 34.5 & 35.8 & 35.7 & 35.4 & 34.8 & 36.1 & 11.7 & \textcolor{red}{-32.7} \\
+\rowcolor{teal!8} iText2KG~\citep{iText2KG} & 33.5 & - & 33.0 & - & 40.6 & - & 34.0 & 35.1 & 34.1 & 34.6 & 34.1 & 36.0 & 37.5 & 37.8 & 36.8 & 37.2 & 17.8 & \textcolor{red}{-26.6} \\
+\rowcolor{teal!8} OntoKG~\citep{OntoKG} & 34.4 & - & 33.2 & - & - & - & 33.2 & 33.3 & 34.2 & 32.8 & 33.2 & 34.5 & 34.3 & 34.4 & 33.5 & 34.6 & 11.3 & \textcolor{red}{-33.1} \\
+\rowcolor{teal!14} KAG/OpenSPG~\citep{KAG} & 36.5 & - & 34.4 & - & 42.8 & - & 36.6 & 36.8 & 36.5 & 37.0 & 36.9 & 38.0 & 39.5 & 39.7 & 38.7 & 39.5 & 18.9 & \textcolor{red}{-25.5} \\
+\rowcolor{teal!14} Graphiti~\citep{Graphiti} & 34.5 & - & 34.0 & - & 44.2 & 54.4 & 38.9 & 41.1 & 41.0 & 44.3 & 43.5 & 42.1 & 39.9 & 46.3 & 39.6 & 40.9 & 27.8 & \textcolor{red}{-16.6} \\
+\rowcolor{orange!8} MemGPT/Letta~\citep{MemGPT} & 25.2 & - & 31.8 & - & 41.8 & - & 31.1 & 33.0 & 31.5 & 32.4 & 31.6 & 33.2 & 34.3 & 34.4 & 33.9 & 34.0 & 16.5 & \textcolor{red}{-27.9} \\
+\rowcolor{orange!8} Mem0~\citep{Mem0} & 23.6 & - & 31.0 & - & 41.1 & - & 30.6 & 31.6 & 29.8 & 31.2 & 30.8 & 31.7 & 33.3 & 34.0 & 32.8 & 33.2 & 16.0 & \textcolor{red}{-28.4} \\
+\rowcolor{orange!8} A-MEM~\citep{A-MEM} & 28.3 & - & 33.0 & - & 42.9 & 50.7 & 35.7 & 37.2 & 38.0 & 41.0 & 40.4 & 39.0 & 37.7 & 43.7 & 36.6 & 37.6 & 25.8 & \textcolor{red}{-18.6} \\
+\rowcolor{yellow!12} OmniRAG-Agent~\citep{OmniRAG-Agent} & 51.7 & 63.3 & 32.4 & 46.7 & - & - & 51.1 & 46.7 & 47.6 & 49.5 & 45.0 & 49.1 & 50.3 & 48.4 & 48.3 & 49.2 & 32.4 & \textcolor{red}{-12.0} \\
+\rowcolor{green!8} \textbf{OpenClaw}~\citep{OpenClaw} & 51.0 & 62.2 & 27.3 & 43.0 & 38.5 & 44.5 & 42.8 & 41.3 & 42.6 & 47.1 & 43.8 & 45.5 & 44.6 & 47.9 & 43.6 & 44.9 & 44.4 & \textbf{0.0} \\
+\rowcolor{green!8} Cognee~\citep{Cognee} & 52.6 & 64.0 & 28.5 & 43.9 & 38.9 & 45.1 & 44.4 & 43.7 & 43.5 & 47.7 & 44.2 & 46.4 & 45.7 & 49.3 & 43.9 & 46.3 & 45.5 & \textcolor{green!60!black}{+1.1} \\
+\rowcolor{green!8} LLM Wiki~\citep{LLMWiki} & 52.9 & 64.5 & 28.9 & 44.2 & 38.9 & 47.7 & 45.1 & 43.9 & 44.2 & 48.0 & 45.4 & 47.1 & 46.8 & 49.9 & 45.1 & 46.2 & 46.2 & \textcolor{green!60!black}{+1.8} \\
+\rowcolor{green!8} Graphify~\citep{Graphify} & 52.2 & 63.5 & 28.5 & 43.7 & 39.0 & 44.9 & 44.7 & 42.5 & 43.5 & 48.1 & 44.4 & 46.3 & 45.0 & 48.9 & 43.9 & 45.7 & 45.3 & \textcolor{green!60!black}{+0.9} \\
+\midrule
+\rowcolor{red!8} KC w/o C1 & 39.0 & - & 34.4 & - & 45.1 & 58.0 & 41.9 & 43.3 & 44.7 & 46.2 & 45.4 & 44.4 & 43.5 & 47.7 & 41.8 & 42.7 & 29.4 & \textcolor{red}{-15.0} \\
+\rowcolor{red!8} KC w/o C2 & 74.9 & 89.3 & 34.5 & 48.9 & - & 64.3 & 58.0 & 54.9 & 57.4 & 59.2 & 55.1 & 56.1 & 57.3 & 57.3 & 54.9 & 56.5 & 52.0 & \textcolor{green!60!black}{+7.6} \\
+\rowcolor{red!8} KC w/o C3 & 74.9 & 89.3 & 24.0 & 35.5 & 39.9 & 48.1 & 52.7 & 50.7 & 52.0 & 53.6 & 49.8 & 51.6 & 52.9 & 53.3 & 50.9 & 52.0 & 51.9 & \textcolor{green!60!black}{+7.5} \\
+\rowcolor{red!12} \textbf{KnowledgeClaw} & \textbf{74.9} & \textbf{89.3} & \textbf{34.5} & \textbf{48.9} & \textbf{46.8} & \textbf{64.3} & \textbf{60.6} & \textbf{58.2} & \textbf{60.2} & \textbf{62.0} & \textbf{57.9} & \textbf{59.1} & \textbf{60.8} & \textbf{61.0} & \textbf{58.2} & \textbf{59.7} & \textbf{59.8} & \textcolor{green!60!black}{\textbf{+15.4}} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Main Results (RQ1)}
+
+\textbf{Overall.} KnowledgeClaw is the only system to score on all six OmniKE tasks and ranks first on every one, reaching aggregate OKE 59.8 and beating the strongest external baseline LLM Wiki by +13.6 and our prior anchor OpenClaw by +15.4; baselines covering only one or two of properties (i)--(iii) cluster below 50, text-only and memory-only systems stay under 30, and the four general agentic KE systems land in 44--47, escaping the text-only trap yet still missing at least one axis.
+
+\textbf{Per-task.} On the \emph{structural} tasks T1/T2, KC reaches 74.9/89.3 (+22.0/+24.6 over the best baseline), confirming C1's hypergraph captures richer cross-modal structure than text-only extraction; on the \emph{dynamic} tasks T5/T6, KC attains 46.8/64.3 (+2.6/+6.1), validating both C2's lifecycle loop and C3's community synthesis; on the \emph{retrieval} tasks T3/T4, KC attains 34.5/48.9 with smaller but consistent gains, since the multi-granularity payoff is bounded by the shared backbone.
+
+\textbf{Per-persona.} Gains are stable across all ten personas, with KC's per-persona OKE in 58.2--62.0---the smallest variance in the table; the largest advantages appear in modality-heavy domains (Healthcare, Law, Robotics, Building, all $>$+13 OKE), and even text-centric Software, Education, and Finance retain stable +10--12 gains.
+
+\subsection{Ablation Study (RQ2)}
+
+Removing each contribution in turn (last four rows of Table~\ref{tab:main}) hurts precisely the axis it serves. \textbf{w/o C1} collapses cross-modal coreference: T2 and T4 become unscorable and OKE falls to 29.4 ($-$30.4)---by far the largest single-component drop and clear evidence that C1 is the structural foundation. \textbf{w/o C2} loses lifecycle: T5 becomes unscorable and OKE drops to 52.0 ($-$7.8) with the other five tasks preserved, showing C2 targets lifecycle alone. \textbf{w/o C3} collapses retrieval to a flat top-$k$ pass: T3 drops 34.5$\to$24.0, T6 drops 64.3$\to$48.1, OKE falls to 51.9 ($-$7.9), while structural T1/T2 remain unchanged. This orthogonal decay pattern validates our central claim: omnimodality, closed-loop lifecycle, and multi-angle application form a minimum-sufficient set of axes mapped one-to-one onto C1--C3.
+
+\subsection{Analysis of Modality and Persona Generalization (RQ3)}\label{5.4}
+
+Figure~\ref{fig:gen} decomposes KnowledgeClaw's gain by persona and modality, testing whether the omnimodal hypergraph yields uniform wins across domains and whether each modality is needed.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{../plot/RQ3/fig_rq3.pdf}
+\caption{(a) Persona$\times$Task heatmap of $\mathrm{KC}-\mathrm{max(baseline)}$ (positive = KC wins). (b) Score drop on each task when one modality is removed from $\mathcal{G}$ (larger = more load-bearing).}\label{fig:gen}
+\end{figure}
+
+\textbf{Every modality earns its place.} Panel (b) reads as ``what breaks if a modality disappears.'' Removing audio or video causes the largest drops on T2 (cross-modal coreference) and T4 (cross-modal reasoning), while image and PDF dominate the structural signal on T1 and T3; no single modality can be substituted by text, so the omnimodal substrate is load-bearing rather than decorative.
+
+\textbf{Gains are uniform across personas.} Panel (a) is positive on virtually every persona$\times$task cell: KC beats the strongest baseline on each of the ten personas, with the biggest deltas in modality-heavy domains (Healthcare, Robotics, Building) and a stable +10--12 cushion even on text-centric Software and Finance, indicating the gain comes from the design rather than a favorable domain mix.
+
+\subsection{Analysis of Closed-Loop Lifecycle Robustness (RQ4)}\label{5.5}
+
+Figure~\ref{fig:cycle} stress-tests C2 by streaming 200 Add/Delete/Refresh events from each persona's audit log, asking whether the live hypergraph stays consistent or decays as edits accumulate.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{../plot/RQ4/fig_rq4.pdf}
+\caption{(a) T5 consistency over a 200-event CRUD stream for six methods (mean $\pm$ 1$\sigma$ over 5 seeds). (b) Per-method, per-event-type average score impact for Add/Delete/Refresh.}\label{fig:cycle}
+\end{figure}
+
+\textbf{No drift over a 200-event stream.} KC's T5(t) curve in panel (a) stays essentially flat across the full horizon, while the strongest CRUD-capable baselines (Graphiti, A-MEM) drift downward by over 10 points and KC w/o C2 collapses outright. The cascading delete and in-place refresh in Eqs.~\eqref{eq:cascade}--\eqref{eq:refresh} clear orphans and dangling hyperedges before they can poison retrieval, so answer fidelity tracks the corpus instead of slowly decaying.
+
+\textbf{Robust on every edit type.} Panel (b) shows baselines lose the most on \textsc{Delete} (through orphan accumulation) and \textsc{Refresh} (through stale facts), while KC's per-event-type impact stays uniformly small. The Build--Query--Reason--Update loop therefore handles all three operators with comparable robustness, rather than over-fitting to any single edit type.
+
+\clearpage
+
+\subsection{Analysis of Intent Routing Effectiveness (RQ5)}\label{5.6}
+
+Figure~\ref{fig:route} compares the lightweight LLM router against an oracle and three single-angle policies on four query types, asking whether routing is needed and whether one LLM call suffices.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{../plot/RQ5/fig_rq5.pdf}
+\caption{Left: 3$\times$3 router confusion matrix (oracle row vs.\ predicted column; cell = recall). Right: per-query-type score for sub-only, com-only, disc-only, oracle, and the KC router.}\label{fig:route}
+\end{figure}
+
+\textbf{One LLM call is enough.} The confusion matrix is strongly diagonal: the router recovers the oracle angle on most queries (only \textsc{com}$\leftrightarrow$\textsc{disc} is mildly confused), so a single LLM call replaces a multi-pass classifier.
+
+\textbf{No single angle suffices.} sub-only loses on synthesis/discovery, com-only on multi-hop, disc-only outside discovery; the KC router stays within 1--2 points of the oracle on every type, dominating any fixed retrieval mode.
+
+\subsection{Cost and Time Analysis (RQ6)}\label{5.7}
+
+Figure~\ref{fig:cost} reports the two costs a deployment user actually pays: dollars spent per persona on the OmniKE pipeline (left) and wall-clock construction time on the full-coverage tier (right).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{../plot/RQ6/fig_rq6.pdf}
+\caption{Left: OKE vs.\ USD spend per persona (log scale); KC (starred) sits on the Pareto frontier. Right: construction time per persona on T1--T6 for the five full-coverage methods.}\label{fig:cost}
+\end{figure}
+
+\textbf{Cheaper.} KC spends \$1.95 per persona, \textbf{20--34\% below} OpenClaw (\$2.45), Cognee (\$2.60), LLM Wiki (\$2.75), and Graphify (\$2.95): C1 reuses one LLM pass per asset, C2 updates incrementally, and C3 routes only to the relevant angle.
+
+\textbf{Faster.} On the same tier KC finishes T1--T6 in 41\,min---\textbf{14\,min} ahead of OpenClaw and \textbf{35\,min} ahead of Graphify---with 580\,ms serving latency, making KC cheaper, faster, and +13.6 OKE higher than every full-coverage baseline.
+
+\section{Conclusion}\label{sec:conclusion}
+
+\textbf{KnowledgeClaw} is the first agentic knowledge engineering system that jointly satisfies omnimodality, closed-loop lifecycle, and multi-angle application on a unified omnimodal hypergraph; on OmniKE-Bench against 22 baselines it ranks first on all six tasks (OKE 59.8, +13.6 over the strongest) at lower cost and shorter time, catalyzing further research on live all-modality knowledge engineering.
+
+\clearpage
+
+
+\bibliography{custom}{}
+\bibliographystyle{plain}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\appendix
+\section*{Appendix} 
+
+\section{KnowledgeClaw Prompts}\label{app:prompts}
+
+This appendix lists every LLM prompt invoked by KnowledgeClaw, mirroring the prompt-card presentation of HyperGraphRAG~\citep{HyperGraphRAG}. Prompts are grouped by the contribution they serve: \textbf{Construction} (C1, \S\ref{sec:c1}) populates the omnimodal hypergraph $\mathcal{G}$, while \textbf{Application} (C3, \S\ref{sec:c3}) realizes the three angles $\mathcal{R}\!=\!\{\mathrm{sub},\mathrm{com},\mathrm{disc}\}$ together with intent routing. C2 (\S\ref{sec:c2}) is procedural and reuses C1's extractor on incoming events, so it has no dedicated prompt. Each card is reproduced verbatim from the released code; \texttt{\{x\}} denotes a runtime placeholder. The user-message wrapper (e.g.\ ``\texttt{Question: ... Evidence: ...}'') is kept compact since the system prompt already constrains the format.
+
+\subsection{Construction Prompts (C1)}
+
+\noindent\textbf{Prompt P1 --- Entity and Proposition Extraction ($\mathrm{Extract}_{\mathrm{LLM}}$, T1).} For each chunk produced from a text/PDF/image-caption/transcript asset, the extractor emits atomic propositions with their grounded entity mentions and bilingual canonical names; the bilingual (\texttt{name}/\texttt{name\_zh}) field feeds the within-modality canonicalization $\kappa$ and reduces lexical-variant explosion when corpora mix Chinese and English files.\vspace{2pt}
+\noindent\rule{\linewidth}{0.4pt}
+\small
+\begin{verbatim}
+Extract key entities and propositions from the text below.
+For each sentence/proposition identify the named entities (people,
+organisations, concepts, methods, tools, places).
+For each entity provide:
+  - "name": canonical English name, UPPER-CASED. If the entity is originally
+    in Chinese or another non-English language, provide the standard English
+    translation or transliteration.
+  - "name_zh": Chinese name. If the entity is originally in Chinese, keep the
+    original. If originally in English, provide the standard Chinese
+    translation. For proper nouns or abbreviations with no natural Chinese
+    equivalent, repeat the English form.
+
+Return JSON ONLY (no markdown, no explanation):
+{
+  "propositions": [
+    { "sentence": "atomic fact or claim",
+      "entities": [ {"name": "ENTITY_EN", "name_zh": "实体中文名"} ] }
+  ]
+}
+Text: {text}
+\end{verbatim}
+\normalsize\vspace{-3pt}\noindent\rule{\linewidth}{0.4pt}
+
+\subsection{Application Prompts (C3)}
+
+\noindent\textbf{Prompt P2 --- Community Report Synthesis ($R_{\mathrm{com}}$, Eq.~\ref{eq:com}).} After Louvain partitions the cooccurrence graph, each community $\mathcal{C}_k$ is summarized into $\sigma_k$, embedded, and stored in a dedicated VDB so that topic queries can dispatch to the right community in one cosine probe instead of re-traversing $\mathcal{G}$.\vspace{2pt}
+\noindent\rule{\linewidth}{0.4pt}
+\small
+\begin{verbatim}
+You are summarising one community of entities from a personal knowledge
+hypergraph.
+
+Community entities (canonical IDs): {entities}
+
+Sample propositions / hyperedges that mention these entities:
+{propositions}
+
+Modalities present in this community: {modalities}
+
+Write a concise community report with the following structure (no markdown
+headers, just plain prose):
+1. THEME — a single-sentence label for what this community is about.
+2. KEY ENTITIES — list the 3-5 most central entities and their role.
+3. SUMMARY — a 3-5 sentence synthesis of the relationships and facts.
+4. CROSS-MODAL NOTES — if multiple modalities appear, note how they
+   reinforce each other.
+
+Keep the whole report under 200 words and avoid generic boilerplate.
+\end{verbatim}
+\normalsize\vspace{-3pt}\noindent\rule{\linewidth}{0.4pt}
+
+\noindent\textbf{Prompt P3 --- Intent Router ($\pi^{*}$, Eq.~\ref{eq:disc-route}).} A keyword heuristic resolves the obvious factual/synthesis extremes for free; only ambiguous queries fall through to the LLM router below, which classifies into the three angles in $\mathcal{R}$ at $\leq\!8$ output tokens.\vspace{2pt}
+\noindent\rule{\linewidth}{0.4pt}
+\small
+\begin{verbatim}
+Classify the following user query into ONE label that describes the BEST
+retrieval strategy over a personal knowledge hypergraph.
+
+Labels:
+  - subgraph  : precise factual lookup, single fact, definition,
+                who/when/where/which
+  - community : open-ended synthesis, summarisation,
+                "what do I know about X", thematic overviews
+  - hybrid    : ambiguous or multi-hop questions that need both precise
+                facts and broader context
+
+Reply with EXACTLY one of: subgraph, community, hybrid
+
+Query: {query}
+Label:
+\end{verbatim}
+\normalsize\vspace{-3pt}\noindent\rule{\linewidth}{0.4pt}
+
+\noindent\textbf{Prompt P4 --- Subgraph + Community QA ($\mathrm{LLM}_{\mathrm{gen}}$, Eq.~\ref{eq:disc-route}; T3, T4).} The QA agent receives the routed evidence as a concatenation $\bigoplus_{a\in\pi^{*}(q)} R_a(q)$ where each chunk/community block carries a citation tag, allowing the system to compute T4's cross-modal evidence rate from the cited modalities.\vspace{2pt}
+\noindent\rule{\linewidth}{0.4pt}
+\small
+\begin{verbatim}
+[system]
+You are a precise knowledge assistant for a personal knowledge hypergraph.
+Answer the user's question using ONLY the provided evidence. If the evidence
+is insufficient, say so clearly. Cite chunk-N or community-N when you
+reference a fact.
+
+[user]
+Question: {question}
+
+Routed intent: {intent}
+
+Evidence:
+
+{evidence}
+
+Answer:
+\end{verbatim}
+\normalsize\vspace{-3pt}\noindent\rule{\linewidth}{0.4pt}
+
+\noindent\textbf{Prompt P5 --- ReAct Inference Agent (multi-round $R_{\mathrm{sub}}\!\cup\!R_{\mathrm{com}}$).} For deep-reasoning queries; \texttt{<search>} tags re-enter the hierarchical retriever via the same router as P3, and one \texttt{<insight>} tag finalizes after $\leq$\texttt{\{max\_rounds\}} rounds.\vspace{2pt}
+\noindent\rule{\linewidth}{0.4pt}
+\small
+\begin{verbatim}
+You are a knowledge inference engine analysing a personal knowledge
+hypergraph.
+
+You have a search tool. Use it to find relevant knowledge, then synthesise
+deep insights.
+
+Format your response with these XML-like tags:
+<think>your reasoning about what to search next or what you have learned
+so far</think>
+<search>a specific search query to retrieve relevant knowledge</search>
+
+After you have gathered enough knowledge (usually 3-5 searches), produce
+your final insight:
+<insight>your synthesised insight, prediction, or conclusion — cite
+specific facts from the knowledge base</insight>
+
+Rules:
+- Each <search> triggers an actual KB retrieval through the hierarchical
+  retriever (subgraph + community).
+- You may do up to {max_rounds} search rounds before you must produce
+  <insight>.
+- Always base insights on retrieved facts; note when evidence is sparse.
+- Write the <insight> tag LAST, after all your thinking and searching.
+\end{verbatim}
+\normalsize\vspace{-3pt}\noindent\rule{\linewidth}{0.4pt}
+
+\noindent\textbf{Prompt P6 --- Knowledge Discovery / Gap Analysis ($\mathrm{LLM}_{\mathrm{disc}}$, T6).} Realizes $(\mathrm{known}(t),\mathrm{gaps}(t),\mathrm{sug}(t))$ from Eq.~\ref{eq:disc-route}: $\mathrm{known}$ is the cosine threshold $\theta_{\mathrm{k}}$ over $\phi(\cdot)$, while $\mathrm{gaps},\mathrm{sug}$ are produced by the LLM under topic-conditioned community context $\{\sigma_k\}_{\mathcal{C}_t^{\mathrm{com}}}$.\vspace{2pt}
+\noindent\rule{\linewidth}{0.4pt}
+\small
+\begin{verbatim}
+You are a research analyst for a personal knowledge hypergraph.
+
+Given the topic and the retrieved knowledge snippets (which include both
+fine-grained chunks and community-level summaries), you must:
+1. Summarise what the KB already knows about the topic.
+2. Identify specific knowledge gaps – what is missing or unclear.
+3. Suggest 5-10 concrete search queries or sub-topics to fill those gaps.
+4. Rate the current coverage: low / medium / high.
+
+Return a structured analysis.
+\end{verbatim}
+\normalsize\vspace{-3pt}\noindent\rule{\linewidth}{0.4pt}
+
+\textbf{Reproducibility.} The six prompts above, together with the deterministic operators in Eqs.~\eqref{eq:hg}--\eqref{eq:disc-route}, fully specify KnowledgeClaw's LLM surface; all run at \texttt{temperature}\,$\in\![0,0.4]$ on \texttt{gemini-3.1-flash-lite-preview} (\S\ref{sec:exp}). A periodic KB-health prompt (omitted for space; see released code) further audits $\mathcal{G}$'s connectivity and cross-modal coverage during C2's update pass.
+
+\clearpage
+
+\section{Related Work}
+
+\subsection{Knowledge Engineering}
+
+Knowledge engineering began with expert systems and ontologies~\citep{KEclassic, CYC, WordNet}, which required manual encoding of concepts and inference rules. Web-scale corpora then shifted the paradigm to automated knowledge graph (KG) construction~\citep{Freebase, DBpedia, YAGO, Wikidata}, maturing along extraction~\citep{NELL, OpenIE}, embedding~\citep{TransE, ComplexE}, and linking~\citep{BLINK, KG}. LLMs have since rewritten this paradigm~\citep{KGLLMsurvey}, both by directly extracting and normalizing entities and relations~\citep{LLMIEsurvey, KAG, OntoKG, iText2KG} and by injecting external knowledge into generation via RAG~\citep{RAG, RAGSurvey}. Centered on graph structure, this trajectory spans hierarchical summarization~\citep{RAPTOR}, community-level synthesis~\citep{GraphRAG, LightRAG}, path pruning and multi-hop/proposition reasoning~\citep{PathRAG, HopRAG, PropRAG, E2GraphRAG}, heterogeneous and linearized graphs~\citep{NodeRAG, LinearRAG}, causal and domain-specialized graphs~\citep{CausalRAG, MedGraphRAG, PIKE-RAG}, hypergraph modeling of higher-order relations~\citep{HyperGraphRAG, HyperRAG, EHRAG}, and graph foundation models~\citep{GFM-RAG, G-reasoner}. On top of this, non-parametric continual learning~\citep{HippoRAG2}, KG-based reasoning scaffolds~\citep{ToG}, and agentic retrieval~\citep{KBQA-o1, GraphSearch, Youtu-GraphRAG, AgenticRAGSurvey, Graph-R1} push GraphRAG toward a learnable and interactive regime. Yet these methods remain confined to single-modality text or static-corpus QA, without joint treatment of omnimodality, closed-loop lifecycle, and multi-facet application.
+
+\subsection{LLMs and Agents}
+
+Built on the Transformer~\citep{Transformer} and the pre-training--RLHF paradigm~\citep{BERT, GPT3, InstructGPT}, modern LLMs have scaled with Chain-of-Thought reasoning~\citep{CoT, ToT, LLMsurvey} and, through large-scale reinforcement learning, evolved into the ``reasoning model'' paradigm~\citep{GPT-o1, DeepSeek-R1, Qwen3}. On the modality axis, progress has moved from vision--language and speech alignment~\citep{CLIP, Whisper, Llava} to production-grade VLMs~\citep{GPT4, Qwen3-VL}, and further to omnimodal backbones unifying text, image, audio, and video~\citep{Qwen3-Omni, Qwen3.5-Omni, Dynin-Omni, OmniRAG-Agent, OmniGAIA, Gemini3}. LLM-based agents have matured rapidly~\citep{AgentSurvey}: the reason--act--retrieve--reflect paradigm~\citep{ReAct, Reflexion, SelfRAG, Toolformer} laid the capability foundation, and a tighter coupling of reasoning, tool use, and retrieval yielded ``deep-research''-style agents~\citep{Search-o1, Search-R1}. Agents have also enteredW real digital environments for web and desktop operation~\citep{WebArena, OSWorld, ClawGUI}, acquired CRUD interfaces and long/short-term memory via memory-oriented architectures~\citep{Graphiti, MemGPT, Mem0, A-MEM, AgenticMemory, HyperMem}, and achieved end-to-end autonomy on structured tasks such as software engineering~\citep{SWE-agent, OpenHands, ClaudeCode}. Recently, OpenClaw~\citep{OpenClaw} unifies perception, reasoning, tool use, and memory in a single closed-loop agent, opening a promising path toward the omnimodal knowledge engineering task~\citep{Cognee, LLMWiki, Graphify} targeted in this work.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\input{checklist.tex}
+
+
+\end{document}

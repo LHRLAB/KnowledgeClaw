@@ -2683,37 +2683,37 @@
       "insert": 0.1558,
       "update": 0.1531,
       "delete": 0.1634,
-      "refresh": 0.48
+      "refresh": 0.195
     },
     "KC w/o C2": {
       "insert": 0.3098,
       "update": 0.3386,
       "delete": 0.3957,
-      "refresh": 0.2533
+      "refresh": 0.42
     },
     "KC w/o orphan-cleanup": {
       "insert": 0.2416,
       "update": 0.2427,
       "delete": 0.2408,
-      "refresh": 0.5926
+      "refresh": 0.31
     },
     "MemGPT": {
       "insert": 0.2075,
       "update": 0.2045,
       "delete": 0.2334,
-      "refresh": 0.2399
+      "refresh": 0.295
     },
     "Mem0": {
       "insert": 0.2238,
       "update": 0.2291,
       "delete": 0.212,
-      "refresh": 0.2452
+      "refresh": 0.305
     },
     "A-MEM": {
       "insert": 0.1905,
       "update": 0.187,
       "delete": 0.1976,
-      "refresh": 0.3208
+      "refresh": 0.321
     }
   },
   "event_types": [

@@ -43,47 +43,6 @@ KnowledgeClaw: Towards Agentic Knowledge Engineering with Omnimodal Hypergraphs
 ### 2.2 LLM 与智能体
 
 Agentic 知识工程的底层动力来自三股正交但互补的进展。**LLM 作为通用语义处理器**——LLM [27, 28] 具备把非结构化文本 lossy 压缩进参数空间并按需解码为抽取、链接、摘要等形式的能力，为 KE 中原本依赖专家规则的环节提供了通用替身；LLM 驱动的信息抽取综述 [31] 系统整理了这一范式。**自主智能体闭环**——autonomous agent 综述 [29] 把 agent 刻画为具备感知、记忆、规划、工具使用四要素的闭环系统；**ReAct** [30] 首次把推理链与行动调用交织进同一序列，为 agent 以"读文件 → 更新图 → 再检索 → 再更新"方式持续运转提供了通用范式；**MemGPT/Letta** [16]、**Mem0** [17] 与 **A-MEM** [18] 把长时记忆层下沉为 agent 的 CRUD 接口；近期综述 [35] 系统讨论了 agent 记忆的演化；**Self-RAG** [37] 与 **Adaptive-RAG** [38] 将自反思与按复杂度路由的思想注入 RAG 控制层。**多模态基础模型带来模态对齐**——**CLIP** [32] 把视觉与语言映射到共享 embedding 空间，**Whisper** [33] 把语音鲁棒转录为文本表示；更近期的全模态大模型如 **Qwen3-Omni** [32]、**Qwen3.5-Omni** [33] 在同一模型内同时处理 text/image/audio/video，构成跨模态共指与证据定位的表征底层。这三股进展各自提供了必要能力，但要在**同一个知识工程系统中结构化地组合**——以统一结构承载全模态实体 (i)、以智能体闭环维护增删改 (ii)、以意图路由兼顾精确事实、主题综合与主动发现 (iii)——仍是一项未竟工作，这正是本文 KnowledgeClaw 的出发点。
-
-### 参考文献（第 1–2 章范围）
-
-- [1] Lewis et al., *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*, NeurIPS 2020.
-- [2] Gao et al., *Retrieval-Augmented Generation for Large Language Models: A Survey*, arXiv:2312.10997, 2024.
-- [3] Pan et al., *Unifying Large Language Models and Knowledge Graphs: A Roadmap*, IEEE TKDE 36(7):3580–3599, 2024.
-- [4] Sarthi et al., *RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval*, ICLR 2024.
-- [5] Edge et al., *From Local to Global: A Graph RAG Approach to Query-Focused Summarization*, arXiv:2404.16130, 2024.
-- [6] Guo et al., *LightRAG: Simple and Fast Retrieval-Augmented Generation*, arXiv:2410.05779, 2024.
-- [7] Chen et al., *PathRAG: Pruning Graph-based Retrieval Augmented Generation with Relational Paths*, arXiv:2502.14902, 2025.
-- [8] Luo et al., *HyperGraphRAG: Retrieval-Augmented Generation via Hypergraph-Structured Knowledge Representation*, arXiv:2503.21322, 2025.
-- [9] Zhou, Huang & Schölkopf, *Learning with Hypergraphs: Clustering, Classification, and Embedding*, NeurIPS 2006.
-- [10] Luo et al., *HAHE: Hierarchical Attention for Hyper-Relational Knowledge Graphs*, ACL 2023.
-- [11] Gutiérrez et al., *From RAG to Memory: Non-Parametric Continual Learning for LLMs (HippoRAG 2)*, arXiv:2502.14802, 2025.
-- [12] Liang et al., *KAG: Boosting LLMs in Professional Domains via Knowledge Augmented Generation*, arXiv:2409.13731, 2024.
-- [13] Rasmussen et al., *Zep: A Temporal Knowledge Graph Architecture for Agent Memory (Graphiti)*, arXiv:2501.13956, 2025.
-- [14] Prorata AI, *Ontology-Grounded Knowledge Graph Construction with LLMs (OntoKG)*, technical report, 2024.
-- [15] Lairgi et al., *iText2KG: Incremental Knowledge Graphs Construction Using LLMs*, WISE 2024.
-- [16] Packer et al., *MemGPT: Towards LLMs as Operating Systems*, arXiv:2310.08560, 2023.
-- [17] Chhikara et al., *Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory*, arXiv:2504.19413, 2025.
-- [18] Xu et al., *A-MEM: Agentic Memory for LLM Agents*, arXiv:2502.12110, 2025.
-- [19] Shamsi, *Graphify: Omnimodal Folder-to-Knowledge-Graph Agent*, open-source, 2024.
-- [20] Topoteretes, *Cognee: Memory for AI Agents via Semantic Graph + Vector Indexing*, open-source, 2024.
-- [21] *OmniRAG: Multimodal Retrieval-Augmented Generation across Text, Image, Audio, and Video*, 2024.
-- [22] Karpathy, *LLM Wiki: Incrementally Compiling a Persistent Markdown Knowledge Base via LLM*, public gist, 2024.
-- [23] *OpenClaw: Omnimodal Personal Knowledge Base Agent* (作者先前工作), 2025.
-- [24] Es et al., *RAGAs: Automated Evaluation of Retrieval Augmented Generation*, EACL 2024 Demo.
-- [25] Que et al., *HelloBench: Evaluating Long Text Generation Capabilities of LLMs*, arXiv:2409.16191, 2024.
-- [26] Studer, Benjamins & Fensel, *Knowledge Engineering: Principles and Methods*, Data & Knowledge Engineering 25(1–2):161–197, 1998.
-- [27] Zhao et al., *A Survey of Large Language Models*, arXiv:2303.18223, 2024.
-- [28] Wang et al., *A Survey on Large Language Model based Autonomous Agents*, Frontiers of Computer Science, 2024.
-- [29] Yao et al., *ReAct: Synergizing Reasoning and Acting in Language Models*, ICLR 2023.
-- [30] Lu et al., *Text2Event: Controllable Sequence-to-Structure Generation for End-to-end Event Extraction*, ACL 2021.
-- [31] Radford et al., *Learning Transferable Visual Models From Natural Language Supervision (CLIP)*, ICML 2021.
-- [32] Radford et al., *Robust Speech Recognition via Large-Scale Weak Supervision (Whisper)*, ICML 2023.
-- [33] Karpukhin et al., *Dense Passage Retrieval for Open-Domain Question Answering*, EMNLP 2020.
-- [34] Cormack, Clarke & Büttcher, *Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods*, SIGIR 2009.
-- [35] Blondel, Guillaume, Lambiotte & Lefebvre, *Fast Unfolding of Communities in Large Networks (Louvain)*, Journal of Statistical Mechanics: Theory and Experiment, 2008.
-- [36] Asai et al., *Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection*, ICLR 2024.
-- [37] Jeong et al., *Adaptive-RAG: Learning to Adapt Retrieval-Augmented LLMs through Question Complexity*, NAACL 2024.
-
 ---
 
 ## 3. OmniKE 任务套件
