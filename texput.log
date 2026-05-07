@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.3.11)  28 APR 2026 21:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.3.11)  7 MAY 2026 08:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -6,7 +6,10 @@ entering extended mode
 
 ! Emergency stop.
 <*> neurips_2026.tex
-                     
+                    
+*** (job aborted, file error in nonstop mode)
+
+ 
 Here is how much of TeX's memory you used:
  3 strings out of 478287
  123 string characters out of 5849289
@@ -15,5 +18,4 @@ Here is how much of TeX's memory you used:
  469259 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  0i,0n,0p,1b,6s stack positions out of 5000i,500n,10000p,200000b,80000s
-
 !  ==> Fatal error occurred, no output PDF file produced!

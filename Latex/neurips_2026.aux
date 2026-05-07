@@ -51,37 +51,38 @@
 \citation{OpenClaw}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Three contributions map onto three necessary properties: C1 unifies five modalities via cross-modal hyperedges (T1, T2), C2 maintains lifecycle consistency on the live hypergraph (T5), and C3 routes queries among subgraph retrieval, community synthesis, and knowledge discovery (T3, T4, T6). KnowledgeClaw obtains the highest scoring on all six OmniKE tasks (OKE\,$=$\,59.8).}}{2}{figure.2}\protected@file@percent }
 \newlabel{F2}{{2}{2}{Three contributions map onto three necessary properties: C1 unifies five modalities via cross-modal hyperedges (T1, T2), C2 maintains lifecycle consistency on the live hypergraph (T5), and C3 routes queries among subgraph retrieval, community synthesis, and knowledge discovery (T3, T4, T6). KnowledgeClaw obtains the highest scoring on all six OmniKE tasks (OKE\,$=$\,59.8)}{figure.2}{}}
-\citation{RAGAS}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textbf  {(A)} Six OmniKE tasks covering construction (T1 acquisition, T2 cross-modal coreference), maintenance (T5 lifecycle consistency), and application (T3 multi-hop, T4 cross-modal, T6 discovery). \textbf  {(B)} OmniKE-Bench: 10 personas, 10 domains, 5 modalities, and 4{,}544 real files.}}{3}{figure.3}\protected@file@percent }
-\newlabel{F3}{{3}{3}{\textbf {(A)} Six OmniKE tasks covering construction (T1 acquisition, T2 cross-modal coreference), maintenance (T5 lifecycle consistency), and application (T3 multi-hop, T4 cross-modal, T6 discovery). \textbf {(B)} OmniKE-Bench: 10 personas, 10 domains, 5 modalities, and 4{,}544 real files}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textbf  {(A)} The six OmniKE tasks form construction $\{$T1, T2$\}$, maintenance $\{$T5$\}$ and application $\{$T3, T4, T6$\}$, one group per property (i)--(iii). \textbf  {(B)} OmniKE-Bench instantiates them over 10 personas across 5 modalities and 4{,}544 real native files ($\approx $22\,GB; per-persona statistics in Appendix\nobreakspace  {}\ref  {app:bench}).}}{3}{figure.3}\protected@file@percent }
+\newlabel{F3}{{3}{3}{\textbf {(A)} The six OmniKE tasks form construction $\{$T1, T2$\}$, maintenance $\{$T5$\}$ and application $\{$T3, T4, T6$\}$, one group per property (i)--(iii). \textbf {(B)} OmniKE-Bench instantiates them over 10 personas across 5 modalities and 4{,}544 real native files ($\approx $22\,GB; per-persona statistics in Appendix~\ref {app:bench})}{figure.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}The OmniKE Tasks and Benchmark}{3}{section.2}\protected@file@percent }
 \newlabel{sec:task}{{2}{3}{The OmniKE Tasks and Benchmark}{section.2}{}}
+\newlabel{eq:notation}{{1}{3}{The OmniKE Tasks and Benchmark}{equation.2.1}{}}
+\newlabel{eq:t12}{{2}{3}{The OmniKE Tasks and Benchmark}{equation.2.2}{}}
+\newlabel{eq:t5}{{3}{3}{The OmniKE Tasks and Benchmark}{equation.2.3}{}}
+\newlabel{eq:t346}{{4}{3}{The OmniKE Tasks and Benchmark}{equation.2.4}{}}
+\citation{RAGAS}
 \citation{GraphRAG,LightRAG}
 \citation{HyperGraphRAG}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \textbf  {KnowledgeClaw} methodology, where C1--C3 build, maintain, and serve an omnimodal knowledge hypergraph. \textbf  {(A)} C1 extracts entities from text, PDF, image, audio, and video and fuses them via within-modality canonicalization and cross-modal coreference into typed hyperedges. \textbf  {(B)} C2 closes the lifecycle loop via a Build--Query--Reason--Update pass with orphan eviction and fact refresh. \textbf  {(C)} C3 routes queries among subgraph retrieval, community synthesis, and discovery.}}{4}{figure.4}\protected@file@percent }
-\newlabel{F4}{{4}{4}{\textbf {KnowledgeClaw} methodology, where C1--C3 build, maintain, and serve an omnimodal knowledge hypergraph. \textbf {(A)} C1 extracts entities from text, PDF, image, audio, and video and fuses them via within-modality canonicalization and cross-modal coreference into typed hyperedges. \textbf {(B)} C2 closes the lifecycle loop via a Build--Query--Reason--Update pass with orphan eviction and fact refresh. \textbf {(C)} C3 routes queries among subgraph retrieval, community synthesis, and discovery}{figure.4}{}}
+\newlabel{eq:oke}{{5}{4}{The OmniKE Tasks and Benchmark}{equation.2.5}{}}
+\newlabel{eq:pipe}{{6}{4}{The OmniKE Tasks and Benchmark}{equation.2.6}{}}
+\newlabel{eq:m123}{{7}{4}{The OmniKE Tasks and Benchmark}{equation.2.7}{}}
+\newlabel{eq:m456}{{8}{4}{The OmniKE Tasks and Benchmark}{equation.2.8}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Methodology: KnowledgeClaw}{4}{section.3}\protected@file@percent }
 \newlabel{sec:method}{{3}{4}{Methodology: KnowledgeClaw}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}C1: Omnimodal Knowledge Hypergraph}{4}{subsection.3.1}\protected@file@percent }
 \newlabel{sec:c1}{{3.1}{4}{C1: Omnimodal Knowledge Hypergraph}{subsection.3.1}{}}
-\newlabel{eq:hg}{{1}{4}{C1: Omnimodal Knowledge Hypergraph}{equation.3.1}{}}
-\newlabel{eq:coref}{{2}{4}{C1: Omnimodal Knowledge Hypergraph}{equation.3.2}{}}
+\newlabel{eq:hg}{{9}{4}{C1: Omnimodal Knowledge Hypergraph}{equation.3.9}{}}
+\newlabel{eq:extract}{{10}{4}{C1: Omnimodal Knowledge Hypergraph}{equation.3.10}{}}
 \citation{GraphRAG,LightRAG,HippoRAG2,KAG}
-\citation{PathRAG,HippoRAG2}
-\citation{Louvain}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \textbf  {KnowledgeClaw} realises (i)--(iii) of \S  \ref  {sec:intro} on a unified omnimodal hypergraph $\mathcal  {G}$. \textbf  {(A)\nobreakspace  {}C1} fuses entities from five modalities via canonicalisation $\kappa $ and cross-modal coreference $\chi $. \textbf  {(B)\nobreakspace  {}C2} routes each $\Delta _n\!\in \!\{\textsc  {Add},\textsc  {Del},\textsc  {Refresh}\}\!\times \!\mathcal  {D}$ through Build--Query--Reason--Update with cascading orphan eviction and in-place refresh. \textbf  {(C)\nobreakspace  {}C3} routes the query among subgraph retrieval, community synthesis and proactive discovery via a lightweight LLM intent router that covers $\mathcal  {T}_3,\mathcal  {T}_4,\mathcal  {T}_6$.}}{5}{figure.4}\protected@file@percent }
+\newlabel{F4}{{4}{5}{\textbf {KnowledgeClaw} realises (i)--(iii) of \S \ref {sec:intro} on a unified omnimodal hypergraph $\mathcal {G}$. \textbf {(A)~C1} fuses entities from five modalities via canonicalisation $\kappa $ and cross-modal coreference $\chi $. \textbf {(B)~C2} routes each $\Delta _n\!\in \!\{\textsc {Add},\textsc {Del},\textsc {Refresh}\}\!\times \!\mathcal {D}$ through Build--Query--Reason--Update with cascading orphan eviction and in-place refresh. \textbf {(C)~C3} routes the query among subgraph retrieval, community synthesis and proactive discovery via a lightweight LLM intent router that covers $\mathcal {T}_3,\mathcal {T}_4,\mathcal {T}_6$}{figure.4}{}}
+\newlabel{eq:coref}{{11}{5}{C1: Omnimodal Knowledge Hypergraph}{equation.3.11}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}C2: Closed-loop Lifecycle Agent}{5}{subsection.3.2}\protected@file@percent }
 \newlabel{sec:c2}{{3.2}{5}{C2: Closed-loop Lifecycle Agent}{subsection.3.2}{}}
-\newlabel{eq:loop}{{3}{5}{C2: Closed-loop Lifecycle Agent}{equation.3.3}{}}
-\newlabel{eq:cascade}{{4}{5}{C2: Closed-loop Lifecycle Agent}{equation.3.4}{}}
-\newlabel{eq:refresh}{{5}{5}{C2: Closed-loop Lifecycle Agent}{equation.3.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}C3: Multi-angle Application with Intent Routing}{5}{subsection.3.3}\protected@file@percent }
-\newlabel{sec:c3}{{3.3}{5}{C3: Multi-angle Application with Intent Routing}{subsection.3.3}{}}
-\@writefile{toc}{\contentsline {paragraph}{Subgraph-level retrieval ($\mathrm  {sub}$).}{5}{section*.1}\protected@file@percent }
-\newlabel{eq:sub}{{6}{5}{Subgraph-level retrieval ($\mathrm {sub}$)}{equation.3.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{Community-level synthesis ($\mathrm  {com}$).}{5}{section*.2}\protected@file@percent }
-\newlabel{eq:com}{{7}{5}{Community-level synthesis ($\mathrm {com}$)}{equation.3.7}{}}
-\@writefile{toc}{\contentsline {paragraph}{Knowledge discovery ($\mathrm  {disc}$) and intent routing.}{5}{section*.3}\protected@file@percent }
-\newlabel{eq:disc-route}{{8}{5}{Knowledge discovery ($\mathrm {disc}$) and intent routing}{equation.3.8}{}}
+\newlabel{eq:loop}{{12}{5}{C2: Closed-loop Lifecycle Agent}{equation.3.12}{}}
+\newlabel{eq:cascade}{{13}{5}{C2: Closed-loop Lifecycle Agent}{equation.3.13}{}}
+\newlabel{eq:refresh}{{14}{5}{C2: Closed-loop Lifecycle Agent}{equation.3.14}{}}
+\citation{PathRAG,HippoRAG2}
+\citation{Louvain}
 \citation{RAG}
 \citation{RAPTOR}
 \citation{GraphRAG}
@@ -100,49 +101,34 @@
 \citation{Cognee}
 \citation{LLMWiki}
 \citation{Graphify}
-\citation{RAG}
-\citation{RAPTOR}
-\citation{GraphRAG}
-\citation{LightRAG}
-\citation{HippoRAG2}
-\citation{HyperGraphRAG}
-\citation{iText2KG}
-\citation{OntoKG}
-\citation{KAG}
-\citation{Graphiti}
-\citation{MemGPT}
-\citation{Mem0}
-\citation{A-MEM}
-\citation{OmniRAG-Agent}
-\citation{OpenClaw}
-\citation{Cognee}
-\citation{LLMWiki}
-\citation{Graphify}
-\citation{RAG}
-\citation{RAPTOR}
-\citation{GraphRAG}
-\citation{LightRAG}
-\citation{HippoRAG2}
-\citation{HyperGraphRAG}
-\citation{iText2KG}
-\citation{OntoKG}
-\citation{KAG}
-\citation{Graphiti}
-\citation{MemGPT}
-\citation{Mem0}
-\citation{A-MEM}
-\citation{OmniRAG-Agent}
-\citation{OpenClaw}
-\citation{Cognee}
-\citation{LLMWiki}
-\citation{Graphify}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Design comparison of all baselines across the six OmniKE tasks T1--T6: each cell summarizes the method's mechanism in text and formula, with ``-'' marking architecturally unsupported tasks. Rows follow Table\nobreakspace  {}\ref  {tab:main}'s paradigm grouping and order; notation follows \S  \ref  {sec:method}.}}{6}{table.1}\protected@file@percent }
-\newlabel{tab:design}{{1}{6}{Design comparison of all baselines across the six OmniKE tasks T1--T6: each cell summarizes the method's mechanism in text and formula, with ``-'' marking architecturally unsupported tasks. Rows follow Table~\ref {tab:main}'s paradigm grouping and order; notation follows \S \ref {sec:method}}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}C3: Multi-angle Application with Intent Routing}{6}{subsection.3.3}\protected@file@percent }
+\newlabel{sec:c3}{{3.3}{6}{C3: Multi-angle Application with Intent Routing}{subsection.3.3}{}}
+\newlabel{eq:sub}{{15}{6}{C3: Multi-angle Application with Intent Routing}{equation.3.15}{}}
+\newlabel{eq:com}{{16}{6}{C3: Multi-angle Application with Intent Routing}{equation.3.16}{}}
+\newlabel{eq:disc-route}{{17}{6}{C3: Multi-angle Application with Intent Routing}{equation.3.17}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{6}{section.4}\protected@file@percent }
 \newlabel{sec:exp}{{4}{6}{Experiments}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Experimental Setup}{6}{subsection.4.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Main results on OmniKE-Bench. \textbf  {T1}-\textbf  {T6}: per-task scores; \textbf  {HC}-\textbf  {Rob}: per-persona averages over T1-T6; \textbf  {OKE}: arithmetic mean over T1-T6 with architecturally unsupported tasks counted as 0; $\boldsymbol  {\Delta }$: gap to OpenClaw (anchor); ``-'' = not architecturally supported. Best scores in bold.}}{7}{table.2}\protected@file@percent }
-\newlabel{tab:main}{{2}{7}{Main results on OmniKE-Bench. \textbf {T1}-\textbf {T6}: per-task scores; \textbf {HC}-\textbf {Rob}: per-persona averages over T1-T6; \textbf {OKE}: arithmetic mean over T1-T6 with architecturally unsupported tasks counted as 0; $\boldsymbol {\Delta }$: gap to OpenClaw (anchor); ``-'' = not architecturally supported. Best scores in bold}{table.2}{}}
+\citation{RAG}
+\citation{RAPTOR}
+\citation{GraphRAG}
+\citation{LightRAG}
+\citation{HippoRAG2}
+\citation{HyperGraphRAG}
+\citation{iText2KG}
+\citation{OntoKG}
+\citation{KAG}
+\citation{Graphiti}
+\citation{MemGPT}
+\citation{Mem0}
+\citation{A-MEM}
+\citation{OmniRAG-Agent}
+\citation{OpenClaw}
+\citation{Cognee}
+\citation{LLMWiki}
+\citation{Graphify}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Main results on OmniKE-Bench. \textbf  {T1}-\textbf  {T6}: per-task scores; \textbf  {HC}-\textbf  {Rob}: per-persona averages over T1-T6; \textbf  {OKE}: arithmetic mean over T1-T6 with architecturally unsupported tasks counted as 0; $\boldsymbol  {\Delta }$: gap to OpenClaw (anchor); ``-'' = not architecturally supported. Best scores in bold.}}{7}{table.1}\protected@file@percent }
+\newlabel{tab:main}{{1}{7}{Main results on OmniKE-Bench. \textbf {T1}-\textbf {T6}: per-task scores; \textbf {HC}-\textbf {Rob}: per-persona averages over T1-T6; \textbf {OKE}: arithmetic mean over T1-T6 with architecturally unsupported tasks counted as 0; $\boldsymbol {\Delta }$: gap to OpenClaw (anchor); ``-'' = not architecturally supported. Best scores in bold}{table.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Main Results (RQ1)}{7}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Ablation Study (RQ2)}{7}{subsection.4.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Analysis of Modality and Persona Generalization (RQ3)}{8}{subsection.4.4}\protected@file@percent }
@@ -163,42 +149,6 @@
 \newlabel{fig:cost}{{8}{9}{Left: OKE vs.\ USD spend per persona (log scale); KC (starred) sits on the Pareto frontier. Right: construction time per persona on T1--T6 for the five full-coverage methods}{figure.8}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{9}{section.5}\protected@file@percent }
 \newlabel{sec:conclusion}{{5}{9}{Conclusion}{section.5}{}}
-\citation{KEclassic,CYC,WordNet}
-\citation{Freebase,DBpedia,YAGO,Wikidata}
-\citation{NELL,OpenIE}
-\citation{TransE,ComplexE}
-\citation{BLINK,KG}
-\citation{KGLLMsurvey}
-\citation{LLMIEsurvey,KAG,OntoKG,iText2KG}
-\citation{RAG,RAGSurvey}
-\citation{RAPTOR}
-\citation{GraphRAG,LightRAG}
-\citation{PathRAG,HopRAG,PropRAG,E2GraphRAG}
-\citation{NodeRAG,LinearRAG}
-\citation{CausalRAG,MedGraphRAG,PIKE-RAG}
-\citation{HyperGraphRAG,HyperRAG,EHRAG}
-\citation{GFM-RAG,G-reasoner}
-\citation{HippoRAG2}
-\citation{ToG}
-\citation{KBQA-o1,GraphSearch,Youtu-GraphRAG,AgenticRAGSurvey,Graph-R1}
-\citation{Transformer}
-\citation{BERT,GPT3,InstructGPT}
-\citation{CoT,ToT,LLMsurvey}
-\citation{GPT-o1,DeepSeek-R1,Qwen3}
-\citation{CLIP,Whisper,Llava}
-\citation{GPT4,Qwen3-VL}
-\citation{Qwen3-Omni,Qwen3.5-Omni,Dynin-Omni,OmniRAG-Agent,OmniGAIA,Gemini3}
-\citation{AgentSurvey}
-\citation{ReAct,Reflexion,SelfRAG,Toolformer}
-\citation{Search-o1,Search-R1}
-\citation{WebArena,OSWorld,ClawGUI}
-\citation{Graphiti,MemGPT,Mem0,A-MEM,AgenticMemory,HyperMem}
-\citation{SWE-agent,OpenHands,ClaudeCode}
-\citation{OpenClaw}
-\citation{Cognee,LLMWiki,Graphify}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Related Work}{10}{section.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Knowledge Engineering}{10}{subsection.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}LLMs and Agents}{10}{subsection.6.2}\protected@file@percent }
 \bibdata{custom}
 \bibcite{ClaudeCode}{{1}{}{{}}{{}}}
 \bibcite{SelfRAG}{{2}{}{{}}{{}}}
@@ -297,116 +247,174 @@
 \bibcite{LinearRAG}{{95}{}{{}}{{}}}
 \bibstyle{plain}
 \citation{HyperGraphRAG}
-\@writefile{toc}{\contentsline {section}{\numberline {A}KnowledgeClaw Prompts}{20}{appendix.A}\protected@file@percent }
-\newlabel{app:prompts}{{A}{20}{KnowledgeClaw Prompts}{appendix.A}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Construction Prompts (C1)}{20}{subsection.A.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Closed-loop Lifecycle Prompts (C2)}{20}{subsection.A.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Multi-angle Application Prompts (C3)}{20}{subsection.A.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B}Proof of Propositions}{23}{appendix.B}\protected@file@percent }
-\newlabel{proofs}{{B}{23}{Proof of Propositions}{appendix.B}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Proof of Proposition 1}{23}{subsection.B.1}\protected@file@percent }
-\newlabel{proof1}{{B.1}{23}{Proof of Proposition 1}{subsection.B.1}{}}
-\newlabel{eq:p1-fact}{{9}{23}{Proof of Proposition 1}{equation.B.9}{}}
-\newlabel{eq:p1-phiG}{{10}{23}{Proof of Proposition 1}{equation.B.10}{}}
-\newlabel{eq:p1-phiT}{{11}{23}{Proof of Proposition 1}{equation.B.11}{}}
-\newlabel{eq:p1-Igamma}{{12}{23}{Proof of Proposition 1}{equation.B.12}{}}
-\newlabel{eq:p1-construct}{{13}{23}{Proof of Proposition 1}{equation.B.13}{}}
-\newlabel{eq:p1-collide-img}{{14}{23}{Proof of Proposition 1}{equation.B.14}{}}
-\newlabel{eq:p1-collide}{{15}{23}{Proof of Proposition 1}{equation.B.15}{}}
-\newlabel{eq:p1-Hpoint}{{16}{23}{Proof of Proposition 1}{equation.B.16}{}}
-\newlabel{eq:p1-Hmarg}{{17}{23}{Proof of Proposition 1}{equation.B.17}{}}
-\newlabel{eq:p1-Iloss}{{18}{23}{Proof of Proposition 1}{equation.B.18}{}}
-\newlabel{eq:p1-gap}{{19}{23}{Proof of Proposition 1}{equation.B.19}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Proof of Proposition 2}{24}{subsection.B.2}\protected@file@percent }
-\newlabel{proof2}{{B.2}{24}{Proof of Proposition 2}{subsection.B.2}{}}
-\newlabel{eq:p2-inv}{{20}{24}{Proof of Proposition 2}{equation.B.20}{}}
-\newlabel{eq:p2-loop}{{21}{24}{Proof of Proposition 2}{equation.B.21}{}}
-\newlabel{eq:p2-add-state}{{22}{24}{Proof of Proposition 2}{equation.B.22}{}}
-\newlabel{eq:p2-orph}{{23}{24}{Proof of Proposition 2}{equation.B.23}{}}
-\newlabel{eq:p2-del-state}{{24}{24}{Proof of Proposition 2}{equation.B.24}{}}
-\newlabel{eq:p2-ref-state}{{25}{24}{Proof of Proposition 2}{equation.B.25}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}Proof of Proposition 3}{24}{subsection.B.3}\protected@file@percent }
-\newlabel{proof3}{{B.3}{24}{Proof of Proposition 3}{subsection.B.3}{}}
-\newlabel{eq:p3-cover}{{26}{24}{Proof of Proposition 3}{equation.B.26}{}}
-\newlabel{eq:p3-T3}{{27}{25}{Proof of Proposition 3}{equation.B.27}{}}
-\newlabel{eq:p3-T4}{{28}{25}{Proof of Proposition 3}{equation.B.28}{}}
-\newlabel{eq:p3-T6}{{29}{25}{Proof of Proposition 3}{equation.B.29}{}}
-\newlabel{eq:p3-fails}{{30}{25}{Proof of Proposition 3}{equation.B.30}{}}
-\newlabel{eq:p3-no-single}{{31}{25}{Proof of Proposition 3}{equation.B.31}{}}
-\newlabel{eq:p3-router}{{32}{25}{Proof of Proposition 3}{equation.B.32}{}}
-\newlabel{eq:p3-router-emp}{{33}{25}{Proof of Proposition 3}{equation.B.33}{}}
-\newlabel{eq:p3-joint}{{34}{25}{Proof of Proposition 3}{equation.B.34}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}KnowledgeClaw Prompts}{19}{appendix.A}\protected@file@percent }
+\newlabel{app:prompts}{{A}{19}{KnowledgeClaw Prompts}{appendix.A}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Construction Prompts (C1)}{19}{subsection.A.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Closed-loop Lifecycle Prompts (C2)}{19}{subsection.A.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Multi-angle Application Prompts (C3)}{19}{subsection.A.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B}Proof of Propositions}{22}{appendix.B}\protected@file@percent }
+\newlabel{proofs}{{B}{22}{Proof of Propositions}{appendix.B}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Proof of Proposition 1}{22}{subsection.B.1}\protected@file@percent }
+\newlabel{proof1}{{B.1}{22}{Proof of Proposition 1}{subsection.B.1}{}}
+\newlabel{eq:p1-fact}{{18}{22}{Proof of Proposition 1}{equation.B.18}{}}
+\newlabel{eq:p1-phiG}{{19}{22}{Proof of Proposition 1}{equation.B.19}{}}
+\newlabel{eq:p1-phiT}{{20}{22}{Proof of Proposition 1}{equation.B.20}{}}
+\newlabel{eq:p1-Igamma}{{21}{22}{Proof of Proposition 1}{equation.B.21}{}}
+\newlabel{eq:p1-construct}{{22}{22}{Proof of Proposition 1}{equation.B.22}{}}
+\newlabel{eq:p1-collide-img}{{23}{22}{Proof of Proposition 1}{equation.B.23}{}}
+\newlabel{eq:p1-collide}{{24}{22}{Proof of Proposition 1}{equation.B.24}{}}
+\newlabel{eq:p1-Hpoint}{{25}{22}{Proof of Proposition 1}{equation.B.25}{}}
+\newlabel{eq:p1-Hmarg}{{26}{22}{Proof of Proposition 1}{equation.B.26}{}}
+\newlabel{eq:p1-Iloss}{{27}{22}{Proof of Proposition 1}{equation.B.27}{}}
+\newlabel{eq:p1-gap}{{28}{22}{Proof of Proposition 1}{equation.B.28}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Proof of Proposition 2}{23}{subsection.B.2}\protected@file@percent }
+\newlabel{proof2}{{B.2}{23}{Proof of Proposition 2}{subsection.B.2}{}}
+\newlabel{eq:p2-inv}{{29}{23}{Proof of Proposition 2}{equation.B.29}{}}
+\newlabel{eq:p2-loop}{{30}{23}{Proof of Proposition 2}{equation.B.30}{}}
+\newlabel{eq:p2-add-state}{{31}{23}{Proof of Proposition 2}{equation.B.31}{}}
+\newlabel{eq:p2-orph}{{32}{23}{Proof of Proposition 2}{equation.B.32}{}}
+\newlabel{eq:p2-del-state}{{33}{23}{Proof of Proposition 2}{equation.B.33}{}}
+\newlabel{eq:p2-ref-state}{{34}{23}{Proof of Proposition 2}{equation.B.34}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}Proof of Proposition 3}{23}{subsection.B.3}\protected@file@percent }
+\newlabel{proof3}{{B.3}{23}{Proof of Proposition 3}{subsection.B.3}{}}
+\newlabel{eq:p3-cover}{{35}{23}{Proof of Proposition 3}{equation.B.35}{}}
+\newlabel{eq:p3-T3}{{36}{24}{Proof of Proposition 3}{equation.B.36}{}}
+\newlabel{eq:p3-T4}{{37}{24}{Proof of Proposition 3}{equation.B.37}{}}
+\newlabel{eq:p3-T6}{{38}{24}{Proof of Proposition 3}{equation.B.38}{}}
+\newlabel{eq:p3-fails}{{39}{24}{Proof of Proposition 3}{equation.B.39}{}}
+\newlabel{eq:p3-no-single}{{40}{24}{Proof of Proposition 3}{equation.B.40}{}}
+\newlabel{eq:p3-router}{{41}{24}{Proof of Proposition 3}{equation.B.41}{}}
+\newlabel{eq:p3-router-emp}{{42}{24}{Proof of Proposition 3}{equation.B.42}{}}
+\newlabel{eq:p3-joint}{{43}{24}{Proof of Proposition 3}{equation.B.43}{}}
 \citation{HyperGraphRAG}
-\@writefile{toc}{\contentsline {section}{\numberline {C}KnowledgeClaw Algorithm Detail}{26}{appendix.C}\protected@file@percent }
-\newlabel{app:algo}{{C}{26}{KnowledgeClaw Algorithm Detail}{appendix.C}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces C1 --- Omnimodal Knowledge Hypergraph Construction}}{26}{algorithm.1}\protected@file@percent }
-\newlabel{alg:kc-c1}{{1}{26}{KnowledgeClaw Algorithm Detail}{algorithm.1}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces C2 --- Closed-loop Lifecycle Agent (Build--Query--Reason--Update)}}{27}{algorithm.2}\protected@file@percent }
-\newlabel{alg:kc-c2}{{2}{27}{KnowledgeClaw Algorithm Detail}{algorithm.2}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces C3 --- Intent Routing and Multi-angle Retrieval-Generation}}{27}{algorithm.3}\protected@file@percent }
-\newlabel{alg:kc-c3}{{3}{27}{KnowledgeClaw Algorithm Detail}{algorithm.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {D}OmniKE-Bench Detail}{28}{appendix.D}\protected@file@percent }
-\newlabel{app:bench}{{D}{28}{OmniKE-Bench Detail}{appendix.D}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {D.1}Task Design}{28}{subsection.D.1}\protected@file@percent }
-\newlabel{app:bench-task}{{D.1}{28}{Task Design}{subsection.D.1}{}}
-\newlabel{eq:t-t1}{{35}{28}{Task Design}{equation.D.35}{}}
-\newlabel{eq:t-t2}{{36}{28}{Task Design}{equation.D.36}{}}
-\newlabel{eq:t-t3}{{37}{28}{Task Design}{equation.D.37}{}}
-\newlabel{eq:t-t4}{{38}{28}{Task Design}{equation.D.38}{}}
-\newlabel{eq:t-t5}{{39}{28}{Task Design}{equation.D.39}{}}
-\newlabel{eq:t-t6}{{40}{28}{Task Design}{equation.D.40}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {C}KnowledgeClaw Algorithm Detail}{25}{appendix.C}\protected@file@percent }
+\newlabel{app:algo}{{C}{25}{KnowledgeClaw Algorithm Detail}{appendix.C}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces C1 --- Omnimodal Knowledge Hypergraph Construction}}{25}{algorithm.1}\protected@file@percent }
+\newlabel{alg:kc-c1}{{1}{25}{KnowledgeClaw Algorithm Detail}{algorithm.1}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces C2 --- Closed-loop Lifecycle Agent (Build--Query--Reason--Update)}}{26}{algorithm.2}\protected@file@percent }
+\newlabel{alg:kc-c2}{{2}{26}{KnowledgeClaw Algorithm Detail}{algorithm.2}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces C3 --- Intent Routing and Multi-angle Retrieval-Generation}}{26}{algorithm.3}\protected@file@percent }
+\newlabel{alg:kc-c3}{{3}{26}{KnowledgeClaw Algorithm Detail}{algorithm.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D}OmniKE-Bench Detail}{27}{appendix.D}\protected@file@percent }
+\newlabel{app:bench}{{D}{27}{OmniKE-Bench Detail}{appendix.D}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.1}Task Design}{27}{subsection.D.1}\protected@file@percent }
+\newlabel{app:bench-task}{{D.1}{27}{Task Design}{subsection.D.1}{}}
+\newlabel{eq:t-t1}{{44}{27}{Task Design}{equation.D.44}{}}
+\newlabel{eq:t-t2}{{45}{27}{Task Design}{equation.D.45}{}}
+\newlabel{eq:t-t3}{{46}{27}{Task Design}{equation.D.46}{}}
+\newlabel{eq:t-t4}{{47}{27}{Task Design}{equation.D.47}{}}
+\newlabel{eq:t-t5}{{48}{27}{Task Design}{equation.D.48}{}}
+\newlabel{eq:t-t6}{{49}{27}{Task Design}{equation.D.49}{}}
+\citation{RAGAS}
 \@writefile{toc}{\contentsline {subsection}{\numberline {D.2}Benchmark Construction}{28}{subsection.D.2}\protected@file@percent }
 \newlabel{app:bench-pipe}{{D.2}{28}{Benchmark Construction}{subsection.D.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {D.3}Corpus Statistics}{29}{subsection.D.3}\protected@file@percent }
-\newlabel{app:bench-stat}{{D.3}{29}{Corpus Statistics}{subsection.D.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces OmniKE-Bench corpus and gold-label statistics. Left block: file counts per modality per persona; right block: gold-item counts per task per persona. T1 and T2 are reference-free and therefore have no gold items.}}{29}{table.3}\protected@file@percent }
-\newlabel{tab:bench-stats}{{3}{29}{OmniKE-Bench corpus and gold-label statistics. Left block: file counts per modality per persona; right block: gold-item counts per task per persona. T1 and T2 are reference-free and therefore have no gold items}{table.3}{}}
-\citation{RAGAS}
-\@writefile{toc}{\contentsline {subsection}{\numberline {D.4}Evaluation Metric Design}{30}{subsection.D.4}\protected@file@percent }
-\newlabel{app:bench-metric}{{D.4}{30}{Evaluation Metric Design}{subsection.D.4}{}}
-\newlabel{eq:m-t1}{{41}{30}{Evaluation Metric Design}{equation.D.41}{}}
-\newlabel{eq:m-t2}{{42}{30}{Evaluation Metric Design}{equation.D.42}{}}
-\newlabel{eq:m-t3}{{43}{30}{Evaluation Metric Design}{equation.D.43}{}}
-\newlabel{eq:m-t4}{{44}{30}{Evaluation Metric Design}{equation.D.44}{}}
-\newlabel{eq:m-t5}{{45}{30}{Evaluation Metric Design}{equation.D.45}{}}
-\newlabel{eq:m-t6}{{46}{30}{Evaluation Metric Design}{equation.D.46}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.3}Corpus Statistics}{28}{subsection.D.3}\protected@file@percent }
+\newlabel{app:bench-stat}{{D.3}{28}{Corpus Statistics}{subsection.D.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.4}Evaluation Metric Design}{28}{subsection.D.4}\protected@file@percent }
+\newlabel{app:bench-metric}{{D.4}{28}{Evaluation Metric Design}{subsection.D.4}{}}
+\newlabel{eq:m-t1}{{50}{28}{Evaluation Metric Design}{equation.D.50}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Per-persona OmniKE-Bench statistics. \emph  {Left block:} file counts per modality across the five modalities $\mathcal  {M}\!=\!\{\textit  {text}, \textit  {pdf}, \textit  {image}, \textit  {audio}, \textit  {video}\}$. \emph  {Right block:} gold-item counts per task; T1, T2 and T6 are reference-free, and the bottom row aggregates corpus and gold totals across the ten personas.}}{29}{table.2}\protected@file@percent }
+\newlabel{tab:bench-stats}{{2}{29}{Per-persona OmniKE-Bench statistics. \emph {Left block:} file counts per modality across the five modalities $\mathcal {M}\!=\!\{\textit {text}, \textit {pdf}, \textit {image}, \textit {audio}, \textit {video}\}$. \emph {Right block:} gold-item counts per task; T1, T2 and T6 are reference-free, and the bottom row aggregates corpus and gold totals across the ten personas}{table.2}{}}
+\newlabel{eq:m-t2}{{51}{29}{Evaluation Metric Design}{equation.D.51}{}}
+\newlabel{eq:m-t3}{{52}{29}{Evaluation Metric Design}{equation.D.52}{}}
+\newlabel{eq:m-t4}{{53}{29}{Evaluation Metric Design}{equation.D.53}{}}
+\newlabel{eq:m-t5}{{54}{29}{Evaluation Metric Design}{equation.D.54}{}}
+\newlabel{eq:m-t6}{{55}{29}{Evaluation Metric Design}{equation.D.55}{}}
 \citation{RAG}
 \citation{RAPTOR}
 \citation{GraphRAG}
-\@writefile{toc}{\contentsline {section}{\numberline {E}Baseline Detail}{31}{appendix.E}\protected@file@percent }
-\newlabel{app:baseline}{{E}{31}{Baseline Detail}{appendix.E}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {E.1}Chunk/Hierarchical Retrieval}{31}{subsection.E.1}\protected@file@percent }
-\newlabel{app:b-chunk}{{E.1}{31}{Chunk/Hierarchical Retrieval}{subsection.E.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {E.2}Graph/Hypergraph RAG}{31}{subsection.E.2}\protected@file@percent }
-\newlabel{app:b-graph}{{E.2}{31}{Graph/Hypergraph RAG}{subsection.E.2}{}}
 \citation{LightRAG}
 \citation{HippoRAG2}
 \citation{HyperGraphRAG}
 \citation{iText2KG}
 \citation{OntoKG}
-\@writefile{toc}{\contentsline {subsection}{\numberline {E.3}KG Construction}{32}{subsection.E.3}\protected@file@percent }
-\newlabel{app:b-kgconst}{{E.3}{32}{KG Construction}{subsection.E.3}{}}
 \citation{KAG}
 \citation{Graphiti}
 \citation{MemGPT}
 \citation{Mem0}
-\@writefile{toc}{\contentsline {subsection}{\numberline {E.4}Agentic KG}{33}{subsection.E.4}\protected@file@percent }
-\newlabel{app:b-akg}{{E.4}{33}{Agentic KG}{subsection.E.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {E.5}Memory Agents}{33}{subsection.E.5}\protected@file@percent }
-\newlabel{app:b-mem}{{E.5}{33}{Memory Agents}{subsection.E.5}{}}
 \citation{A-MEM}
 \citation{OmniRAG-Agent}
 \citation{OpenClaw}
-\@writefile{toc}{\contentsline {subsection}{\numberline {E.6}Omnimodal RAG}{34}{subsection.E.6}\protected@file@percent }
-\newlabel{app:b-omni}{{E.6}{34}{Omnimodal RAG}{subsection.E.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {E.7}Agentic KE}{34}{subsection.E.7}\protected@file@percent }
-\newlabel{app:b-ake}{{E.7}{34}{Agentic KE}{subsection.E.7}{}}
 \citation{Cognee}
 \citation{LLMWiki}
 \citation{Graphify}
+\citation{RAG}
+\citation{RAPTOR}
+\@writefile{toc}{\contentsline {section}{\numberline {E}Baseline Detail}{30}{appendix.E}\protected@file@percent }
+\newlabel{app:baseline}{{E}{30}{Baseline Detail}{appendix.E}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Design comparison of all baselines across the six OmniKE tasks T1--T6: each cell summarizes the method's mechanism in text and formula, with ``-'' marking architecturally unsupported tasks. Rows follow Table\nobreakspace  {}\ref  {tab:main}'s paradigm grouping and order; notation follows \S  \ref  {sec:method}.}}{30}{table.3}\protected@file@percent }
+\newlabel{tab:design}{{3}{30}{Design comparison of all baselines across the six OmniKE tasks T1--T6: each cell summarizes the method's mechanism in text and formula, with ``-'' marking architecturally unsupported tasks. Rows follow Table~\ref {tab:main}'s paradigm grouping and order; notation follows \S \ref {sec:method}}{table.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.1}Chunk/Hierarchical Retrieval}{30}{subsection.E.1}\protected@file@percent }
+\newlabel{app:b-chunk}{{E.1}{30}{Chunk/Hierarchical Retrieval}{subsection.E.1}{}}
+\citation{GraphRAG}
+\citation{LightRAG}
+\citation{HippoRAG2}
+\citation{HyperGraphRAG}
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.2}Graph/Hypergraph RAG}{31}{subsection.E.2}\protected@file@percent }
+\newlabel{app:b-graph}{{E.2}{31}{Graph/Hypergraph RAG}{subsection.E.2}{}}
+\citation{iText2KG}
+\citation{OntoKG}
+\citation{KAG}
+\citation{Graphiti}
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.3}KG Construction}{32}{subsection.E.3}\protected@file@percent }
+\newlabel{app:b-kgconst}{{E.3}{32}{KG Construction}{subsection.E.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.4}Agentic KG}{32}{subsection.E.4}\protected@file@percent }
+\newlabel{app:b-akg}{{E.4}{32}{Agentic KG}{subsection.E.4}{}}
+\citation{MemGPT}
+\citation{Mem0}
+\citation{A-MEM}
+\citation{OmniRAG-Agent}
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.5}Memory Agents}{33}{subsection.E.5}\protected@file@percent }
+\newlabel{app:b-mem}{{E.5}{33}{Memory Agents}{subsection.E.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.6}Omnimodal RAG}{33}{subsection.E.6}\protected@file@percent }
+\newlabel{app:b-omni}{{E.6}{33}{Omnimodal RAG}{subsection.E.6}{}}
+\citation{OpenClaw}
+\citation{Cognee}
+\citation{LLMWiki}
+\citation{Graphify}
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.7}Agentic KE}{34}{subsection.E.7}\protected@file@percent }
+\newlabel{app:b-ake}{{E.7}{34}{Agentic KE}{subsection.E.7}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {E.8}KnowledgeClaw Ablations}{35}{subsection.E.8}\protected@file@percent }
 \newlabel{app:b-abl}{{E.8}{35}{KnowledgeClaw Ablations}{subsection.E.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {E.9}KnowledgeClaw}{36}{subsection.E.9}\protected@file@percent }
-\newlabel{app:b-kc}{{E.9}{36}{KnowledgeClaw}{subsection.E.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.9}KnowledgeClaw}{35}{subsection.E.9}\protected@file@percent }
+\newlabel{app:b-kc}{{E.9}{35}{KnowledgeClaw}{subsection.E.9}{}}
+\citation{KEclassic,CYC,WordNet}
+\citation{Freebase,DBpedia,YAGO,Wikidata}
+\citation{NELL,OpenIE}
+\citation{TransE,ComplexE}
+\citation{BLINK,KG}
+\citation{KGLLMsurvey}
+\citation{LLMIEsurvey,KAG,OntoKG,iText2KG}
+\citation{RAG,RAGSurvey}
+\citation{RAPTOR}
+\citation{GraphRAG,LightRAG}
+\citation{PathRAG,HopRAG,PropRAG,E2GraphRAG}
+\citation{NodeRAG,LinearRAG}
+\citation{CausalRAG,MedGraphRAG,PIKE-RAG}
+\citation{HyperGraphRAG,HyperRAG,EHRAG}
+\citation{GFM-RAG,G-reasoner}
+\citation{HippoRAG2}
+\citation{ToG}
+\citation{KBQA-o1,GraphSearch,Youtu-GraphRAG,AgenticRAGSurvey,Graph-R1}
+\citation{Transformer}
+\citation{BERT,GPT3,InstructGPT}
+\citation{CoT,ToT,LLMsurvey}
+\citation{GPT-o1,DeepSeek-R1,Qwen3}
+\citation{CLIP,Whisper,Llava}
+\citation{GPT4,Qwen3-VL}
+\citation{Qwen3-Omni,Qwen3.5-Omni,Dynin-Omni,OmniRAG-Agent,OmniGAIA,Gemini3}
+\citation{AgentSurvey}
+\citation{ReAct,Reflexion,SelfRAG,Toolformer}
+\citation{Search-o1,Search-R1}
+\citation{WebArena,OSWorld,ClawGUI}
+\citation{Graphiti,MemGPT,Mem0,A-MEM,AgenticMemory,HyperMem}
+\citation{SWE-agent,OpenHands,ClaudeCode}
+\citation{OpenClaw}
+\citation{Cognee,LLMWiki,Graphify}
+\@writefile{toc}{\contentsline {section}{\numberline {F}Related Work}{36}{appendix.F}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {F.1}Knowledge Engineering}{36}{subsection.F.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {F.2}LLMs and Agents}{36}{subsection.F.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {G}Limitations and Future Work}{36}{appendix.G}\protected@file@percent }
+\newlabel{app:limit}{{G}{36}{Limitations and Future Work}{appendix.G}{}}
 \providecommand\NAT@force@numbers{}\NAT@force@numbers
 \gdef \@abspage@last{43}
