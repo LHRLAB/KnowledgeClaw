@@ -104,3 +104,5 @@ baselines/
 
 # OmniKE-Bench dataset — download from HuggingFace, place under data/v0.1/
 data/
+Latex/
+PAPER.md
