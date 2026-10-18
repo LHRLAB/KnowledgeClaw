@@ -1,91 +1,51 @@
 # KnowledgeClaw
 
----
+Agentic knowledge engineering over an omnimodal typed hypergraph.
 
-## Install
+```
+knowledgeclaw/
+  perceive.py, extract.py, hypergraph.py   C1  omnimodal typed hypergraph
+  lifecycle.py                             C2  closed-loop lifecycle (Add / Del / Refresh)
+  retrieve.py, community.py, router.py     C3  multi-granular retrieval with intent routing
+  agent.py                                 the agent
+evaluation/                                OmniKE-Bench runner and scorer
+```
+
+## Setup
 
 ```bash
-conda create -n knowledgeclaw python=3.13
-conda activate knowledgeclaw
-pip install -r requirements.txt
+pip install -r requirements.txt     # Python >= 3.10; ffmpeg on PATH for audio/video
+export MODEL_API_KEY=...            # any OpenAI-compatible endpoint, default https://openrouter.ai/api/v1
 ```
 
-For audio/video ingestion you also need a system `ffmpeg`.
-
----
-
-## Configure
-
-Drop your apiyi (or any OpenAI-compatible) API key into the project root:
-
-```bash
-echo "your_api_key_here" > api_key_apiyi.txt
-```
-
-Override the defaults via `.env` if needed (see [.env.example](.env.example)):
-
-```env
-LLM_MODEL=gemini-3.1-flash-lite-preview      # Agent + extractor
-EMBED_MODEL=gemini-embedding-2-preview        # Vector embeddings
-OMNI_MODEL=gemini-3.1-flash-lite-preview      # Image/audio/video transcribe & caption
-```
-
-All models go through the apiyi proxy — no local GPU required.
-
----
-
-## Evaluation
-
-Download the OmniKE-Bench dataset from HuggingFace and place it under `data/`:
-
-```bash
-# Option 1: git clone (requires git-lfs)
-git lfs install
-git clone https://huggingface.co/datasets/KnowledgeClaw/OmniKE-Bench data
-
-# Option 2: huggingface-cli
-pip install huggingface_hub
-huggingface-cli download KnowledgeClaw/OmniKE-Bench --repo-type dataset --local-dir data
-```
-
-After download, the directory should look like:
+Place OmniKE-Bench under `data/` (or set `DATA_DIR`):
 
 ```
 data/
-└── v0.1/
-    ├── unified/          # Per-persona JSON (files + content)
-    │   ├── Alice_Healthcare.json
-    │   ├── Bob_Finance.json
-    │   └── ...
-    └── gold/             # Gold annotations for T3–T6
-        ├── Alice_Healthcare/
-        │   ├── t3.json
-        │   ├── t4.json
-        │   ├── t5.json
-        │   └── t6.json
-        └── ...
+  corpus/<persona>/{text,pdf,image,audio,video,deltas}/
+  release/{CORPUS.json,questions,gold}/
+  bridge/
 ```
 
-Reproduce the KnowledgeClaw results on OmniKE-Bench (6 tasks, 10 personas):
+## Run
 
 ```bash
-# Run on all 10 personas (takes ~30 min)
-python -m evaluation.run
-
-# Run on a single persona
-python -m evaluation.run --persona Alice_Healthcare
-
-# Re-score existing outputs without re-running
-python -m evaluation.run --score-only
+python -m evaluation.run                                  # KnowledgeClaw, 10 personas, T1-T6
+python -m evaluation.run --method knowledgeclaw_wo_c1     # ablations: _wo_c1, _wo_c2, _wo_c3
+python -m evaluation.run --score-only                     # print the table from saved predictions
 ```
 
-Results are saved to `results/v0.1/`:
+Backbone: Gemini 2.5 Flash Lite, encoder: Gemini Embedding 2. Predictions, artefacts and retrieval traces are written to `results/`.
 
-| File | Description |
-|---|---|
-| `raw/knowledgeclaw/{persona}/t{1..6}.json` | Per-task raw predictions |
-| `scores.json` | Aggregated scores (per-task, per-persona, OKE) |
-| `leaderboard.md` | Formatted results table |
+## Use as a library
 
----
+```python
+from pathlib import Path
+from knowledgeclaw import KnowledgeClaw, OpenAIBackend, Source
 
+kc = KnowledgeClaw(OpenAIBackend(api_key, base_url, "google/gemini-2.5-flash-lite", "google/gemini-embedding-2-preview"))
+kc.construct([Source("a.pdf", "pdf", text), Source("b.png", "image", path=Path("b.png"))])
+kc.commit([Source("a_v2.pdf", "pdf", text2, revises="a.pdf")])   # Refresh
+kc.delete("b.png")                                              # Del
+evidence = kc.retrieve("Who are the authors of a_v2.pdf?")["text"]
+```

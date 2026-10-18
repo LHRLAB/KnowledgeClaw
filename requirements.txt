@@ -1,14 +1,7 @@
-fastapi
-uvicorn
-jinja2
-python-dotenv
-openai
-networkx
-nano-vectordb
-tiktoken
-PyMuPDF
-watchdog
-python-multipart
-
-# Video/audio segmentation (ffmpeg required for video)
-soundfile
+openai>=1.40
+numpy
+networkx>=3.0
+rank_bm25
+pymupdf
+pillow
+python-dateutil
