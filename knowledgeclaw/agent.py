@@ -29,16 +29,12 @@ from knowledgeclaw.perceive import Source
 
 
 class KnowledgeClaw:
-    def __init__(self, llm: Backend, c1: bool = True, c2: bool = True, c3: bool = True):
-        """c1/c2/c3 = False are the ablations: w/o C1 keeps only segments of the text projection (no native
-        perception, no records, no hyperedges); w/o C2 appends every increment as new files (no Refresh, no
-        Del); w/o C3 answers from flat dense retrieval (no anchors, no expansion, no routing, no communities)."""
+    def __init__(self, llm: Backend):
         self.llm = llm
-        self.c1, self.c2, self.c3 = c1, c2, c3
         self.kg = Hypergraph(llm)
         self._reports: list[dict] | None = None
         self._lock = threading.Lock()
-        self.lifecycle = Lifecycle(self.kg, on_change=self._invalidate, structured=c1)
+        self.lifecycle = Lifecycle(self.kg, on_change=self._invalidate)
         self._qcache: dict[str, np.ndarray] = {}
 
     # ------------------------------------------------------------------ construct / update (C1, C2)
@@ -52,7 +48,7 @@ class KnowledgeClaw:
         groups: dict[str, list[Source]] = {}
         fresh: list[Source] = []
         for s in sources:
-            if self.c2 and s.revises and self.kg.current(s.revises):
+            if s.revises and self.kg.current(s.revises):
                 groups.setdefault(s.revises, []).append(s)
             else:
                 fresh.append(s)
@@ -88,8 +84,6 @@ class KnowledgeClaw:
 
     def retrieve(self, question: str) -> dict:
         qv = self._vec(question)
-        if not self.c3:
-            return {"intent": "flat", **R.flat(self.kg, qv)}
         files, ents = R.anchors(self.kg, question, self._vec)
         intent = router.route(question, bool(files or ents), self.llm)
         out = {"intent": intent, "text": ""}

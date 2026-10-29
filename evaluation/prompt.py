@@ -6,8 +6,6 @@ from __future__ import annotations
 
 import json
 
-SYS_CB = ("You are taking a closed-book exam. You have NO access to any document, image, audio or video. "
-          "Answer from the question text alone; guess if you must.")
 SYS_R = ("You may use the CONTEXT below (retrieved automatically over the released corpus; it may be "
          "irrelevant, incomplete, or -- in the ablation condition -- deliberately missing one modality). "
          "Do not assume anything not stated in the context or the question.")
@@ -43,14 +41,13 @@ def stem_text(it: dict) -> str:
     return " ".join(out)
 
 
-def build_prompt(it: dict, ctx_text: str | None, phase: str | None = None) -> tuple:
+def build_prompt(it: dict, ctx_text: str, phase: str | None = None) -> tuple:
     """phase: None for single-phase items; "A" or "B" for T5 (answer, commit the increment, answer again)."""
     q = it["question"]["text"] if isinstance(it.get("question"), dict) and "text" in it["question"] \
         else stem_text(it)
-    sysmsg = SYS_CB if ctx_text is None else SYS_R
-    if phase == "B" and ctx_text is not None:
+    if phase == "B":
         q = f"(An update to the underlying record may have been filed since any earlier question.) {q}"
-    body = f"CONTEXT:\n{ctx_text}\n\nQUESTION: {q}" if ctx_text is not None else f"QUESTION: {q}"
+    body = f"CONTEXT:\n{ctx_text}\n\nQUESTION: {q}"
     if it["answer_type"] == "mc":
         opts = "\n".join(f"[{k}] {opt_text(o)}" for k, o in enumerate(it["options"], 1))
         body += f"\n\nOptions:\n{opts}\n\nRespond with JSON only: {{\"choice\": <1-{len(it['options'])}>}}"
@@ -75,7 +72,7 @@ def build_prompt(it: dict, ctx_text: str | None, phase: str | None = None) -> tu
                  f"strings above, copied exactly, as a plain string (not wrapped in an object).")
     else:
         body += "\n\nRespond with JSON only: {\"answer\": \"...\"}"
-    return sysmsg, body
+    return SYS_R, body
 
 
 def _clean_str_list(xs: list) -> list:

@@ -26,7 +26,6 @@ QUOTED = re.compile(r"[\"\u201c\u201d]([^\"\u201c\u201d]{2,300})[\"\u201c\u201d]
 K = 10                      # fused hyperedges kept
 LAMBDA = 4                  # RRF constant
 MAX_LINKED = 6              # linked works kept
-RANK_HEADER = True
 KEEP_RATIO = 0.6            # a linked work is kept within this ratio of the best score
 ENTITY_MATCH = 0.86         # cosine above which a quoted span is taken to name an existing entity
 ANCHOR_CHARS = 7000
@@ -228,11 +227,11 @@ def subgraph(kg: Hypergraph, q: str, qv: np.ndarray, qvec_of) -> dict:
         c = card(kg, kg.files[f], h, ANCHOR_CHARS)
         parts.append(c)
         used += len(c)
-    if linked and RANK_HEADER:
+    if linked:
         parts.append("=== linked records, strongest link first (catalogued under a named term > text match > "
                      "shared entity) ===")
     for rank, (w, why) in enumerate(linked, 1):
-        c = work_card(kg, w, f"link #{rank}: {why}" if RANK_HEADER else why, LINKED_CHARS if not files else 0)
+        c = work_card(kg, w, f"link #{rank}: {why}", LINKED_CHARS if not files else 0)
         if used + len(c) > BUDGET:
             break
         parts.append(c)
@@ -257,15 +256,6 @@ def subgraph(kg: Hypergraph, q: str, qv: np.ndarray, qvec_of) -> dict:
     return {"anchors": [f for _, f in files], "entities": ents, "linked": [w for w, _ in linked],
             "relational": relational, "hyperedges": edges, "segments": segs, "parts": parts,
             "text": "\n\n".join(parts)}
-
-
-def flat(kg: Hypergraph, qv: np.ndarray, k: int = K) -> dict:
-    """Ablation w/o C3: the top-k fused hyperedges and top segments by embedding alone."""
-    edges, _ = dense(kg, qv, k)
-    segs = [s for _, s in kg.I_S.search_vec(qv, 6)]
-    parts = ["=== related hyperedges ===\n" + "\n".join(f"- {kg.edges[h].text}" for h in edges)] if edges else []
-    parts += ["=== passage ===\n" + t[:3000] for t in (segment_text(kg, key) for key in segs) if t]
-    return {"hyperedges": edges, "segments": segs, "text": "\n\n".join(parts)}
 
 
 def community(kg: Hypergraph, reports: list[dict], qv: np.ndarray, k: int = 3) -> dict:

@@ -1,11 +1,12 @@
 """OmniKE-Bench as the evaluation reads it: the corpus as documents, the questions, and the gold.
 
-Expected layout under DATA_DIR (default ./data):
+Expected layout under DATA_DIR (default ./dataset):
     corpus/<persona>/{text,pdf,image,audio,video}/<file>     base corpus; T5 increments in corpus/<persona>/deltas/
     release/CORPUS.json                                      the evaluated files of each persona
     release/questions/<task>/<persona>.jsonl                 questions (no answers)
     release/gold/<task>/<persona>.jsonl                      gold
-    bridge/                                                  shared text projection of image/audio/video
+    bridge/gpt/image/<persona>/<stem>.json                   image description
+    bridge/mimo/{audio,video}/<persona>/<stem>.consolidated.json   timestamped windows of audio / video
 
 Protocol: a document is one released file, shown as text headed by its own file name ("[pdf file <name>]");
 text and pdf files are cut to their opening DOC_TOKENS tokens at the last paragraph break (sentence end,
@@ -23,7 +24,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DATASET = Path(os.environ.get("DATA_DIR", ROOT / "data")).resolve()
+DATASET = Path(os.environ.get("DATA_DIR", ROOT / "dataset")).resolve()
 CORPUS = DATASET / "corpus"
 RELEASE = DATASET / "release"
 BRIDGE = DATASET / "bridge"

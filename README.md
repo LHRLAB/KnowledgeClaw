@@ -1,51 +1,53 @@
 # KnowledgeClaw
 
-Agentic knowledge engineering over an omnimodal typed hypergraph.
+Code for **KnowledgeClaw: Towards Agentic Knowledge Engineering via Omnimodal Hypergraphs**, evaluated on **OmniKE-Bench**.
 
-```
-knowledgeclaw/
-  perceive.py, extract.py, hypergraph.py   C1  omnimodal typed hypergraph
-  lifecycle.py                             C2  closed-loop lifecycle (Add / Del / Refresh)
-  retrieve.py, community.py, router.py     C3  multi-granular retrieval with intent routing
-  agent.py                                 the agent
-evaluation/                                OmniKE-Bench runner and scorer
-```
-
-## Setup
+## 1. Environment Setup
 
 ```bash
-pip install -r requirements.txt     # Python >= 3.10; ffmpeg on PATH for audio/video
-export MODEL_API_KEY=...            # any OpenAI-compatible endpoint, default https://openrouter.ai/api/v1
+conda create -n knowledgeclaw python=3.12
+conda activate knowledgeclaw
+
+pip install -r requirements.txt
+sudo apt-get install ffmpeg      # ffmpeg + ffprobe, used to read audio and video natively
 ```
 
-Place OmniKE-Bench under `data/` (or set `DATA_DIR`):
-
-```
-data/
-  corpus/<persona>/{text,pdf,image,audio,video,deltas}/
-  release/{CORPUS.json,questions,gold}/
-  bridge/
-```
-
-## Run
+All model calls go through an OpenAI-compatible endpoint (default: OpenRouter), with Gemini 2.5 Flash Lite (`google/gemini-2.5-flash-lite`) as the backbone and Gemini Embedding 2 (`google/gemini-embedding-2-preview`) as the encoder. Get an OpenRouter API key and export it:
 
 ```bash
-python -m evaluation.run                                  # KnowledgeClaw, 10 personas, T1-T6
-python -m evaluation.run --method knowledgeclaw_wo_c1     # ablations: _wo_c1, _wo_c2, _wo_c3
-python -m evaluation.run --score-only                     # print the table from saved predictions
+export MODEL_API_KEY="your_openrouter_key_here"
+# optional: export MODEL_BASE_URL=...   (default https://openrouter.ai/api/v1)
 ```
 
-Backbone: Gemini 2.5 Flash Lite, encoder: Gemini Embedding 2. Predictions, artefacts and retrieval traces are written to `results/`.
+## 2. Data Preparation
 
-## Use as a library
+Download OmniKE-Bench from Hugging Face into `dataset/` (or point `DATA_DIR` to another location):
 
-```python
-from pathlib import Path
-from knowledgeclaw import KnowledgeClaw, OpenAIBackend, Source
-
-kc = KnowledgeClaw(OpenAIBackend(api_key, base_url, "google/gemini-2.5-flash-lite", "google/gemini-embedding-2-preview"))
-kc.construct([Source("a.pdf", "pdf", text), Source("b.png", "image", path=Path("b.png"))])
-kc.commit([Source("a_v2.pdf", "pdf", text2, revises="a.pdf")])   # Refresh
-kc.delete("b.png")                                              # Del
-evidence = kc.retrieve("Who are the authors of a_v2.pdf?")["text"]
+```bash
+pip install -U huggingface_hub
+hf download LHRLAB/KnowledgeClaw --repo-type dataset --local-dir dataset
 ```
+
+```text
+dataset/
+├── corpus/<persona>/{text,pdf,image,audio,video}/   # base corpus of each persona
+├── corpus/<persona>/deltas/                         # next versions committed in T5
+├── release/
+│   ├── CORPUS.json                                  # evaluated files of each persona
+│   ├── questions/<task>/<persona>.jsonl
+│   └── gold/<task>/<persona>.jsonl
+└── bridge/                                          # text projection of image / audio / video (read by evaluation/data.py)
+    ├── gpt/image/<persona>/<stem>.json              # image description (field "description")
+    └── mimo/{audio,video}/<persona>/
+        └── <stem>.consolidated.json                 # 30 s windows (field "windows": t0, t1, text)
+```
+
+`<stem>` is the media file name without extension. A missing bridge file is not an error: the file gets an empty projection. Three games audio clips shorter than 1 s (`2dfd048ab2575a13`, `36d3b80b9caf9528`, `a55d30a1d53f2dca`) have no bridge by design. KnowledgeClaw reads image / audio / video natively from `corpus/` and falls back to the bridge only when that read fails.
+
+## 3. Implementation
+
+```bash
+python -m evaluation.run
+```
+
+This builds KnowledgeClaw over each persona's corpus, answers T1–T6 and prints the KnowledgeClaw row of Table 1. Predictions and artefacts are written to `results/knowledgeclaw/<persona>/`; model calls are cached in `results/.cache/`, so an interrupted run resumes where it stopped.

@@ -24,15 +24,6 @@ def norm(x) -> str:
     return re.sub(r"\s+", " ", x)
 
 
-def f1(pred: set, gold: set) -> float:
-    if not pred and not gold:
-        return 1.0
-    if not pred or not gold:
-        return 0.0
-    tp = len(pred & gold)
-    return 2 * tp / (len(pred) + len(gold))
-
-
 def _cand_key(x) -> str:
     return norm(str(x).split("|", 1)[0])
 
@@ -60,8 +51,6 @@ def score_item(item: dict, pred) -> float:
             return float(int(pred) == int(item["gold_index"]))
         if t == "set" and isinstance(item.get("question", {}).get("candidates"), list):
             return candidate_balanced_accuracy(item, pred)
-        if t in ("set", "entity_set"):
-            return f1({norm(x) for x in pred}, {norm(x) for x in item["answer"]})
     except (TypeError, ValueError):
         return 0.0
     raise ValueError(f"unknown answer_type {t}")

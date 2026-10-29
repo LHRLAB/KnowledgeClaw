@@ -28,9 +28,8 @@ def pmap(fn, xs, workers=WORKERS):
 
 
 class Lifecycle:
-    def __init__(self, kg: Hypergraph, on_change=None, structured: bool = True):
+    def __init__(self, kg: Hypergraph, on_change=None):
         self.kg = kg
-        self.structured = structured        # False = ablation w/o C1: segments of the text projection only
         self.log: list[dict] = []
         self.on_change = on_change or (lambda: None)
 
@@ -44,8 +43,6 @@ class Lifecycle:
     def prepare(self, sources: list[Source]) -> list[tuple]:
         """The model work of Add (perception and extraction), parallel and side-effect free."""
         llm = self.kg.llm
-        if not self.structured:
-            return [(perceive(Source(s.name, s.modality, s.text, None, s.revises), llm), {}) for s in sources]
         seen = pmap(lambda s: perceive(s, llm), sources)
         recs = pmap(lambda p: X.record("\n".join(p.segments), llm), seen)
         return [(p, r) for p, r in zip(seen, recs)]

@@ -1,4 +1,4 @@
-"""KnowledgeClaw on OmniKE-Bench, and its three ablations.
+"""KnowledgeClaw on OmniKE-Bench.
 
 The adapter
   * turns bench documents into Sources (text/pdf: the text projection; image/audio/video: the raw file,
@@ -24,9 +24,6 @@ REVISES = re.compile(r"a new version of ([^\]\s,]+)")
 
 
 class KnowledgeClaw:
-    name = "knowledgeclaw"
-    flags = {"c1": True, "c2": True, "c3": True}
-
     def __init__(self, out: Path):
         self.out = out
 
@@ -43,7 +40,7 @@ class KnowledgeClaw:
         self.out.mkdir(parents=True, exist_ok=True)
         self.trace_lock = threading.Lock()
         (self.out / "traces.jsonl").write_text("")
-        self.kc = KC(llm.Backend(), **self.flags)
+        self.kc = KC(llm.Backend())
         self.kc.construct(self._sources(docs))
         self.kc.dump(self.out)
 
@@ -63,24 +60,3 @@ class KnowledgeClaw:
             with open(self.out / "traces.jsonl", "a") as f:
                 f.write(json.dumps(row, ensure_ascii=False) + "\n")
         return pred
-
-
-class KnowledgeClawWoC1(KnowledgeClaw):
-    """w/o C1: segments of the text projection only (no native reading, no records, no hyperedges)."""
-    name = "knowledgeclaw_wo_c1"
-    flags = {**KnowledgeClaw.flags, "c1": False}
-
-
-class KnowledgeClawWoC2(KnowledgeClaw):
-    """w/o C2: every increment is appended as new files (no Refresh, no Del)."""
-    name = "knowledgeclaw_wo_c2"
-    flags = {**KnowledgeClaw.flags, "c2": False}
-
-
-class KnowledgeClawWoC3(KnowledgeClaw):
-    """w/o C3: flat dense retrieval (no anchors, no walk, no routing, no communities)."""
-    name = "knowledgeclaw_wo_c3"
-    flags = {**KnowledgeClaw.flags, "c3": False}
-
-
-METHODS = {m.name: m for m in (KnowledgeClaw, KnowledgeClawWoC1, KnowledgeClawWoC2, KnowledgeClawWoC3)}
