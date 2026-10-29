@@ -50,4 +50,4 @@ dataset/
 python -m evaluation.run
 ```
 
-This builds KnowledgeClaw over each persona's corpus, answers T1–T6 and prints the KnowledgeClaw row of Table 1. Predictions and artefacts are written to `results/knowledgeclaw/<persona>/`; model calls are cached in `results/.cache/`, so an interrupted run resumes where it stopped.
+This builds KnowledgeClaw over each persona's corpus, answers T1–T6 and prints the KnowledgeClaw scores on T1–T6. Predictions and artefacts are written to `results/knowledgeclaw/<persona>/`; model calls are cached in `results/.cache/`, so an interrupted run resumes where it stopped.
