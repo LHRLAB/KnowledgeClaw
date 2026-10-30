@@ -11,8 +11,6 @@ KnowledgeClaw: Towards Agentic Knowledge Engineering via Omnimodal Hypergraphs
 ### 1. Environment Setup
 
 ```bash
-conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
-conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
 conda create -n knowledgeclaw python=3.12
 conda activate knowledgeclaw
 
