@@ -1,8 +1,14 @@
 # KnowledgeClaw
 
-Code for **KnowledgeClaw: Towards Agentic Knowledge Engineering via Omnimodal Hypergraphs**, evaluated on **OmniKE-Bench**.
+KnowledgeClaw: Towards Agentic Knowledge Engineering via Omnimodal Hypergraphs
 
-## 1. Environment Setup
+## Overview
+
+![](./assets/overview.png)
+
+## Quick Start
+
+### 1. Environment Setup
 
 ```bash
 conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
@@ -14,14 +20,14 @@ pip install -r requirements.txt
 conda install -c conda-forge ffmpeg -y      # ffmpeg + ffprobe, used to read audio and video natively
 ```
 
-All model calls go through an OpenAI-compatible endpoint (default: OpenRouter), with Gemini 2.5 Flash Lite (`google/gemini-2.5-flash-lite`) as the backbone and Gemini Embedding 2 (`google/gemini-embedding-2-preview`) as the encoder. Get an OpenRouter API key and export it:
+All model calls go through an OpenAI-compatible endpoint (default: [OpenRouter](https://openrouter.ai/)), with Gemini 2.5 Flash Lite (`google/gemini-2.5-flash-lite`) as the backbone and Gemini Embedding 2 (`google/gemini-embedding-2-preview`) as the encoder. Get an [OpenRouter](https://openrouter.ai/) API key and export it:
 
 ```bash
 export MODEL_API_KEY="your_openrouter_key_here"
 # optional: export MODEL_BASE_URL=...   (default https://openrouter.ai/api/v1)
 ```
 
-## 2. Data Preparation
+### 2. Data Preparation
 
 Download OmniKE-Bench from Hugging Face into `dataset/` (or point `DATA_DIR` to another location):
 
@@ -44,10 +50,29 @@ dataset/
         └── <stem>.consolidated.json                 # 30 s windows (field "windows": t0, t1, text)
 ```
 
-## 3. Implementation
+### 3. Implementation
 
 ```bash
 python -m evaluation.run
 ```
 
 This builds KnowledgeClaw over each persona's corpus, answers T1–T6 and prints the KnowledgeClaw scores on T1–T6. Predictions and artefacts are written to `results/knowledgeclaw/<persona>/`; model calls are cached in `results/.cache/`, so an interrupted run resumes where it stopped.
+
+## BibTeX
+
+If you find this work is helpful for your research, please cite:
+
+```bibtex
+@article{luo2026knowledgeclaw,
+ title = {KnowledgeClaw: Towards Agentic Knowledge Engineering via Omnimodal Hypergraphs},
+ author = {Luo, Haoran and Wang, Jiapu and Luo, Linhao and Luu, Anh Tuan},
+ journal = {arXiv preprint},
+ year = {2026}
+}
+```
+
+For further questions, please contact: haoran.luo@ntu.edu.sg.
+
+## Acknowledgment
+
+This repo benefits from [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), [OpenClaw](https://github.com/openclaw/openclaw), [HyperGraphRAG](https://github.com/LHRLAB/HyperGraphRAG), and [M³KG-RAG](https://kuai-lab.github.io/cvpr2026m3kgrag/). Thanks for their wonderful works.
