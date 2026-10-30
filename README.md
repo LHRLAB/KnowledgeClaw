@@ -5,11 +5,13 @@ Code for **KnowledgeClaw: Towards Agentic Knowledge Engineering via Omnimodal Hy
 ## 1. Environment Setup
 
 ```bash
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
 conda create -n knowledgeclaw python=3.12
 conda activate knowledgeclaw
 
 pip install -r requirements.txt
-sudo apt-get install ffmpeg      # ffmpeg + ffprobe, used to read audio and video natively
+conda install -c conda-forge ffmpeg -y      # ffmpeg + ffprobe, used to read audio and video natively
 ```
 
 All model calls go through an OpenAI-compatible endpoint (default: OpenRouter), with Gemini 2.5 Flash Lite (`google/gemini-2.5-flash-lite`) as the backbone and Gemini Embedding 2 (`google/gemini-embedding-2-preview`) as the encoder. Get an OpenRouter API key and export it:
@@ -41,8 +43,6 @@ dataset/
     └── mimo/{audio,video}/<persona>/
         └── <stem>.consolidated.json                 # 30 s windows (field "windows": t0, t1, text)
 ```
-
-`<stem>` is the media file name without extension. A missing bridge file is not an error: the file gets an empty projection. Three games audio clips shorter than 1 s (`2dfd048ab2575a13`, `36d3b80b9caf9528`, `a55d30a1d53f2dca`) have no bridge by design. KnowledgeClaw reads image / audio / video natively from `corpus/` and falls back to the bridge only when that read fails.
 
 ## 3. Implementation
 

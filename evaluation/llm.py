@@ -85,7 +85,12 @@ def chat_text(messages: list[dict], *, json_mode: bool = True, max_tokens: int =
         return hit["text"]
     extra = {"provider": {"allow_fallbacks": True, "require_parameters": True}} if "openrouter" in BASE_URL else None
     try:
-        r = _retry(lambda: client().chat.completions.create(**body, extra_body=extra))
+        def _call():
+            resp = client().chat.completions.create(**body, extra_body=extra)
+            if not getattr(resp, "choices", None):
+                raise RuntimeError("empty response from model")
+            return resp
+        r = _retry(_call)
         text = r.choices[0].message.content or ""
     except Exception as e:
         print(f"[llm] chat failed: {e!r}", flush=True)

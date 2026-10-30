@@ -67,6 +67,8 @@ class OpenAIBackend:
         try:
             r = self.client.chat.completions.create(model=self.model, messages=messages, max_tokens=max_tokens,
                                                     temperature=temperature, **kw)
+            if not getattr(r, "choices", None):
+                raise RuntimeError("empty response from model")
             text = r.choices[0].message.content or ""
         except Exception:
             return None
