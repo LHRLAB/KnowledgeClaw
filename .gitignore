@@ -1,5 +1,6 @@
 __pycache__/
 *.pyc
 .env
+api_key_*.txt
 dataset/
 results/
