@@ -60,11 +60,14 @@ This builds KnowledgeClaw over each persona's corpus, answers T1–T6 and prints
 If you find this work is helpful for your research, please cite:
 
 ```bibtex
-@article{luo2026knowledgeclaw,
-  title={KnowledgeClaw: Towards Agentic Knowledge Engineering via Omnimodal Hypergraphs},
-  author={Luo, Haoran and Wang, Jiapu and Luo, Linhao and Luu, Anh Tuan},
-  journal={arXiv preprint},
-  year={2026}
+@misc{luo2026knowledgeclaw,
+      title={KnowledgeClaw: Towards Agentic Knowledge Engineering via Omnimodal Hypergraphs}, 
+      author={Haoran Luo and Jiapu Wang and Linhao Luo and Luu Anh Tuan},
+      year={2026},
+      eprint={2611.24294},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2611.24294}, 
 }
 ```
 
