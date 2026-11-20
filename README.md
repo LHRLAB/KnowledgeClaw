@@ -1,6 +1,6 @@
 # KnowledgeClaw
 
-KnowledgeClaw: Towards Agentic Knowledge Engineering via Omnimodal Hypergraphs
+KnowledgeClaw: Towards Agentic Knowledge Engineering via Omnimodal Hypergraphs. \[[preprint](https://arxiv.org/abs/2611.24294)\].
 
 ## Overview
 
